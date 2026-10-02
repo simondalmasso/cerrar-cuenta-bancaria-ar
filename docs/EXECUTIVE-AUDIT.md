@@ -1,7 +1,7 @@
 # Executive audit
 
 **Audit date:** 2026-10-02  
-**Manifest version:** 1.1.1  
+**Manifest version:** 1.2.0-dev (unreleased)  
 **Jurisdiction:** Argentina  
 **Primary subject:** personas humanas / usuarios de servicios financieros  
 **Core runtime dependencies:** 0  
@@ -28,8 +28,8 @@ The project is designed to remain useful with only `SKILL.md`, its local referen
 - escalation ladder and evidence preservation;
 - prompt-injection boundary for web/PDF/MCP content;
 - no secrets and no authenticated banking;
-- pinned optional PyPI MCP artifacts with recorded SHA-256;
-- installer-origin and malicious-upstream regression tests;
+- pinned optional PyPI MCP artifacts with recorded SHA-256, dependency metadata and yanked-state checks;
+- installer-origin, dirty-tree, local-ahead/divergence, branch-state and malicious-upstream regression tests;
 - GitHub Actions pinned by immutable SHA;
 - adversarial scenario specifications separated from behavioral execution.
 
@@ -86,7 +86,7 @@ Behavioral evals remain **specifications** until run by a particular model/host.
 
 ## Residual risks / next hardening
 
-Not release-blocking for 1.1.1:
+Residual hardening after the hostile audit:
 
 1. fingerprint/ETag/Last-Modified monitoring for official BCRA content with **warning-only** legal re-audit triggers;
 2. cross-host behavioral eval runner using mocks/read-only sandboxes;
@@ -101,4 +101,7 @@ A release candidate should not be called green unless:
 - no core legal claim is based only on a secondary source;
 - no required dependency has a monetary cost;
 - `DISCLAIMER.md`, `SECURITY.md`, `LICENSE` and `CHANGELOG.md` are present;
-- any external auditor findings classified P0/P1 are resolved or explicitly accepted.
+- legal claims embedded in evals are re-verified whenever `references/sources-ar.md` changes;
+- installer dirty-tree and local-ahead/trojan regressions are green on Bash and PowerShell;
+- any external auditor findings classified P0/P1 are resolved, not merely hidden by documentation;
+- the release commit uses a consistent manifest/eval/README version and receives an immutable tag.

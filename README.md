@@ -16,8 +16,8 @@ Skill abierta, gratuita y vendor-neutral para que **cualquier agente de IA** gu�
 | Operaciones de dinero | **Prohibidas** |
 | Fuentes core | BCRA + Argentina.gob.ar + fuente oficial del banco |
 | Integraciones externas | Opcionales y degradables |
-| Eval suite | 22 especificaciones adversariales; no certificación conductual |
-| Manifest | v1.1.1 |
+| Eval suite | 31 especificaciones adversariales; no certificación conductual |
+| Manifest | v1.2.0-dev (unreleased) |
 
 ### Documentos de auditoría
 
@@ -96,7 +96,7 @@ La skill funciona sin MCP. Para investigación jurídica puede usar paquetes PyP
 - `juba-mcp`
 - `juscaba-mcp`
 
-Las releases fijadas declaran MIT en PyPI, pero sus repositorios fuente canónicos devolvieron 404 durante la auditoría del 2026-10-02. Por eso se clasifican como **OPTIONAL_PYPI / provenance_limited**, no como source auditado. Los SHA-256 están registrados. Son aceleradores de investigación, **no fuentes bancarias ni actuadores**.
+Las releases de nivel superior fijadas declaran MIT en PyPI, pero sus repositorios fuente canónicos devolvieron 404 durante la auditoría del 2026-10-02. Por eso se clasifican como **OPTIONAL_PYPI / provenance_limited**, no como source auditado. Los SHA-256 del paquete de nivel superior están registrados; las dependencias transitivas siguen resolviéndose por rango salvo lock externo. Son aceleradores de investigación, **no fuentes bancarias ni actuadores**.
 
 Ver [references/integrations.md](references/integrations.md). Hay un ejemplo combinado en [integrations/mcp-stdio.example.json](integrations/mcp-stdio.example.json).
 
@@ -126,7 +126,7 @@ Con Git:
 git clone https://github.com/simondalmasso/cerrar-cuenta-bancaria-ar.git ~/.agents/skills/cerrar-cuenta-bancaria-ar
 ```
 
-También hay instaladores conservadores que verifican el `origin` antes de actualizar y **no pisan** una carpeta ajena. Ejecutan validación local **cuando Python está disponible**:
+También hay instaladores conservadores: verifican `origin`, exigen `main`, rechazan cambios locales o commits ahead/divergentes y solo permiten fast-forward hasta `origin/main` antes de ejecutar el validator. Ejecutan validación local **cuando Python está disponible**:
 
 - `install/install.sh`
 - `install/install.ps1`
@@ -135,7 +135,7 @@ Ver [references/client-setup.md](references/client-setup.md).
 
 ## Calidad
 
-`python scripts/validate_repo.py` valida estructura, referencias locales, JSON, provenance registry, 22 especificaciones adversariales y secretos accidentales. **No ejecuta un modelo ni certifica conducta.** El mismo chequeo corre en GitHub Actions. Un workflow separado verifica disponibilidad/integridad de fuentes y artefactos fijados; no certifica vigencia jurídica.
+`python scripts/validate_repo.py` valida estructura, referencias locales, JSON, provenance registry, consistencia de versión, 31 especificaciones adversariales y secretos accidentales. **No ejecuta un modelo ni certifica conducta.** El mismo chequeo corre en GitHub Actions. Un workflow separado verifica disponibilidad/integridad de fuentes y artefactos fijados; no certifica vigencia jurídica.
 
 ## Diseño de seguridad
 
@@ -147,6 +147,6 @@ Eso permite usar la skill incluso en escenarios financieros sensibles sin delega
 
 ## Estado
 
-v1.1.1 — hardening de provenance/pinning, source-integrity, instaladores, prompt-injection, CI por SHA y 22 especificaciones adversariales.
+v1.2.0-dev — hardening posterior a auditoría adversarial; todavía **sin tag/release**. La próxima release debe fijar un tag inmutable sobre el commit aprobado.
 
 Antes de usar una regla jurídica material, el agente debe volver a verificar la fuente oficial si dispone de acceso actualizado.
