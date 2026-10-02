@@ -56,6 +56,10 @@ if skill:
     if ROOT.name == "cerrar-cuenta-bancaria-ar" and name != ROOT.name:
         fail("skill name must match directory name")
 
+    body = parts[2] if len(parts) >= 3 else ""
+    if "\\n" in body:
+        fail(r"SKILL.md body contains a literal \n escape; use a real newline")
+
 required = [
     "README.md","LICENSE","SECURITY.md","CONTRIBUTING.md","agents/openai.yaml",
     "references/sources-ar.md","references/bank-discovery.md","references/money-and-blockers.md",
