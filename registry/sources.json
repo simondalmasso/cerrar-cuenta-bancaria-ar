@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.0",
+  "checked_at": "2026-10-02",
+  "core": [
+    {
+      "id": "bcra-pusf",
+      "type": "official",
+      "cost": "free",
+      "auth": "none",
+      "url": "https://www.bcra.gob.ar/archivos/Pdfs/texord/t-pusf.pdf",
+      "role": "consumer_protection"
+    },
+    {
+      "id": "bcra-deposits",
+      "type": "official",
+      "cost": "free",
+      "auth": "none",
+      "url": "https://www.bcra.gob.ar/pdfs/texord/t-depaho.pdf",
+      "role": "deposit_account_closure"
+    },
+    {
+      "id": "bcra-current-account",
+      "type": "official",
+      "cost": "free",
+      "auth": "none",
+      "url": "https://www.bcra.gob.ar/archivos/Pdfs/texord/t-ctacte.pdf",
+      "role": "current_account_closure"
+    },
+    {
+      "id": "bcra-complaints",
+      "type": "official",
+      "cost": "free",
+      "auth": "none",
+      "url": "https://www.bcra.gob.ar/reclamo-productos-servicios-financieros/",
+      "role": "escalation"
+    },
+    {
+      "id": "argentina-close-account",
+      "type": "official",
+      "cost": "free",
+      "auth": "none",
+      "url": "https://www.argentina.gob.ar/economia/inclusion-financiera/como-cerrar-una-cuenta",
+      "role": "plain_language_guidance"
+    }
+  ],
+  "optional_mcp": [
+    {"id": "saij-mcp", "distribution": "pypi", "license": "MIT", "cost": "free", "auth": "none", "status": "optional"},
+    {"id": "csjn-mcp", "distribution": "pypi", "license": "MIT", "cost": "free", "auth": "none", "status": "optional"},
+    {"id": "juba-mcp", "distribution": "pypi", "license": "MIT", "cost": "free", "auth": "none", "status": "optional"},
+    {"id": "juscaba-mcp", "distribution": "pypi", "license": "MIT", "cost": "free", "auth": "none", "status": "optional"}
+  ],
+  "conditional": [
+    {
+      "id": "probanza-mcp-legal-ar",
+      "url": "https://github.com/Probanza-ar/mcp-legal-ar",
+      "cost": "free_noncommercial",
+      "license": "dual_noncommercial_free",
+      "status": "optional_noncommercial"
+    },
+    {
+      "id": "juridica-api",
+      "url": "https://juridica.ar/desarrolladores",
+      "cost": "free_tier",
+      "auth": "api_key",
+      "status": "optional_not_guaranteed"
+    }
+  ],
+  "excluded_as_core": [
+    {"id": "fallobot-mcp", "reason": "MCP requires paid Pro plan"},
+    {"id": "metajuridico", "reason": "trial/paid service and case-management scope"},
+    {"id": "jurisprudenciaarg", "reason": "subscription product"},
+    {"id": "cendoj", "reason": "Spain jurisdiction"},
+    {"id": "psflores-legal-mcp", "reason": "prototype/stale/inconsistent packaging"}
+  ]
+}
