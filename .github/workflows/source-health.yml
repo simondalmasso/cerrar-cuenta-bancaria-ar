@@ -4,6 +4,11 @@ on:
   workflow_dispatch:
   schedule:
     - cron: "17 12 * * 1"
+  push:
+    paths:
+      - "registry/sources.json"
+      - "scripts/check_source_health.py"
+      - ".github/workflows/source-health.yml"
 
 permissions:
   contents: read
