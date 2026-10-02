@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.1.1 — 2026-10-02
+
+- pinned optional PyPI MCP integrations and recorded wheel/sdist SHA-256 provenance;
+- downgraded unavailable-source MCPs to OPTIONAL_PYPI / provenance_limited;
+- hardened source checks: CORE 2xx, final host/path, Content-Type and content marker;
+- added PyPI metadata/hash verification and explicit legal-freshness disclaimer;
+- guarded installers against updating unrelated Git repositories by verifying origin;
+- added explicit prompt-injection boundary for web/PDF/MCP content;
+- added two prompt-injection adversarial specifications (22 total);
+- upgraded eval validation from count-only to structural checks and clarified they are specifications, not executed model tests;
+- pinned GitHub Actions by immutable commit SHA and disabled checkout credential persistence;
+- added optional `agents/openai.yaml` presentation metadata;
+- clarified that public bank pages may be researched read-only while authenticated surfaces remain prohibited.
+
+
 ## 1.1.0 — 2026-10-02
 
 - narrowed core scope to personal accounts/personas humanas;
