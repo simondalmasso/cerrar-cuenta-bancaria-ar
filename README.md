@@ -2,6 +2,31 @@
 
 Skill abierta, gratuita y vendor-neutral para que **cualquier agente de IA** guíe a una persona humana en el cierre de una cuenta bancaria en Argentina —banco público o privado— con normativa, evidencia, diagnóstico de bloqueos y escalamiento.
 
+> **Aviso legal:** este proyecto es informativo y no constituye asesoramiento jurídico, financiero ni profesional. La IA guía; la persona decide y opera. Ver [DISCLAIMER.md](DISCLAIMER.md).
+
+## Estado ejecutivo
+
+| Control | Estado |
+|---|---|
+| Jurisdicción | Argentina |
+| Scope principal | Personas humanas / usuarios de servicios financieros |
+| Core runtime dependencies | **0** |
+| Costo obligatorio | **USD 0** |
+| Home banking / sesión autenticada | **Prohibido** |
+| Operaciones de dinero | **Prohibidas** |
+| Fuentes core | BCRA + Argentina.gob.ar + fuente oficial del banco |
+| Integraciones externas | Opcionales y degradables |
+| Eval suite | 22 especificaciones adversariales; no certificación conductual |
+| Manifest | v1.1.1 |
+
+### Documentos de auditoría
+
+- [Executive audit](docs/EXECUTIVE-AUDIT.md)
+- [Tooling audit / zero-cost review](docs/TOOLING-AUDIT.md)
+- [Aviso legal](DISCLAIMER.md)
+- [Modelo de seguridad](SECURITY.md)
+- [Arquitectura](references/architecture.md)
+
 ## Qué hace
 
 - identifica el tipo de cuenta y la regla aplicable;
@@ -74,6 +99,14 @@ La skill funciona sin MCP. Para investigación jurídica puede usar paquetes PyP
 Las releases fijadas declaran MIT en PyPI, pero sus repositorios fuente canónicos devolvieron 404 durante la auditoría del 2026-10-02. Por eso se clasifican como **OPTIONAL_PYPI / provenance_limited**, no como source auditado. Los SHA-256 están registrados. Son aceleradores de investigación, **no fuentes bancarias ni actuadores**.
 
 Ver [references/integrations.md](references/integrations.md). Hay un ejemplo combinado en [integrations/mcp-stdio.example.json](integrations/mcp-stdio.example.json).
+
+**OpenArg / Vigía** quedan como discovery opcional: OpenArg para datasets públicos y Vigía para radar normativo. Ninguno reemplaza la fuente oficial ni es dependencia core.
+
+## Web pública opcional
+
+Para páginas oficiales difíciles de extraer, el repo acepta como adaptadores locales opcionales **Crawl4AI**, **Scrapy** y **Playwright en modo render-only**. No se instalan automáticamente y nunca pueden reutilizar sesiones, cookies o credenciales bancarias.
+
+Ver [references/public-web-research.md](references/public-web-research.md).
 
 ## Fuentes core
 
