@@ -12,7 +12,9 @@
 - upgraded eval validation from count-only to structural checks and clarified they are specifications, not executed model tests;
 - pinned GitHub Actions by immutable commit SHA and disabled checkout credential persistence;
 - added optional `agents/openai.yaml` presentation metadata;
-- clarified that public bank pages may be researched read-only while authenticated surfaces remain prohibited.
+- clarified that public bank pages may be researched read-only while authenticated surfaces remain prohibited;
+- forced installer pulls from the verified `origin main`, ignoring a malicious branch upstream;
+- fixed the literal `\\n9.` regression in `SKILL.md` and added validator/CI coverage.
 
 
 ## 1.1.0 — 2026-10-02
