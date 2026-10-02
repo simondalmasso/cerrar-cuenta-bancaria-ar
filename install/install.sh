@@ -41,7 +41,7 @@ if [ -d "$TARGET/.git" ]; then
     exit 1
   fi
   echo "Updating verified installation: $TARGET"
-  git -C "$TARGET" pull --ff-only
+  git -C "$TARGET" pull --ff-only origin main
 elif [ -e "$TARGET" ]; then
   echo "ERROR: target exists and is not this git checkout: $TARGET" >&2
   echo "Choose another path; the installer will not overwrite it." >&2
