@@ -85,6 +85,25 @@ Ver [references/integrations.md](references/integrations.md). Hay un ejemplo com
 
 Ver [references/sources-ar.md](references/sources-ar.md).
 
+## Instalación rápida
+
+Con Git:
+
+```bash
+git clone https://github.com/simondalmasso/cerrar-cuenta-bancaria-ar.git ~/.agents/skills/cerrar-cuenta-bancaria-ar
+```
+
+También hay instaladores conservadores que **no pisan** una carpeta ajena y validan el repo después de instalar:
+
+- `install/install.sh`
+- `install/install.ps1`
+
+Ver [references/client-setup.md](references/client-setup.md).
+
+## Calidad
+
+`python scripts/validate_repo.py` valida formato, referencias locales, JSON, registro de fuentes, cantidad mínima de evals y secretos accidentales. El mismo chequeo corre en GitHub Actions.
+
 ## Diseño de seguridad
 
 La regla principal es:
@@ -95,6 +114,6 @@ Eso permite usar la skill incluso en escenarios financieros sensibles sin delega
 
 ## Estado
 
-v1.0.0 — arquitectura, protocolo, fuentes, integraciones auditadas, templates y 10 familias de evaluación.
+v1.1.0 — arquitectura vendor-neutral, investigación por banco, diagnóstico económico, fuentes/integraciones auditadas, instaladores, validación CI y 20 familias de evaluación.
 
 Antes de usar una regla jurídica material, el agente debe volver a verificar la fuente oficial si dispone de acceso actualizado.
