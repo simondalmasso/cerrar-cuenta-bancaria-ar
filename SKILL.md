@@ -1,12 +1,12 @@
 ---
 name: cerrar-cuenta-bancaria-ar
-description: Guía a una persona humana para cerrar, dar de baja o rescindir una cuenta bancaria o paquete bancario en Argentina, en bancos públicos o privados. Investiga normativa y canales vigentes, diagnostica bloqueos, prepara mensajes y reclamos, conserva evidencia y escala ante el banco/BCRA cuando corresponde. Puede leer web pública; nunca opera sesiones bancarias autenticadas, cuentas, dinero ni trámites externos por cuenta del usuario.
+description: Usar cuando una persona humana quiera cerrar, dar de baja o rescindir una cuenta o paquete bancario en Argentina. Investiga normativa y canales vigentes, diagnostica bloqueos, prepara mensajes y reclamos, conserva evidencia y escala ante el banco/BCRA cuando corresponde. Puede leer web pública; nunca opera sesiones bancarias autenticadas, cuentas, dinero ni trámites externos por cuenta del usuario.
 license: MIT
 compatibility: Vendor-neutral Agent Skill. Funciona sin MCP; puede aprovechar fuentes web oficiales y MCP jurídicos de solo lectura cuando el host los tenga disponibles.
 metadata:
   author: simondalmasso
   jurisdiction: argentina
-  version: "1.1.1"
+  version: "1.2.0-dev"
 ---
 
 # Cerrar una cuenta bancaria en Argentina
@@ -82,11 +82,12 @@ No hacer un interrogatorio completo. Pedir solo lo que cambia la ruta:
 1. Banco.
 2. Confirmar que el titular es una **persona humana / usuario de servicios financieros**. Si la cuenta pertenece a una persona jurídica, marcar fuera de alcance de esta versión y no extrapolar estas reglas.
 3. Producto: caja de ahorro, cuenta corriente, cuenta sueldo, paquete u otro.
-4. Si es cuenta corriente: ¿usa cheques/ECHEQ? ¿hay saldo deudor/descubierto?
-5. Estado visible del saldo: positivo, cero, negativo o incierto.
-6. ¿Ya pidió el cierre? Fecha, número de gestión y respuesta exacta.
-7. ¿Qué obstáculo concreto informó el banco?
-8. Evidencia disponible: mail, captura, chat, movimientos, contrato.
+4. Moneda de la cuenta: ARS, USD, otra o incierta.
+5. Si es cuenta corriente: ¿usa cheques/ECHEQ? ¿hay saldo deudor/descubierto?
+6. Estado visible del saldo: positivo, cero, negativo o incierto. Si hay componentes o monedas distintas, registrarlos por separado.
+7. ¿Ya pidió el cierre? Fecha, número de gestión y respuesta exacta.
+8. ¿Qué obstáculo concreto informó el banco?
+9. Evidencia disponible: mail, captura, chat, movimientos, contrato.
 
 No preguntar por productos vinculados de forma indiscriminada. Solo explorarlos si el banco los menciona, el contrato los vincula o los movimientos muestran una dependencia.
 
@@ -109,7 +110,7 @@ Leer [references/decision-tree.md](references/decision-tree.md) para ramas detal
 ### 1. Verificar el tipo de cuenta y regla aplicable
 
 Regla general de referencia:
-- Para cuentas de depósito de usuarios financieros, el BCRA exige mecanismos de cierre no presencial simples y eficaces y, como mínimo, home banking; también admite cierre en cualquier sucursal.
+- Para cuentas de depósito de usuarios financieros, el BCRA exige mecanismos electrónicos simples, eficaces e inmediatos que permitan el cierre en un solo acto y, como mínimo, home banking; también admite cierre en cualquier sucursal.
 - Para **cuenta corriente sin cheques y sin saldo deudor**, el BCRA exige mecanismos electrónicos simples, eficaces e inmediatos y como mínimo home banking.
 - Para **cuenta corriente con saldo deudor**, la normativa asegura al menos la posibilidad de cierre presencial en cualquier sucursal; no afirmar que el banco esté obligado a completarlo remotamente.
 - Cuentas sueldo y especiales pueden tener reglas adicionales; verificar el texto ordenado vigente.
@@ -184,7 +185,7 @@ Antes de BCRA, normalmente conservar:
 - fecha;
 - respuesta o falta de respuesta;
 - documentación del problema;
-- al menos 10 días hábiles desde el reclamo previo, salvo cambio normativo verificado.
+- cumplir el plazo mínimo vigente de segunda instancia indicado en [references/sources-ar.md](references/sources-ar.md), verificado nuevamente antes de escalar.
 
 ### 7. Criterio de cierre real
 

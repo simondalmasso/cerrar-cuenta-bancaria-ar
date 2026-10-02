@@ -23,11 +23,13 @@ Punto de especial interés: **4.17, cierre de cuentas en forma no presencial o e
 
 Baseline verificado:
 - la entidad debe facilitar el cierre eficiente;
-- para usuarios de servicios financieros debe admitir cierre en cualquier sucursal y por mecanismos electrónicos simples, eficaces e inmediatos;
+- para usuarios de servicios financieros debe admitir cierre en cualquier sucursal y por mecanismos electrónicos simples, eficaces e inmediatos que permitan el cierre en un solo acto;
 - debe habilitar como mínimo home banking;
 - si hay fondos, el usuario puede retirarlos/transferirlos y la norma contempla la alternativa de saldos inmovilizados;
 - debe proporcionar constancia del trámite;
 - no debe devengar comisiones/cargos desde la solicitud de cierre.
+
+Texto clave verificado en auditoría externa: la regla usa la fórmula **“simples, eficaces e inmediatos”** y exige cierre **“en un solo acto”**.
 
 Siempre leer la versión vigente: numeración o redacción puede cambiar.
 
@@ -36,18 +38,20 @@ https://www.bcra.gob.ar/archivos/Pdfs/texord/t-ctacte.pdf
 
 Sección de interés: **9. Cierre de cuentas**.
 
-Baseline verificado en texto ordenado al 04/06/2026:
+Baseline verificado en texto ordenado al **04/06/2026 (dd/mm/aaaa)**:
 - si la cuenta corriente de un usuario financiero **no prevé cheques y no registra saldo deudor**, deben ofrecerse mecanismos electrónicos simples, eficaces e inmediatos, como mínimo home banking;
 - el cierre debe poder realizarse en cualquier sucursal;
 - si registra saldo deudor, la norma establece que el cierre debe **al menos** poder realizarse presencialmente en cualquier sucursal;
 - deben entregar constancia y no devengar comisiones/cargos desde la solicitud.
+
+Texto clave verificado en auditoría externa para saldo deudor: el cierre debe **“al menos”** poder realizarse **“en forma presencial”**, en cualquier sucursal a opción del usuario.
 
 Este matiz es crítico: no prometer cierre remoto obligatorio en una cuenta corriente con saldo deudor.
 
 ### Reclamos por productos o servicios financieros
 https://www.bcra.gob.ar/reclamo-productos-servicios-financieros/
 
-Baseline verificado:
+Baseline verificado — **fuente interna única para el plazo de segunda instancia**:
 - el BCRA actúa como segunda instancia;
 - requiere reclamo formal previo ante la entidad;
 - conservar número de reclamo;

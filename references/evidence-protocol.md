@@ -34,15 +34,17 @@ Convertir chats, llamadas, mails, capturas y movimientos en un expediente breve 
 - Si una llamada no quedó grabada, usar BANK_CLAIM salvo que exista confirmación escrita posterior.
 - Conservar los números de gestión aunque hayan sido rechazados.
 
-## Redacción segura
+## Minimización y ocultamiento seguro
 
-Redactar:
-- DNI completo;
+Nunca incluir en el expediente, salvo necesidad estricta y aun así de forma parcialmente ocultada:
+- DNI completo: usar solo últimos dígitos cuando alcance;
 - CBU/CVU completo;
 - número completo de cuenta;
-- tarjetas;
+- datos completos de tarjetas;
 - domicilios innecesarios;
 - teléfonos personales si el expediente se comparte.
+
+Ocultar/tapar esos datos en capturas o documentos antes de compartirlos. Conservar solo el identificador parcial mínimo que permita distinguir el producto o la evidencia.
 
 Nunca almacenar claves, token, PIN, CVV o códigos de verificación.
 
