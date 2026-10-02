@@ -93,6 +93,7 @@ with tempfile.TemporaryDirectory(prefix="skill-installer-tests-") as td:
     origin = td / "origin.git"
     git("init", "--bare", origin)
     git("-C", ROOT, "push", "-q", "--force", origin, "HEAD:refs/heads/main")
+    git("--git-dir", origin, "symbolic-ref", "HEAD", "refs/heads/main")
 
     fakebin = td / "fakebin"
     fakebin.mkdir()
