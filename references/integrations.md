@@ -2,147 +2,172 @@
 
 Fecha de auditoría: **2026-10-02**.
 
-## Arquitectura recomendada
+## Decisión arquitectónica
 
-**Core = Agent Skill. MCP = opcional. API propia = no necesaria por ahora.**
+**Core = Agent Skill. MCP = opcional. API propia = no necesaria en v1.x.**
 
-Razones:
-- el flujo principal es criterio, investigación y guía humana, no automatización bancaria;
-- el estándar Agent Skills es portable entre múltiples hosts;
-- el MCP agrega fuentes jurídicas, pero no debe ser requisito;
-- una API/endpoint propio crearía hosting, seguridad, costos y mantenimiento sin mejorar el cierre de la cuenta.
+La skill debe seguir funcionando si mañana desaparecen todos los servicios de terceros.
 
-Si más adelante se crea un servicio, debería ser un **broker read-only de fuentes públicas**, nunca un operador bancario.
+Un MCP/API solo puede:
+- buscar normativa/jurisprudencia pública;
+- recuperar documentos;
+- ayudar a verificar fuentes.
 
-## Tier A — sin integración externa
+Nunca puede:
+- entrar al banco;
+- manipular home banking;
+- mover dinero;
+- presentar una baja o reclamo por el usuario.
 
-Siempre disponible:
-- SKILL.md;
-- fuentes oficiales por web;
-- usuario como operador humano.
+## Tier A — core gratuito y estable
+
+Sin integración:
+- BCRA;
+- Argentina.gob.ar;
+- sitio oficial del banco;
+- SAIJ/CSJN vía web cuando estén accesibles;
+- SKILL.md + references/.
 
 Esta es la ruta canónica.
 
-## Tier B — MCP jurídicos gratuitos/open-source, opcionales
+## Tier B — MCP argentinos open-source/gratuitos
 
 ### saij-mcp
-- paquete: `saij-mcp`
-- distribución observada: PyPI
-- licencia declarada: MIT
-- auth: no requerida
-- objetivo: SAIJ
-- última release observada: 0.3.0, 2026-02-17
-- uso: discovery/verificación de legislación y jurisprudencia argentina.
-
-Ejemplo MCP stdio genérico:
-```json
-{
-  "mcpServers": {
-    "saij": {
-      "command": "uvx",
-      "args": ["saij-mcp"]
-    }
-  }
-}
-```
+- paquete PyPI: `saij-mcp`;
+- versión observada: 0.3.0 (2026-02-17);
+- licencia: MIT;
+- Python >=3.10;
+- sin API key;
+- fuente: SAIJ.
 
 ### csjn-mcp
-- paquete: `csjn-mcp`
-- distribución: PyPI
-- licencia: MIT
-- auth: no requerida
-- objetivo: sumarios CSJN
-- última release observada: 0.3.0, 2026-02-17
-- limitación: los sumarios no sustituyen la lectura/verificación del fallo completo.
+- paquete PyPI: `csjn-mcp`;
+- versión observada: 0.3.0 (2026-02-17);
+- licencia: MIT;
+- sin API key;
+- fuente: sumarios CSJN;
+- límite conceptual: sumario != fallo completo.
 
 ### juba-mcp
-- paquete: `juba-mcp`
-- licencia: MIT
-- auth: no requerida para la base pública
-- objetivo: jurisprudencia bonaerense
-- última release observada: 0.3.0, 2026-02-17
+- paquete PyPI: `juba-mcp`;
+- versión observada: 0.3.0 (2026-02-17);
+- licencia: MIT;
+- sin API key;
+- fuente: JUBA / Buenos Aires.
 
 ### juscaba-mcp
-- paquete: `juscaba-mcp`
-- licencia: MIT
-- objetivo: JusCABA
-- última release observada: 0.3.1, 2026-02-17
-- esta skill no necesita funciones sobre expedientes; usar solo búsquedas públicas pertinentes.
+- paquete PyPI: `juscaba-mcp`;
+- versión observada: 0.3.1 (2026-02-17);
+- licencia: MIT;
+- sin API key para búsqueda pública relevante;
+- fuente: Justicia CABA.
 
-### Política de uso
-- no son hard dependencies;
-- antes de usarlos, comprobar que el paquete sigue disponible;
-- tratar la respuesta como índice/discovery;
-- conservar enlace a la fuente oficial;
-- si el conector falla, volver a web oficial sin degradar el flujo.
+Guía vigente observada:
+https://hernancc.com/guia-mcp
 
-## Tier C — hub argentino, opcional con restricción de licencia
+Ejemplo:
+[integrations/mcp-stdio.example.json](../integrations/mcp-stdio.example.json)
+
+### Política
+- opcionales, nunca hard dependency;
+- verificar disponibilidad antes de instalar;
+- usar como discovery/recuperación;
+- conservar enlace oficial;
+- si falla, volver a fuentes oficiales web.
+
+## Tier C — útiles pero condicionados
 
 ### Probanza-ar/mcp-legal-ar
 https://github.com/Probanza-ar/mcp-legal-ar
 
-Auditoría:
-- repo activo observado en 2026;
-- múltiples fuentes jurídicas argentinas;
-- ejecución local/read-only declarada;
-- licencia dual: gratuito para uso no comercial; uso comercial requiere licencia.
+Observado:
+- repo activo en 2026;
+- integra SAIJ, CSJN, InfoLEG, BORA y otras fuentes;
+- ejecución local/read-only declarada para fuentes públicas;
+- licencia dual: uso no comercial gratuito; uso comercial requiere licencia.
 
-Por eso **no es dependencia universal** de esta skill. Puede recomendarse a usuarios no comerciales que acepten su licencia y necesiten un hub local.
-
-Para esta skill, usar solo conectores públicos de legislación/jurisprudencia. No cargar credenciales de expedientes, PJN, MEV o EJE.
-
-## Tier D — servicios con free tier, no core
+Uso permitido en esta arquitectura:
+- solo investigación pública;
+- nunca credenciales PJN/MEV/EJE para este caso;
+- no hacerlo dependencia universal por su licencia.
 
 ### Jurídica
 https://juridica.ar/desarrolladores
 
-A fecha de auditoría:
-- API y MCP;
+Observado el 2026-10-02:
+- API REST + MCP;
+- SAIJ, CSJN y JUBA;
 - API key requerida;
-- plan free: 100 requests/día;
-- fuentes declaradas: SAIJ, CSJN, JUBA;
-- el free tier puede cambiar.
+- plan free publicado: **100 requests/día**;
+- endpoint MCP publicado: `https://juridica.ar/mcp`.
 
-Útil como fallback cómodo, pero no es "gratis garantizado para siempre" ni debe ser requisito.
+Es un fallback práctico. El free tier es política comercial y puede cambiar: verificar antes de usar.
 
-## No integrar como dependencia
+### Argentina Data MCP
+https://github.com/abenassi/argentina-data-mcp
+
+Aporta:
+- `infoleg_search`;
+- Boletín Oficial;
+- datos BCRA generales;
+- cálculo/consulta de feriados útil para plazos.
+
+Observado:
+- hosted free tier: 20 consultas/día;
+- repo abierto y auditable;
+- licencia PolyForm Noncommercial 1.0.0 para uso local.
+
+No es dependencia core por límites/licencia. Útil como fallback de InfoLEG o para contar días hábiles.
+
+### FalloBot — solo búsqueda manual gratuita
+https://fallobot.com/
+
+Observado el 2026-10-02:
+- plan Free anunciado como "Gratis para siempre";
+- 1 investigación IA/día;
+- 5 búsquedas/día;
+- fuentes públicas;
+- **MCP requiere plan Pro**.
+
+Conclusión: puede usarse como discovery manual gratuito cuando convenga; no integrar su MCP en el bundle gratuito.
+
+## No integrar como core
+
+### MetaJurídico
+https://metajuridico.com/mcp-ia-abogados/
+
+- trial 14 días;
+- después requiere plan;
+- orientado a datos/expedientes de estudios y acciones;
+- no es un recurso gratuito permanente ni necesario para una baja bancaria.
+
+### JurisprudenciaARG
+https://www.cpacf.org.ar/noticia/convenios-y-beneficios/101/jurisprudenciaarg
+
+- producto por suscripción;
+- ofrece MCP y monitoreo;
+- CPACF publica beneficio/descuento, no gratuidad permanente.
 
 ### Psflores/Legal-MCP-Server-
 https://github.com/Psflores/Legal-MCP-Server-
 
-Motivos:
-- push observado en 2025-06;
-- README contiene rutas/URLs de plantilla `tu-usuario`;
-- metadata del repo no presenta licencia reconocida aunque el README diga MIT;
-- parece más demostración/prototipo que fuente mantenida.
-
-Puede estudiarse como ejemplo de arquitectura MCP, no como fuente jurídica de producción.
-
-### Hernán Caravario — repos GitHub individuales
-La guía pública de 2026 documenta `saij-mcp`, `juba-mcp`, `csjn-mcp` y `juscaba-mcp`, pero los repos GitHub enlazados devolvieron 404 durante esta auditoría. Los paquetes PyPI sí estaban disponibles. Por eso integrar por **nombre de paquete**, no por clone de GitHub, y verificar disponibilidad en cada uso.
-
-### JurisprudenciaARG
-Servicio útil, pero el acceso completo/MCP está asociado a suscripción. No es dependencia gratuita permanente.
-
-### MetaJurídico
-Prueba gratuita temporal y producto pago. Además está orientado a expedientes de estudios. No corresponde como core de una skill pública gratuita.
-
-### FalloBot
-Tiene plan gratuito de búsqueda, pero el MCP requiere plan Pro según su sitio. No integrar como MCP gratuito.
+- último push observado: 2025-06;
+- README mantiene placeholders `tu-usuario`;
+- metadata GitHub no expone licencia reconocida aunque README declara MIT;
+- útil como ejemplo, no como dependencia productiva.
 
 ### CENDOJ / mcp-cendoj-sentencias
-Es España. Técnicamente sólido y gratuito, pero fuera de jurisdicción para cierre de cuentas bancarias argentinas.
+- gratuito/MIT y activo;
+- jurisdicción España;
+- fuera de alcance para cierre de cuentas argentinas.
 
-## Regla universal para cualquier host
+## Regla de frescura
 
-Si el agente soporta Agent Skills:
-1. cargar esta carpeta como skill;
-2. activar por descripción o por nombre;
-3. usar MCP jurídicos solo si ya están configurados.
+Antes de recomendar cualquier integración:
+1. comprobar que sigue accesible;
+2. comprobar licencia;
+3. comprobar si requiere pago/API key;
+4. comprobar última actividad o release;
+5. si cambió, degradar a otra fuente sin afectar el workflow.
 
-Si no soporta Agent Skills:
-1. cargar `SKILL.md` como instrucciones;
-2. permitir lectura de `references/`;
-3. mantener exactamente las invariantes de no operación bancaria.
-
-Nunca exigir una empresa de IA específica.
+El archivo [registry/sources.json](../registry/sources.json) resume el estado auditado.
