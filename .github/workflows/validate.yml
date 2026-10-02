@@ -19,3 +19,43 @@ jobs:
           python-version: "3.12"
       - name: Validate repository structure
         run: python scripts/validate_repo.py
+      - name: Parse shell installer
+        run: bash -n install/install.sh
+      - name: Reject foreign Git origin in shell installer
+        run: |
+          tmp="$(mktemp -d)"
+          git -C "$tmp" init -q
+          git -C "$tmp" remote add origin https://github.com/example/not-this-skill.git
+          if bash install/install.sh "$tmp"; then
+            echo "installer incorrectly accepted a foreign origin"
+            exit 1
+          fi
+      - name: Parse and test PowerShell installer guard
+        shell: pwsh
+        run: |
+          $tokens = $null
+          $errors = $null
+          [System.Management.Automation.Language.Parser]::ParseFile(
+            (Resolve-Path "install/install.ps1"),
+            [ref]$tokens,
+            [ref]$errors
+          ) | Out-Null
+          if ($errors.Count -gt 0) {
+            $errors | ForEach-Object { Write-Error $_.Message }
+            throw "PowerShell syntax validation failed"
+          }
+
+          $tmp = Join-Path ([System.IO.Path]::GetTempPath()) ("skill-foreign-" + [guid]::NewGuid())
+          New-Item -ItemType Directory -Path $tmp | Out-Null
+          git -C $tmp init -q
+          git -C $tmp remote add origin https://github.com/example/not-this-skill.git
+
+          $blocked = $false
+          try {
+            & ./install/install.ps1 -Target $tmp
+          } catch {
+            $blocked = $true
+          }
+          if (-not $blocked) {
+            throw "PowerShell installer incorrectly accepted a foreign origin"
+          }
