@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased — external audit preparation
+
+- added prominent legal/disclaimer layer without attempting to waive non-waivable rights;
+- added executive audit and zero-cost tooling review;
+- reviewed the supplied runtime/browser/research candidates and kept the core dependency-free;
+- accepted Crawl4AI, Scrapy and Playwright only as optional public read-only transport/rendering adapters;
+- added OpenArg MCP and Vigía/OpenArg as optional Argentine discovery sources with primary-source verification requirements;
+- added machine-readable zero-cost tooling policy.
+
+
 ## 1.1.1 — 2026-10-02
 
 - pinned optional PyPI MCP integrations and recorded wheel/sdist SHA-256 provenance;
