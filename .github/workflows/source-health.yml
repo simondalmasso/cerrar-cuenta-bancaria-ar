@@ -8,6 +8,8 @@ on:
     paths:
       - "registry/sources.json"
       - "scripts/check_source_health.py"
+      - "references/integrations.md"
+      - "references/public-web-research.md"
       - ".github/workflows/source-health.yml"
 
 permissions:
