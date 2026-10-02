@@ -58,6 +58,10 @@ Si tu agente usa otra ruta (`.claude/skills`, `.gemini/skills`, etc.), apuntá e
 
 Cargá `SKILL.md` como instrucción y permitile leer `references/`. La lógica no depende de herramientas propietarias.
 
+## Conexión por agente
+
+Ver [references/client-setup.md](references/client-setup.md) para rutas comunes de instalación sin duplicar la skill por proveedor.
+
 ## MCP: opcional
 
 La skill funciona sin MCP. Para investigación jurídica puede usar conectores gratuitos/open-source cuando estén disponibles:
@@ -69,7 +73,7 @@ La skill funciona sin MCP. Para investigación jurídica puede usar conectores g
 
 Se auditaron como paquetes PyPI gratuitos/MIT al 2026-10-02. Son aceleradores de investigación, **no fuentes bancarias ni actuadores**.
 
-Ver [references/integrations.md](references/integrations.md).
+Ver [references/integrations.md](references/integrations.md). Hay un ejemplo combinado en [integrations/mcp-stdio.example.json](integrations/mcp-stdio.example.json).
 
 ## Fuentes core
 

@@ -1,0 +1,21 @@
+{
+  "_note": "Ejemplo de forma común para clientes MCP stdio. Adaptar nombres/campos a la documentación del host. Todos son opcionales.",
+  "mcpServers": {
+    "saij": {
+      "command": "uvx",
+      "args": ["saij-mcp"]
+    },
+    "csjn": {
+      "command": "uvx",
+      "args": ["csjn-mcp"]
+    },
+    "juba": {
+      "command": "uvx",
+      "args": ["juba-mcp"]
+    },
+    "juscaba": {
+      "command": "uvx",
+      "args": ["juscaba-mcp"]
+    }
+  }
+}
