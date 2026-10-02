@@ -6,7 +6,7 @@ compatibility: Vendor-neutral Agent Skill. Funciona sin MCP; puede aprovechar fu
 metadata:
   author: simondalmasso
   jurisdiction: argentina
-  version: "1.0.0"
+  version: "1.1.0"
 ---
 
 # Cerrar una cuenta bancaria en Argentina
@@ -39,6 +39,7 @@ Usar esta skill cuando la persona quiera:
 - revisar cargos/intereses aparecidos durante el proceso de cierre.
 
 No usar como skill principal para:
+- cuentas cuyo titular sea una persona jurídica/empresa;
 - cerrar únicamente una tarjeta de crédito;
 - cerrar una billetera/PSP que no sea una cuenta bancaria;
 - fraude o acceso comprometido que requiera medidas urgentes de seguridad;
@@ -62,6 +63,8 @@ Nunca convertir BANK_CLAIM o USER_CLAIM en FACT sin evidencia.
 
 Antes de formular una afirmación jurídica sustantiva, leer [references/sources-ar.md](references/sources-ar.md).
 
+Para investigar el procedimiento específico de cualquier banco público o privado, usar [references/bank-discovery.md](references/bank-discovery.md).
+
 Jerarquía:
 1. BCRA: texto ordenado y páginas oficiales vigentes.
 2. Argentina.gob.ar / normativa oficial.
@@ -76,7 +79,7 @@ Si el host tiene web/MCP, verificar la fuente en la sesión. Si no tiene acceso 
 No hacer un interrogatorio completo. Pedir solo lo que cambia la ruta:
 
 1. Banco.
-2. Persona humana/consumidor o empresa.
+2. Confirmar que el titular es una **persona humana / usuario de servicios financieros**. Si la cuenta pertenece a una persona jurídica, marcar fuera de alcance de esta versión y no extrapolar estas reglas.
 3. Producto: caja de ahorro, cuenta corriente, cuenta sueldo, paquete u otro.
 4. Si es cuenta corriente: ¿usa cheques/ECHEQ? ¿hay saldo deudor/descubierto?
 5. Estado visible del saldo: positivo, cero, negativo o incierto.
@@ -111,6 +114,8 @@ Regla general de referencia:
 - Cuentas sueldo y especiales pueden tener reglas adicionales; verificar el texto ordenado vigente.
 
 ### 2. Diagnosticar el obstáculo antes de recomendar una acción
+
+Leer [references/money-and-blockers.md](references/money-and-blockers.md) cuando aparezcan saldos, descubierto, intereses, impuestos o productos asociados.
 
 Buscar evidencia de:
 - saldo positivo pendiente de retirar/transferir;
@@ -229,7 +234,7 @@ Leer [references/jurisprudencia.md](references/jurisprudencia.md). La jurisprude
 
 ## Integraciones opcionales
 
-La skill funciona sin MCP. Si el host tiene conectores jurídicos, leer [references/integrations.md](references/integrations.md).
+La skill funciona sin MCP. Las integraciones nunca son condición para poder ayudar ni deben introducir credenciales bancarias. Si el host tiene conectores jurídicos, leer [references/integrations.md](references/integrations.md).
 
 Los conectores son **solo de investigación**. No usar ningún MCP para operar la cuenta, automatizar home banking o actuar frente al banco.
 
