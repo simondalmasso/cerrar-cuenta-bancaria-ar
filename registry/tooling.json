@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0",
+  "checked_at": "2026-10-02",
+  "required_dependencies": [],
+  "accepted_optional": [
+    {
+      "id": "crawl4ai",
+      "url": "https://github.com/unclecode/crawl4ai",
+      "license": "Apache-2.0",
+      "cost": "local_zero_monetary_cost",
+      "role": "public_web_extraction",
+      "policy": "read_only_public_pages"
+    },
+    {
+      "id": "scrapy",
+      "url": "https://github.com/scrapy/scrapy",
+      "license": "BSD-3-Clause",
+      "cost": "local_zero_monetary_cost",
+      "role": "static_public_web_crawling",
+      "policy": "read_only_public_pages"
+    },
+    {
+      "id": "playwright",
+      "url": "https://github.com/microsoft/playwright",
+      "license": "Apache-2.0",
+      "cost": "local_zero_monetary_cost",
+      "role": "public_js_page_rendering",
+      "policy": "render_only_no_authenticated_or_transactional_actions"
+    }
+  ],
+  "accepted_conditional_services": [
+    {
+      "id": "openarg-mcp",
+      "url": "https://mcp.openarg.org/",
+      "cost": "free_tier_limited",
+      "role": "public_data_discovery",
+      "hard_dependency": false
+    },
+    {
+      "id": "vigia-openarg",
+      "url": "https://vigia.openarg.org/",
+      "cost": "free_public_search",
+      "role": "regulatory_discovery",
+      "hard_dependency": false
+    }
+  ],
+  "policy": {
+    "install_automatically": false,
+    "authenticated_browser": false,
+    "bank_credentials": false,
+    "transactional_actions": false,
+    "fallback": "official_public_sources"
+  }
+}

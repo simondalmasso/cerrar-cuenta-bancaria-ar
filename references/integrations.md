@@ -67,6 +67,20 @@ https://fallobot.com/
 
 La búsqueda manual gratuita puede servir como discovery. Su MCP no integra el bundle gratuito.
 
+### OpenArg MCP
+https://mcp.openarg.org/
+
+Uso: **datos públicos argentinos**, no autoridad jurídica. Al 2026-10-02 publica un plan gratuito de 200 consultas de datos y 10 preguntas por mes, con API key. Puede ayudar a localizar series BCRA y datasets oficiales, pero toda conclusión material debe volver a la fuente oficial.
+
+Clasificación: `CONDITIONAL_FREE_TIER / public_data_discovery`.
+
+### Vigía · OpenArg
+https://vigia.openarg.org/
+
+Uso: **discovery regulatorio**. Indexa Boletín Oficial, InfoLEG, Congreso, BCRA y otras fuentes públicas. El buscador/feed público es gratuito y el código publicado por Colossus Lab declara MIT.
+
+Clasificación: `OPTIONAL_PUBLIC_DISCOVERY`. Un resumen o índice de Vigía nunca reemplaza el texto oficial: seguir el enlace y verificar la fuente primaria.
+
 ## No integrar como core
 
 - MetaJurídico: trial/pago y scope de expedientes.

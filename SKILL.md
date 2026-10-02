@@ -64,7 +64,7 @@ Nunca convertir BANK_CLAIM o USER_CLAIM en FACT sin evidencia.
 
 Antes de formular una afirmación jurídica sustantiva, leer [references/sources-ar.md](references/sources-ar.md).
 
-Para investigar el procedimiento específico de cualquier banco público o privado, usar [references/bank-discovery.md](references/bank-discovery.md).
+Para investigar el procedimiento específico de cualquier banco público o privado, usar [references/bank-discovery.md](references/bank-discovery.md). Para extracción de web pública, usar únicamente los adaptadores read-only descritos en [references/public-web-research.md](references/public-web-research.md).
 
 Jerarquía:
 1. BCRA: texto ordenado y páginas oficiales vigentes.

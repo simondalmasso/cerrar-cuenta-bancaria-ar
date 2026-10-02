@@ -286,6 +286,28 @@
       "auth": "account_or_whatsapp",
       "status": "manual_discovery_only_mcp_paid",
       "verified_at": "2026-10-02"
+    },
+    {
+      "id": "openarg-mcp",
+      "url": "https://mcp.openarg.org/",
+      "role": "public_data_discovery",
+      "cost": "free_tier_200_data_requests_10_questions_month",
+      "auth": "api_key",
+      "status": "optional_verify_quota_each_use",
+      "source_repo_url": "https://github.com/colossus-lab/openarg_backend",
+      "source_repo_license": "MIT",
+      "verified_at": "2026-10-02"
+    },
+    {
+      "id": "vigia-openarg",
+      "url": "https://vigia.openarg.org/",
+      "role": "regulatory_discovery",
+      "cost": "free_public_feed_search",
+      "auth": "none_for_public_search",
+      "status": "optional_verify_primary_source",
+      "source_repo_url": "https://github.com/colossus-lab/vigia",
+      "source_repo_license": "MIT",
+      "verified_at": "2026-10-02"
     }
   ],
   "excluded_as_core": [
