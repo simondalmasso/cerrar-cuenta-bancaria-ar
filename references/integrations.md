@@ -26,6 +26,8 @@ Al 2026-10-02:
 
 Por eso se clasifican como `OPTIONAL_PYPI / provenance_limited`.
 
+**Límite de pinning:** el pin y los hashes cubren el paquete de nivel superior publicado en PyPI. Sus dependencias transitivas (`mcp` y, para `juscaba-mcp`, `httpx`) se resuelven por rango y no quedan hash-pinneadas por el ejemplo `uvx`; no presentar este bundle como instalación totalmente reproducible.
+
 | Paquete | Pin | Wheel SHA-256 | Source repo |
 |---|---:|---|---|
 | `saij-mcp` | 0.3.0 | `bac95044c4822854f119c446b0c9eb0895e23e293ab9ab59fbc5df63f0bd5f6b` | 404 verificado 2026-10-02 |
@@ -39,7 +41,8 @@ Ejemplo fijado: [integrations/mcp-stdio.example.json](../integrations/mcp-stdio.
 
 Política:
 - nunca hard dependency;
-- ejecutar solo la versión fijada;
+- ejecutar solo la versión fijada del paquete de nivel superior;
+- asumir que las dependencias transitivas siguen flotando salvo que el operador use un lock/hash set propio;
 - verificar metadata/hashes antes de cambiar el pin;
 - usar como discovery/recuperación y conservar enlace oficial;
 - si reaparece el source repo, auditarlo antes de elevar confianza;

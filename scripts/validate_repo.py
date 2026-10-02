@@ -66,7 +66,7 @@ required = [
     "references/sources-ar.md","references/bank-discovery.md","references/money-and-blockers.md",
     "references/decision-tree.md","references/evidence-protocol.md","references/escalation-playbook.md",
     "references/jurisprudencia.md","references/integrations.md","references/client-setup.md",
-    "references/public-web-research.md","registry/sources.json","registry/tooling.json",
+    "references/public-web-research.md","references/source-integrity.md","registry/sources.json","registry/tooling.json",
     "evals/scenarios.json","evals/README.md",
 ]
 for path in required:
@@ -121,6 +121,9 @@ try:
         for key in ("pinned_version","license_expression","requires_python","source_repo_url","source_repo_status","source_repo_verified_at"):
             if not item.get(key):
                 fail(f"optional MCP {item.get('id')} missing {key}")
+        requires_dist=item.get("requires_dist")
+        if not isinstance(requires_dist,list) or not all(isinstance(x,str) and x.strip() for x in requires_dist):
+            fail(f"optional MCP {item.get('id')} requires_dist must be a string list")
         artifacts=item.get("artifacts")
         if not isinstance(artifacts,list) or len(artifacts)<2:
             fail(f"optional MCP {item.get('id')} must record wheel + sdist artifacts")

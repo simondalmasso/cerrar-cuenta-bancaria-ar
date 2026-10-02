@@ -7,10 +7,11 @@ on:
   push:
     paths:
       - "registry/sources.json"
-      - "scripts/check_source_health.py"
+      - "scripts/check_source_integrity.py"
+      - "references/source-integrity.md"
       - "references/integrations.md"
       - "references/public-web-research.md"
-      - ".github/workflows/source-health.yml"
+      - ".github/workflows/source-integrity.yml"
 
 permissions:
   contents: read
@@ -26,4 +27,4 @@ jobs:
         with:
           python-version: "3.12"
       - name: Check public source integrity and pinned provenance
-        run: python scripts/check_source_health.py
+        run: python scripts/check_source_integrity.py

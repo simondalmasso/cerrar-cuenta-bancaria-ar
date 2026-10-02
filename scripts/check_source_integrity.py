@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Public-source availability/provenance/integrity checks.
+"""Public-source integrity/provenance checks.
 
 This is NOT a legal-freshness or legal-validity certifier.
 It checks transport/content identity for CORE sources and immutable
@@ -110,12 +110,30 @@ for item in REG.get("optional_mcp", []):
         elif normalize_repo_url(repo_url) != normalize_repo_url(item["source_repo_url"]):
             mismatches.append(f"source URL {repo_url!r} != {item['source_repo_url']!r}")
 
-        actual = {(u.get("filename"), u.get("packagetype")): (u.get("digests") or {}).get("sha256") for u in data.get("urls", [])}
+        actual_deps = sorted(info.get("requires_dist") or [])
+        expected_deps = sorted(item.get("requires_dist") or [])
+        if actual_deps != expected_deps:
+            mismatches.append(f"requires_dist {actual_deps!r} != {expected_deps!r}")
+
+        actual = {
+            (u.get("filename"), u.get("packagetype")): {
+                "sha256": (u.get("digests") or {}).get("sha256"),
+                "yanked": bool(u.get("yanked")),
+                "yanked_reason": u.get("yanked_reason"),
+            }
+            for u in data.get("urls", [])
+        }
         for expected in item.get("artifacts", []):
             key = (expected["filename"], expected["packagetype"])
             got = actual.get(key)
-            if got != expected["sha256"]:
-                mismatches.append(f"sha256 mismatch for {expected['filename']}: {got!r}")
+            if not got:
+                mismatches.append(f"missing pinned artifact: {expected['filename']}")
+                continue
+            if got["sha256"] != expected["sha256"]:
+                mismatches.append(f"sha256 mismatch for {expected['filename']}: {got['sha256']!r}")
+            if got["yanked"]:
+                reason = got["yanked_reason"] or "no reason supplied"
+                mismatches.append(f"artifact yanked: {expected['filename']} ({reason})")
 
         src_status, _, _, _ = request(item["source_repo_url"], max_bytes=4096, accept="text/html")
         expected_src = item.get("source_repo_status")
@@ -128,7 +146,7 @@ for item in REG.get("optional_mcp", []):
             FAILURES.append(pkg)
             print(f"- {pkg}=={version}: FAIL — " + "; ".join(mismatches))
         else:
-            print(f"- {pkg}=={version}: OK — metadata + artifact SHA-256 match; source repo HTTP {src_status}")
+            print(f"- {pkg}=={version}: OK — metadata + dependency set + artifact SHA-256/yanked state match; source repo HTTP {src_status}")
     except Exception as exc:
         FAILURES.append(pkg)
         print(f"- {pkg}=={version}: FAIL — {type(exc).__name__}: {exc}")
