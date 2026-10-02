@@ -90,9 +90,15 @@ def installer_commands(target: Path):
 
 with tempfile.TemporaryDirectory(prefix="skill-installer-tests-") as td:
     td = Path(td)
+    seed = td / "seed"
+    shutil.copytree(ROOT, seed, ignore=shutil.ignore_patterns(".git"))
+    git("init", "-q", "-b", "main", seed)
+    set_identity(seed)
+    git("-C", seed, "add", ".")
+    git("-C", seed, "commit", "-q", "-m", "fixture: audited repository state")
+
     origin = td / "origin.git"
-    git("init", "--bare", origin)
-    git("-C", ROOT, "push", "-q", "--force", origin, "HEAD:refs/heads/main")
+    git("clone", "-q", "--bare", seed, origin)
     git("--git-dir", origin, "symbolic-ref", "HEAD", "refs/heads/main")
 
     fakebin = td / "fakebin"
