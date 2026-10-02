@@ -61,11 +61,13 @@ if skill:
         fail(r"SKILL.md body contains a literal \n escape; use a real newline")
 
 required = [
-    "README.md","LICENSE","SECURITY.md","CONTRIBUTING.md","agents/openai.yaml",
+    "README.md","LICENSE","DISCLAIMER.md","SECURITY.md","CONTRIBUTING.md","agents/openai.yaml",
+    "docs/EXECUTIVE-AUDIT.md","docs/TOOLING-AUDIT.md",
     "references/sources-ar.md","references/bank-discovery.md","references/money-and-blockers.md",
     "references/decision-tree.md","references/evidence-protocol.md","references/escalation-playbook.md",
     "references/jurisprudencia.md","references/integrations.md","references/client-setup.md",
-    "registry/sources.json","evals/scenarios.json","evals/README.md",
+    "references/public-web-research.md","registry/sources.json","registry/tooling.json",
+    "evals/scenarios.json","evals/README.md",
 ]
 for path in required:
     read(path)
@@ -133,6 +135,30 @@ except Exception as exc:
     fail(f"registry validation failed: {exc}")
 
 try:
+    tooling=json.loads((ROOT/"registry/tooling.json").read_text(encoding="utf-8"))
+    if tooling.get("required_dependencies") != []:
+        fail("registry/tooling.json must keep required_dependencies empty")
+    tool_ids=[]
+    for bucket in ("accepted_optional","accepted_conditional_services"):
+        for item in tooling.get(bucket,[]):
+            tid=item.get("id")
+            if not tid:
+                fail(f"tooling item without id in {bucket}")
+            tool_ids.append(tid)
+            if not str(item.get("url","")).startswith("https://"):
+                fail(f"tooling URL must use https: {tid}")
+            if item.get("hard_dependency") is True:
+                fail(f"optional tooling cannot be a hard dependency: {tid}")
+    if len(tool_ids) != len(set(tool_ids)):
+        fail("duplicate tooling ids")
+    policy=tooling.get("policy",{})
+    for key in ("install_automatically","authenticated_browser","bank_credentials","transactional_actions"):
+        if policy.get(key) is not False:
+            fail(f"tooling policy {key} must be false")
+except Exception as exc:
+    fail(f"tooling registry validation failed: {exc}")
+
+try:
     ev=json.loads((ROOT/"evals/scenarios.json").read_text(encoding="utf-8"))
     families=ev.get("families",[])
     if len(families)<22:
@@ -165,13 +191,48 @@ except Exception as exc:
     fail(f"eval validation failed: {exc}")
 
 openai_yaml=read("agents/openai.yaml")
-for required_text in ("interface:","display_name:","short_description:","default_prompt:"):
-    if required_text not in openai_yaml:
-        fail(f"agents/openai.yaml missing {required_text}")
+try:
+    lines=[line for line in openai_yaml.splitlines() if line.strip() and not line.lstrip().startswith("#")]
+    if not lines or lines[0] != "interface:":
+        raise ValueError("top-level must be exactly 'interface:'")
+    parsed={}
+    allowed={"display_name","short_description","default_prompt"}
+    for line in lines[1:]:
+        if "\t" in line:
+            raise ValueError("tabs are not allowed")
+        if not line.startswith("  ") or line.startswith("   "):
+            raise ValueError(f"expected exactly two-space indentation: {line!r}")
+        body=line[2:]
+        if ":" not in body:
+            raise ValueError(f"missing ':' in {line!r}")
+        key,raw=body.split(":",1)
+        key=key.strip()
+        raw=raw.strip()
+        if key not in allowed:
+            raise ValueError(f"unexpected key: {key!r}")
+        if key in parsed:
+            raise ValueError(f"duplicate key: {key!r}")
+        if not raw:
+            raise ValueError(f"empty scalar: {key}")
+        if raw.startswith('"'):
+            value=json.loads(raw)
+        elif raw.startswith("'") and raw.endswith("'") and len(raw)>=2:
+            value=raw[1:-1].replace("''","'")
+        else:
+            value=raw
+        if not isinstance(value,str) or not value.strip():
+            raise ValueError(f"{key} must be a non-empty string")
+        parsed[key]=value
+    missing=allowed-set(parsed)
+    if missing:
+        raise ValueError(f"missing keys: {sorted(missing)}")
+except Exception as exc:
+    fail(f"agents/openai.yaml strict subset validation failed: {exc}")
 
 secret_patterns=[
     re.compile(r"sk-[A-Za-z0-9_-]{20,}"),
     re.compile(r"jur_[A-Za-z0-9]{20,}"),
+    re.compile(r"oarg_sk_[A-Za-z0-9_-]{12,}"),
     re.compile(r"(?i)bearer\s+[A-Za-z0-9._~-]{24,}"),
 ]
 for p in ROOT.rglob("*"):
@@ -197,4 +258,6 @@ print("- JSON: pass")
 print(f"- adversarial eval specifications: {len(families)} (structure pass)")
 print("- behavioral agent eval execution: NOT RUN")
 print("- registry/provenance invariants: pass")
+print("- zero-cost tooling policy: pass")
+print("- OpenAI metadata strict-subset parse: pass")
 print("- secret scan: pass")
