@@ -1,21 +1,37 @@
 {
-  "_note": "Ejemplo de forma común para clientes MCP stdio. Adaptar nombres/campos a la documentación del host. Todos son opcionales.",
+  "_note": "Ejemplo stdio. Versiones fijadas a los artefactos auditados en registry/sources.json. Verificar provenance antes de actualizar.",
   "mcpServers": {
     "saij": {
       "command": "uvx",
-      "args": ["saij-mcp"]
+      "args": [
+        "--from",
+        "saij-mcp==0.3.0",
+        "saij-mcp"
+      ]
     },
     "csjn": {
       "command": "uvx",
-      "args": ["csjn-mcp"]
+      "args": [
+        "--from",
+        "csjn-mcp==0.3.0",
+        "csjn-mcp"
+      ]
     },
     "juba": {
       "command": "uvx",
-      "args": ["juba-mcp"]
+      "args": [
+        "--from",
+        "juba-mcp==0.3.0",
+        "juba-mcp"
+      ]
     },
     "juscaba": {
       "command": "uvx",
-      "args": ["juscaba-mcp"]
+      "args": [
+        "--from",
+        "juscaba-mcp==0.3.1",
+        "juscaba-mcp"
+      ]
     }
   }
 }
