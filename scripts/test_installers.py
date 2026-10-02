@@ -220,6 +220,7 @@ print("- dirty worktree rejected before validator execution")
 print("- local-ahead trojan commit rejected before validator execution")
 print("- detached/non-main checkout rejected")
 print("- legitimate stale main fast-forwards to origin/main")
-print("- secure URL normalization matrix enforced consistently")\nprint("- repo-local insteadOf rewrite remains fail-closed")
+print("- secure URL normalization matrix enforced consistently")
+print("- repo-local insteadOf rewrite remains fail-closed")
 if not PWSH:
     print("- PowerShell runtime not available locally; PowerShell cases skipped")
