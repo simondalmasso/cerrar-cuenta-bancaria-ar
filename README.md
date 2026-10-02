@@ -15,7 +15,7 @@ Skill abierta, gratuita y vendor-neutral para que **cualquier agente de IA** gu�
 
 ## Qué NO hace
 
-**No toca el banco.** No navega home banking, no usa el mouse del usuario, no inicia sesión, no mueve dinero, no paga saldos, no cierra productos, no envía formularios y no recibe claves/token.
+**No toca el banco.** Puede consultar web pública oficial en modo lectura. No controla una sesión autenticada, home banking o app bancaria; no mueve dinero, no paga saldos, no cierra productos, no envía formularios y no recibe claves/token.
 
 La persona mantiene el control de cada acción externa.
 
@@ -60,18 +60,18 @@ Cargá `SKILL.md` como instrucción y permitile leer `references/`. La lógica n
 
 ## Conexión por agente
 
-Ver [references/client-setup.md](references/client-setup.md) para rutas comunes de instalación sin duplicar la skill por proveedor.
+Ver [references/client-setup.md](references/client-setup.md) para rutas comunes de instalación sin duplicar la skill por proveedor. El archivo opcional `agents/openai.yaml` agrega presentación nativa para OpenAI sin cambiar el core vendor-neutral.
 
 ## MCP: opcional
 
-La skill funciona sin MCP. Para investigación jurídica puede usar conectores gratuitos/open-source cuando estén disponibles:
+La skill funciona sin MCP. Para investigación jurídica puede usar paquetes PyPI opcionales y fijados por versión cuando estén disponibles:
 
 - `saij-mcp`
 - `csjn-mcp`
 - `juba-mcp`
 - `juscaba-mcp`
 
-Se auditaron como paquetes PyPI gratuitos/MIT al 2026-10-02. Son aceleradores de investigación, **no fuentes bancarias ni actuadores**.
+Las releases fijadas declaran MIT en PyPI, pero sus repositorios fuente canónicos devolvieron 404 durante la auditoría del 2026-10-02. Por eso se clasifican como **OPTIONAL_PYPI / provenance_limited**, no como source auditado. Los SHA-256 están registrados. Son aceleradores de investigación, **no fuentes bancarias ni actuadores**.
 
 Ver [references/integrations.md](references/integrations.md). Hay un ejemplo combinado en [integrations/mcp-stdio.example.json](integrations/mcp-stdio.example.json).
 
@@ -93,7 +93,7 @@ Con Git:
 git clone https://github.com/simondalmasso/cerrar-cuenta-bancaria-ar.git ~/.agents/skills/cerrar-cuenta-bancaria-ar
 ```
 
-También hay instaladores conservadores que **no pisan** una carpeta ajena y validan el repo después de instalar:
+También hay instaladores conservadores que verifican el `origin` antes de actualizar y **no pisan** una carpeta ajena. Ejecutan validación local **cuando Python está disponible**:
 
 - `install/install.sh`
 - `install/install.ps1`
@@ -102,7 +102,7 @@ Ver [references/client-setup.md](references/client-setup.md).
 
 ## Calidad
 
-`python scripts/validate_repo.py` valida formato, referencias locales, JSON, registro de fuentes, cantidad mínima de evals y secretos accidentales. El mismo chequeo corre en GitHub Actions.
+`python scripts/validate_repo.py` valida estructura, referencias locales, JSON, provenance registry, 22 especificaciones adversariales y secretos accidentales. **No ejecuta un modelo ni certifica conducta.** El mismo chequeo corre en GitHub Actions. Un workflow separado verifica disponibilidad/integridad de fuentes y artefactos fijados; no certifica vigencia jurídica.
 
 ## Diseño de seguridad
 
@@ -114,6 +114,6 @@ Eso permite usar la skill incluso en escenarios financieros sensibles sin delega
 
 ## Estado
 
-v1.1.0 — arquitectura vendor-neutral, investigación por banco, diagnóstico económico, fuentes/integraciones auditadas, instaladores, validación CI y 20 familias de evaluación.
+v1.1.1 — hardening de provenance/pinning, source-integrity, instaladores, prompt-injection, CI por SHA y 22 especificaciones adversariales.
 
 Antes de usar una regla jurídica material, el agente debe volver a verificar la fuente oficial si dispone de acceso actualizado.
