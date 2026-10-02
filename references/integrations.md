@@ -8,166 +8,74 @@ Fecha de auditoría: **2026-10-02**.
 
 La skill debe seguir funcionando si mañana desaparecen todos los servicios de terceros.
 
-Un MCP/API solo puede:
-- buscar normativa/jurisprudencia pública;
-- recuperar documentos;
-- ayudar a verificar fuentes.
-
-Nunca puede:
-- entrar al banco;
-- manipular home banking;
-- mover dinero;
-- presentar una baja o reclamo por el usuario.
+Un MCP/API solo puede buscar normativa/jurisprudencia pública, recuperar documentos y ayudar a verificar fuentes. Nunca puede entrar al banco, manipular home banking, mover dinero ni presentar una baja/reclamo por el usuario.
 
 ## Tier A — core gratuito y estable
 
-Sin integración:
-- BCRA;
-- Argentina.gob.ar;
-- sitio oficial del banco;
-- SAIJ/CSJN vía web cuando estén accesibles;
-- SKILL.md + references/.
+Sin integración: BCRA, Argentina.gob.ar, sitio oficial del banco, SAIJ/CSJN vía web cuando estén accesibles y los archivos de esta skill. Esta es la ruta canónica.
 
-Esta es la ruta canónica.
+## Tier B — paquetes PyPI opcionales con provenance limitada
 
-## Tier B — MCP argentinos open-source/gratuitos
+**No describir actualmente estos cuatro paquetes como "source auditado/open-source auditable".**
 
-### saij-mcp
-- paquete PyPI: `saij-mcp`;
-- versión observada: 0.3.0 (2026-02-17);
-- licencia: MIT;
-- Python >=3.10;
-- sin API key;
-- fuente: SAIJ.
+Al 2026-10-02:
+- las releases fijadas siguen disponibles en PyPI;
+- PyPI declara MIT y Python >=3.10;
+- PyPI publica wheel/sdist y SHA-256;
+- los repositorios canónicos `hernan-cc/<paquete>` publicados en metadata devolvieron **404** al verificarlos.
 
-### csjn-mcp
-- paquete PyPI: `csjn-mcp`;
-- versión observada: 0.3.0 (2026-02-17);
-- licencia: MIT;
-- sin API key;
-- fuente: sumarios CSJN;
-- límite conceptual: sumario != fallo completo.
+Por eso se clasifican como `OPTIONAL_PYPI / provenance_limited`.
 
-### juba-mcp
-- paquete PyPI: `juba-mcp`;
-- versión observada: 0.3.0 (2026-02-17);
-- licencia: MIT;
-- sin API key;
-- fuente: JUBA / Buenos Aires.
+| Paquete | Pin | Wheel SHA-256 | Source repo |
+|---|---:|---|---|
+| `saij-mcp` | 0.3.0 | `bac95044c4822854f119c446b0c9eb0895e23e293ab9ab59fbc5df63f0bd5f6b` | 404 verificado 2026-10-02 |
+| `csjn-mcp` | 0.3.0 | `be0f32d63d661159f6d71f1f815d3571f7833158489b399a539f691117058839` | 404 verificado 2026-10-02 |
+| `juba-mcp` | 0.3.0 | `24d99aa7dbacefe397d306086df5231b5631aef50a82300d4c846a0efc509b95` | 404 verificado 2026-10-02 |
+| `juscaba-mcp` | 0.3.1 | `032f0e377841139a459b2c7378d13e857e5f2770e7dcdd6895ef9a9634d6983e` | 404 verificado 2026-10-02 |
 
-### juscaba-mcp
-- paquete PyPI: `juscaba-mcp`;
-- versión observada: 0.3.1 (2026-02-17);
-- licencia: MIT;
-- sin API key para búsqueda pública relevante;
-- fuente: Justicia CABA.
+El registro conserva también los hashes de sdist: [registry/sources.json](../registry/sources.json).
 
-Guía vigente observada:
-https://hernancc.com/guia-mcp
+Ejemplo fijado: [integrations/mcp-stdio.example.json](../integrations/mcp-stdio.example.json).
 
-Ejemplo:
-[integrations/mcp-stdio.example.json](../integrations/mcp-stdio.example.json)
-
-### Política
-- opcionales, nunca hard dependency;
-- verificar disponibilidad antes de instalar;
-- usar como discovery/recuperación;
-- conservar enlace oficial;
-- si falla, volver a fuentes oficiales web.
+Política:
+- nunca hard dependency;
+- ejecutar solo la versión fijada;
+- verificar metadata/hashes antes de cambiar el pin;
+- usar como discovery/recuperación y conservar enlace oficial;
+- si reaparece el source repo, auditarlo antes de elevar confianza;
+- si falla, degradar a web oficial.
 
 ## Tier C — útiles pero condicionados
 
 ### Probanza-ar/mcp-legal-ar
 https://github.com/Probanza-ar/mcp-legal-ar
 
-Observado:
-- repo activo en 2026;
-- integra SAIJ, CSJN, InfoLEG, BORA y otras fuentes;
-- ejecución local/read-only declarada para fuentes públicas;
-- licencia dual: uso no comercial gratuito; uso comercial requiere licencia.
-
-Uso permitido en esta arquitectura:
-- solo investigación pública;
-- nunca credenciales PJN/MEV/EJE para este caso;
-- no hacerlo dependencia universal por su licencia.
+Repo activo observado en 2026; múltiples fuentes jurídicas argentinas; licencia dual con uso no comercial gratuito. No es dependencia universal.
 
 ### Jurídica
 https://juridica.ar/desarrolladores
 
-Observado el 2026-10-02:
-- API REST + MCP;
-- SAIJ, CSJN y JUBA;
-- API key requerida;
-- plan free publicado: **100 requests/día**;
-- endpoint MCP publicado: `https://juridica.ar/mcp`.
-
-Es un fallback práctico. El free tier es política comercial y puede cambiar: verificar antes de usar.
+API/MCP con API key y free tier publicado. Es fallback: verificar plan antes de cada uso.
 
 ### Argentina Data MCP
 https://github.com/abenassi/argentina-data-mcp
 
-Aporta:
-- `infoleg_search`;
-- Boletín Oficial;
-- datos BCRA generales;
-- cálculo/consulta de feriados útil para plazos.
+Útil para InfoLEG/Boletín Oficial/BCRA/feriados; no core por límites/licencia.
 
-Observado:
-- hosted free tier: 20 consultas/día;
-- repo abierto y auditable;
-- licencia PolyForm Noncommercial 1.0.0 para uso local.
-
-No es dependencia core por límites/licencia. Útil como fallback de InfoLEG o para contar días hábiles.
-
-### FalloBot — solo búsqueda manual gratuita
+### FalloBot
 https://fallobot.com/
 
-Observado el 2026-10-02:
-- plan Free anunciado como "Gratis para siempre";
-- 1 investigación IA/día;
-- 5 búsquedas/día;
-- fuentes públicas;
-- **MCP requiere plan Pro**.
-
-Conclusión: puede usarse como discovery manual gratuito cuando convenga; no integrar su MCP en el bundle gratuito.
+La búsqueda manual gratuita puede servir como discovery. Su MCP no integra el bundle gratuito.
 
 ## No integrar como core
 
-### MetaJurídico
-https://metajuridico.com/mcp-ia-abogados/
+- MetaJurídico: trial/pago y scope de expedientes.
+- JurisprudenciaARG: suscripción.
+- Psflores/Legal-MCP-Server-: prototipo/packaging inconsistente.
+- CENDOJ: jurisdicción España.
 
-- trial 14 días;
-- después requiere plan;
-- orientado a datos/expedientes de estudios y acciones;
-- no es un recurso gratuito permanente ni necesario para una baja bancaria.
+## Source integrity vs vigencia jurídica
 
-### JurisprudenciaARG
-https://www.cpacf.org.ar/noticia/convenios-y-beneficios/101/jurisprudenciaarg
+El workflow automático verifica disponibilidad, host final, content-type, marcador mínimo de contenido y metadata/hash de artefactos PyPI fijados.
 
-- producto por suscripción;
-- ofrece MCP y monitoreo;
-- CPACF publica beneficio/descuento, no gratuidad permanente.
-
-### Psflores/Legal-MCP-Server-
-https://github.com/Psflores/Legal-MCP-Server-
-
-- último push observado: 2025-06;
-- README mantiene placeholders `tu-usuario`;
-- metadata GitHub no expone licencia reconocida aunque README declara MIT;
-- útil como ejemplo, no como dependencia productiva.
-
-### CENDOJ / mcp-cendoj-sentencias
-- gratuito/MIT y activo;
-- jurisdicción España;
-- fuera de alcance para cierre de cuentas argentinas.
-
-## Regla de frescura
-
-Antes de recomendar cualquier integración:
-1. comprobar que sigue accesible;
-2. comprobar licencia;
-3. comprobar si requiere pago/API key;
-4. comprobar última actividad o release;
-5. si cambió, degradar a otra fuente sin afectar el workflow.
-
-El archivo [registry/sources.json](../registry/sources.json) resume el estado auditado.
+**No certifica vigencia jurídica ni interpretación normativa.** Antes de formular una afirmación legal material, el agente debe volver a leer la fuente oficial aplicable.
