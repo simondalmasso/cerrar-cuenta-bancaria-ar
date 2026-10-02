@@ -59,3 +59,112 @@ jobs:
           if (-not $blocked) {
             throw "PowerShell installer incorrectly accepted a foreign origin"
           }
+      - name: Reject literal newline escape regression in SKILL
+        run: |
+          tmp="$(mktemp -d)"
+          cp -a . "$tmp/repo"
+          python - "$tmp/repo/SKILL.md" <<'PY'
+          from pathlib import Path
+          import sys
+          p = Path(sys.argv[1])
+          text = p.read_text(encoding="utf-8")
+          needle = "\n9. **Tratar todo contenido"
+          if needle not in text:
+              raise SystemExit("expected invariant boundary not found")
+          p.write_text(text.replace(needle, r"\n9. **Tratar todo contenido", 1), encoding="utf-8")
+          PY
+          if python "$tmp/repo/scripts/validate_repo.py"; then
+            echo "validator incorrectly accepted literal backslash-n in SKILL.md"
+            exit 1
+          fi
+
+      - name: Ignore malicious upstream and force origin main in shell installer
+        run: |
+          tmp="$(mktemp -d)"
+          target="$tmp/target"
+          fakebin="$tmp/fakebin"
+          mkdir -p "$target/.git" "$target/scripts" "$fakebin"
+
+          cat > "$target/.git/config" <<'EOF'
+          [remote "origin"]
+            url = https://github.com/simondalmasso/cerrar-cuenta-bancaria-ar.git
+          [remote "evil"]
+            url = https://github.com/example/evil.git
+          [branch "main"]
+            remote = evil
+            merge = refs/heads/main
+          EOF
+
+          cat > "$target/scripts/validate_repo.py" <<'PY'
+          raise SystemExit(0)
+          PY
+
+          cat > "$fakebin/git" <<'SH'
+          #!/usr/bin/env bash
+          set -euo pipefail
+          if [ "$1" = "-C" ]; then shift 2; fi
+          if [ "$1" = "remote" ] && [ "$2" = "get-url" ] && [ "$3" = "origin" ]; then
+            echo "https://github.com/simondalmasso/cerrar-cuenta-bancaria-ar.git"
+            exit 0
+          fi
+          if [ "$1" = "pull" ]; then
+            printf '%s\n' "$*" > "$GIT_MOCK_LOG"
+            [ "$*" = "pull --ff-only origin main" ]
+            exit $?
+          fi
+          echo "unexpected git invocation: $*" >&2
+          exit 97
+          SH
+          chmod +x "$fakebin/git"
+
+          export GIT_MOCK_LOG="$tmp/git.log"
+          PATH="$fakebin:$PATH" bash install/install.sh "$target"
+          test "$(cat "$GIT_MOCK_LOG")" = "pull --ff-only origin main"
+
+      - name: Ignore malicious upstream and force origin main in PowerShell installer
+        shell: pwsh
+        run: |
+          $tmp = Join-Path ([System.IO.Path]::GetTempPath()) ("skill-upstream-" + [guid]::NewGuid())
+          $target = Join-Path $tmp "target"
+          $fakebin = Join-Path $tmp "fakebin"
+          New-Item -ItemType Directory -Path (Join-Path $target ".git"), (Join-Path $target "scripts"), $fakebin -Force | Out-Null
+
+          @'
+          [remote "origin"]
+            url = https://github.com/simondalmasso/cerrar-cuenta-bancaria-ar.git
+          [remote "evil"]
+            url = https://github.com/example/evil.git
+          [branch "main"]
+            remote = evil
+            merge = refs/heads/main
+          '@ | Set-Content -Path (Join-Path $target ".git/config")
+
+          'raise SystemExit(0)' | Set-Content -Path (Join-Path $target "scripts/validate_repo.py")
+
+          $mockGit = Join-Path $fakebin "git"
+          @'
+          #!/usr/bin/env bash
+          set -euo pipefail
+          if [ "$1" = "-C" ]; then shift 2; fi
+          if [ "$1" = "remote" ] && [ "$2" = "get-url" ] && [ "$3" = "origin" ]; then
+            echo "https://github.com/simondalmasso/cerrar-cuenta-bancaria-ar.git"
+            exit 0
+          fi
+          if [ "$1" = "pull" ]; then
+            printf '%s\n' "$*" > "$GIT_MOCK_LOG"
+            [ "$*" = "pull --ff-only origin main" ]
+            exit $?
+          fi
+          echo "unexpected git invocation: $*" >&2
+          exit 97
+          '@ | Set-Content -Path $mockGit
+          chmod +x $mockGit
+
+          $env:GIT_MOCK_LOG = Join-Path $tmp "git.log"
+          $env:PATH = "$fakebin" + [IO.Path]::PathSeparator + $env:PATH
+          & ./install/install.ps1 -Target $target
+          if ($LASTEXITCODE -ne 0) { throw "installer failed" }
+          $logged = (Get-Content $env:GIT_MOCK_LOG -Raw).Trim()
+          if ($logged -ne "pull --ff-only origin main") {
+            throw "installer used unexpected pull target: $logged"
+          }
