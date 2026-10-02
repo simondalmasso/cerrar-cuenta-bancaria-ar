@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.1",
+  "schema_version": "1.2",
   "checked_at": "2026-10-02",
   "core": [
     {
@@ -9,7 +9,18 @@
       "auth": "none",
       "url": "https://www.bcra.gob.ar/archivos/Pdfs/texord/t-pusf.pdf",
       "role": "consumer_protection",
-      "stability": "high"
+      "stability": "high",
+      "allowed_final_hosts": [
+        "www.bcra.gob.ar",
+        "bcra.gob.ar"
+      ],
+      "expected_path_contains": "t-pusf.pdf",
+      "content_type_prefixes": [
+        "application/pdf"
+      ],
+      "body_markers_any": [
+        "%PDF"
+      ]
     },
     {
       "id": "bcra-deposits",
@@ -18,7 +29,18 @@
       "auth": "none",
       "url": "https://www.bcra.gob.ar/pdfs/texord/t-depaho.pdf",
       "role": "deposit_account_closure",
-      "stability": "high"
+      "stability": "high",
+      "allowed_final_hosts": [
+        "www.bcra.gob.ar",
+        "bcra.gob.ar"
+      ],
+      "expected_path_contains": "t-depaho.pdf",
+      "content_type_prefixes": [
+        "application/pdf"
+      ],
+      "body_markers_any": [
+        "%PDF"
+      ]
     },
     {
       "id": "bcra-current-account",
@@ -27,7 +49,18 @@
       "auth": "none",
       "url": "https://www.bcra.gob.ar/archivos/Pdfs/texord/t-ctacte.pdf",
       "role": "current_account_closure",
-      "stability": "high"
+      "stability": "high",
+      "allowed_final_hosts": [
+        "www.bcra.gob.ar",
+        "bcra.gob.ar"
+      ],
+      "expected_path_contains": "t-ctacte.pdf",
+      "content_type_prefixes": [
+        "application/pdf"
+      ],
+      "body_markers_any": [
+        "%PDF"
+      ]
     },
     {
       "id": "bcra-complaints",
@@ -36,7 +69,19 @@
       "auth": "none",
       "url": "https://www.bcra.gob.ar/reclamo-productos-servicios-financieros/",
       "role": "escalation",
-      "stability": "high"
+      "stability": "high",
+      "allowed_final_hosts": [
+        "www.bcra.gob.ar",
+        "bcra.gob.ar"
+      ],
+      "expected_path_contains": "reclamo-productos-servicios-financieros",
+      "content_type_prefixes": [
+        "text/html"
+      ],
+      "body_markers_any": [
+        "reclamo",
+        "banco central"
+      ]
     },
     {
       "id": "bcra-entities",
@@ -45,7 +90,19 @@
       "auth": "none",
       "url": "https://www.bcra.gob.ar/entidades-financieras",
       "role": "bank_identity",
-      "stability": "high"
+      "stability": "high",
+      "allowed_final_hosts": [
+        "www.bcra.gob.ar",
+        "bcra.gob.ar"
+      ],
+      "expected_path_contains": "entidades-financieras",
+      "content_type_prefixes": [
+        "text/html"
+      ],
+      "body_markers_any": [
+        "entidades financieras",
+        "banco central"
+      ]
     },
     {
       "id": "bcra-user-officers",
@@ -54,7 +111,20 @@
       "auth": "none",
       "url": "https://www.bcra.gob.ar/responsables-de-atencion-al-usuario-de-bancos-y-companias-financieras",
       "role": "bank_escalation_contact",
-      "stability": "high"
+      "stability": "high",
+      "allowed_final_hosts": [
+        "www.bcra.gob.ar",
+        "bcra.gob.ar"
+      ],
+      "expected_path_contains": "responsables-de-atencion-al-usuario",
+      "content_type_prefixes": [
+        "text/html"
+      ],
+      "body_markers_any": [
+        "responsables",
+        "usuario",
+        "banco central"
+      ]
     },
     {
       "id": "argentina-close-account",
@@ -63,49 +133,125 @@
       "auth": "none",
       "url": "https://www.argentina.gob.ar/economia/inclusion-financiera/como-cerrar-una-cuenta",
       "role": "plain_language_guidance",
-      "stability": "high"
+      "stability": "high",
+      "allowed_final_hosts": [
+        "www.argentina.gob.ar",
+        "argentina.gob.ar"
+      ],
+      "expected_path_contains": "como-cerrar-una-cuenta",
+      "content_type_prefixes": [
+        "text/html"
+      ],
+      "body_markers_any": [
+        "cerrar una cuenta",
+        "cuenta bancaria"
+      ]
     }
   ],
   "optional_mcp": [
     {
       "id": "saij-mcp",
       "distribution": "pypi",
-      "version_observed": "0.3.0",
-      "license": "MIT",
+      "pinned_version": "0.3.0",
+      "license_expression": "MIT",
+      "requires_python": ">=3.10",
       "cost": "free",
       "auth": "none",
-      "status": "optional",
-      "verified_at": "2026-10-02"
+      "status": "optional_pypi_provenance_limited",
+      "verified_at": "2026-10-02",
+      "source_repo_url": "https://github.com/hernan-cc/saij-mcp",
+      "source_repo_status": "unavailable_404",
+      "source_repo_verified_at": "2026-10-02",
+      "artifacts": [
+        {
+          "filename": "saij_mcp-0.3.0-py3-none-any.whl",
+          "packagetype": "bdist_wheel",
+          "sha256": "bac95044c4822854f119c446b0c9eb0895e23e293ab9ab59fbc5df63f0bd5f6b"
+        },
+        {
+          "filename": "saij_mcp-0.3.0.tar.gz",
+          "packagetype": "sdist",
+          "sha256": "6418d7d64d27ebba3bcfdb4b55494110b5e8d1f97957795dd819d48f5546919f"
+        }
+      ]
     },
     {
       "id": "csjn-mcp",
       "distribution": "pypi",
-      "version_observed": "0.3.0",
-      "license": "MIT",
+      "pinned_version": "0.3.0",
+      "license_expression": "MIT",
+      "requires_python": ">=3.10",
       "cost": "free",
       "auth": "none",
-      "status": "optional",
-      "verified_at": "2026-10-02"
+      "status": "optional_pypi_provenance_limited",
+      "verified_at": "2026-10-02",
+      "source_repo_url": "https://github.com/hernan-cc/csjn-mcp",
+      "source_repo_status": "unavailable_404",
+      "source_repo_verified_at": "2026-10-02",
+      "artifacts": [
+        {
+          "filename": "csjn_mcp-0.3.0-py3-none-any.whl",
+          "packagetype": "bdist_wheel",
+          "sha256": "be0f32d63d661159f6d71f1f815d3571f7833158489b399a539f691117058839"
+        },
+        {
+          "filename": "csjn_mcp-0.3.0.tar.gz",
+          "packagetype": "sdist",
+          "sha256": "ca110e77b9aff686c8dfefe3dcb9e77c6a3b0235418d92a294f0911d08da02b5"
+        }
+      ]
     },
     {
       "id": "juba-mcp",
       "distribution": "pypi",
-      "version_observed": "0.3.0",
-      "license": "MIT",
+      "pinned_version": "0.3.0",
+      "license_expression": "MIT",
+      "requires_python": ">=3.10",
       "cost": "free",
       "auth": "none",
-      "status": "optional",
-      "verified_at": "2026-10-02"
+      "status": "optional_pypi_provenance_limited",
+      "verified_at": "2026-10-02",
+      "source_repo_url": "https://github.com/hernan-cc/juba-mcp",
+      "source_repo_status": "unavailable_404",
+      "source_repo_verified_at": "2026-10-02",
+      "artifacts": [
+        {
+          "filename": "juba_mcp-0.3.0-py3-none-any.whl",
+          "packagetype": "bdist_wheel",
+          "sha256": "24d99aa7dbacefe397d306086df5231b5631aef50a82300d4c846a0efc509b95"
+        },
+        {
+          "filename": "juba_mcp-0.3.0.tar.gz",
+          "packagetype": "sdist",
+          "sha256": "72cb7f8f8d10971eff42002cf49ce34c9294476101b53e97eb4ab208a9cf0595"
+        }
+      ]
     },
     {
       "id": "juscaba-mcp",
       "distribution": "pypi",
-      "version_observed": "0.3.1",
-      "license": "MIT",
+      "pinned_version": "0.3.1",
+      "license_expression": "MIT",
+      "requires_python": ">=3.10",
       "cost": "free",
       "auth": "none",
-      "status": "optional",
-      "verified_at": "2026-10-02"
+      "status": "optional_pypi_provenance_limited",
+      "verified_at": "2026-10-02",
+      "source_repo_url": "https://github.com/hernan-cc/juscaba-mcp",
+      "source_repo_status": "unavailable_404",
+      "source_repo_verified_at": "2026-10-02",
+      "artifacts": [
+        {
+          "filename": "juscaba_mcp-0.3.1-py3-none-any.whl",
+          "packagetype": "bdist_wheel",
+          "sha256": "032f0e377841139a459b2c7378d13e857e5f2770e7dcdd6895ef9a9634d6983e"
+        },
+        {
+          "filename": "juscaba_mcp-0.3.1.tar.gz",
+          "packagetype": "sdist",
+          "sha256": "1d8d710bc1de60746dcfb4b642446c719a5b95848975915a893840421858f610"
+        }
+      ]
     }
   ],
   "conditional": [
