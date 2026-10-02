@@ -1,6 +1,6 @@
 # Conexión a agentes
 
-La skill no depende de una empresa de IA. El contenido canónico es este repositorio y su único manifiesto `SKILL.md`.
+La skill no depende de una empresa de IA. El contenido canónico es este repositorio y su manifiesto `SKILL.md`. `agents/openai.yaml` es metadata opcional de presentación para OpenAI y no altera el workflow portable.
 
 ## Regla
 
@@ -105,4 +105,4 @@ Ver [integrations.md](integrations.md).
 
 Para Claude Code, pasar explícitamente el destino `~/.claude/skills/cerrar-cuenta-bancaria-ar`.
 
-Los instaladores no sobrescriben una carpeta ajena y nunca solicitan credenciales bancarias.
+Los instaladores verifican que un checkout existente tenga el `origin` esperado antes de ejecutar `pull`, no sobrescriben una carpeta ajena y nunca solicitan credenciales bancarias. La validación local corre cuando Python está disponible.
