@@ -46,7 +46,7 @@ if (Test-Path (Join-Path $Target ".git")) {
     throw "Target is a git repository but origin is not this project. Target=$Target Origin=$Origin Expected=$RepoUrl. Nothing was changed."
   }
   Write-Host "Updating verified installation: $Target"
-  & git -C $Target pull --ff-only
+  & git -C $Target pull --ff-only origin main
   if ($LASTEXITCODE -ne 0) { throw "git pull failed." }
 } elseif (Test-Path $Target) {
   throw "Target exists and is not this git checkout: $Target. Choose another path; nothing was overwritten."
