@@ -21,8 +21,6 @@ normalize_github_remote() {
     git@github.com:*) path="${lower#git@github.com:}" ;;
     ssh://git@github.com/*) path="${lower#ssh://git@github.com/}" ;;
     https://github.com/*) path="${lower#https://github.com/}" ;;
-    http://github.com/*) path="${lower#http://github.com/}" ;;
-    git://github.com/*) path="${lower#git://github.com/}" ;;
     *) printf '%s' "$lower"; return ;;
   esac
   path="${path%/}"
