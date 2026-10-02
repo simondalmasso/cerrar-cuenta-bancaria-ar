@@ -176,6 +176,33 @@ with tempfile.TemporaryDirectory(prefix="skill-installer-tests-") as td:
         if local != remote:
             raise AssertionError(f"{label}: HEAD {local} != origin/main {remote}")
 
+    # URL normalization matrix: secure canonical transports accepted; insecure or credentialed forms rejected.
+    accepted_origins = [
+        CANONICAL,
+        "HTTPS://GITHUB.COM/SIMONDALMASSO/CERRAR-CUENTA-BANCARIA-AR.GIT",
+        "git@github.com:simondalmasso/cerrar-cuenta-bancaria-ar.git",
+        "ssh://git@github.com/simondalmasso/cerrar-cuenta-bancaria-ar.git",
+    ]
+    rejected_origins = [
+        "http://github.com/simondalmasso/cerrar-cuenta-bancaria-ar.git",
+        "git://github.com/simondalmasso/cerrar-cuenta-bancaria-ar.git",
+        "https://user:token@github.com/simondalmasso/cerrar-cuenta-bancaria-ar.git",
+        "https://github.com/example/not-this-skill.git",
+    ]
+    for label, _ in installer_commands(td / "placeholder-matrix"):
+        for idx, remote in enumerate(accepted_origins):
+            target = td / f"{label}-accepted-{idx}"
+            git("clone", "-q", origin, target)
+            git("-C", target, "remote", "set-url", "origin", remote)
+            cmd = [BASH, str(ROOT / "install/install.sh"), str(target)] if label == "bash" else [PWSH, "-NoProfile", "-File", str(ROOT / "install/install.ps1"), "-Target", str(target)]
+            expect_ok(cmd, env=env)
+        for idx, remote in enumerate(rejected_origins):
+            target = td / f"{label}-rejected-{idx}"
+            git("clone", "-q", origin, target)
+            git("-C", target, "remote", "set-url", "origin", remote)
+            cmd = [BASH, str(ROOT / "install/install.sh"), str(target)] if label == "bash" else [PWSH, "-NoProfile", "-File", str(ROOT / "install/install.ps1"), "-Target", str(target)]
+            expect_fail(cmd, env=env)
+
     # Repo-local insteadOf rewrite must remain fail-closed: get-url reveals it.
     attacker = td / "attacker.git"
     git("init", "--bare", attacker)
@@ -193,6 +220,6 @@ print("- dirty worktree rejected before validator execution")
 print("- local-ahead trojan commit rejected before validator execution")
 print("- detached/non-main checkout rejected")
 print("- legitimate stale main fast-forwards to origin/main")
-print("- repo-local insteadOf rewrite remains fail-closed")
+print("- secure URL normalization matrix enforced consistently")\nprint("- repo-local insteadOf rewrite remains fail-closed")
 if not PWSH:
     print("- PowerShell runtime not available locally; PowerShell cases skipped")
