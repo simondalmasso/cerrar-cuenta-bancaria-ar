@@ -38,6 +38,9 @@
         "Prevención, Asesoramiento y Defensa del Consumidor",
         "BankBoston",
         "PADEC"
+      ],
+      "verification_allowed_hosts": [
+        "sjservicios.csjn.gov.ar"
       ]
     },
     {
@@ -74,6 +77,9 @@
         "Schvind",
         "234535/2021-0",
         "Compañía Financiera Argentina"
+      ],
+      "verification_allowed_hosts": [
+        "juristeca.jusbaires.gob.ar"
       ]
     },
     {
@@ -110,6 +116,9 @@
         "FRANCOZ GRISELDA LILIA",
         "138.836",
         "BANCO ITAU ARGENTINA"
+      ],
+      "verification_allowed_hosts": [
+        "juba.scba.gov.ar"
       ]
     },
     {
@@ -145,7 +154,11 @@
         "Quiroga Crespo",
         "6079690",
         "Banco Itaú Argentina"
-      ]
+      ],
+      "verification_allowed_hosts": [
+        "www.justiciacordoba.gob.ar"
+      ],
+      "verification_pdf_presence_ok": true
     },
     {
       "id": "caba-ciferri-santander-2025",
@@ -179,6 +192,9 @@
         "Ciferri Nazareno",
         "108374-2024-0",
         "Banco Santander Río"
+      ],
+      "verification_allowed_hosts": [
+        "juristeca.jusbaires.gob.ar"
       ]
     }
   ]
