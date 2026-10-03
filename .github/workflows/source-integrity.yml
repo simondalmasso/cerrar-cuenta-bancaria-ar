@@ -6,6 +6,7 @@ on:
     - cron: "17 12 * * 1"
   push:
     paths:
+      - "SKILL.md"
       - "registry/sources.json"
       - "registry/legal-watch.json"
       - "registry/case-law.json"
