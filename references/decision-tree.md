@@ -4,6 +4,10 @@
 
 Confirmar banco y producto. Si es una billetera/PSP, tarjeta aislada, broker o fintech no bancaria, no aplicar automáticamente estas reglas.
 
+## Paso 0.5 — ¿Hay una condición especial?
+
+Si aparece cotitularidad, apoderado, fallecimiento, menor, embargo/inhibición, bloqueo judicial o residencia en el exterior, leer [special-cases.md](special-cases.md). Mantener el estado A–G y agregar el flag correspondiente; no forzar el árbol estándar hasta resolver el `OPEN_GAP` especial.
+
 ## Paso 1 — Tipo de producto
 
 ### Caja de ahorro / depósito a la vista
@@ -162,4 +166,4 @@ Verificar:
 - cargos posteriores;
 - temas vinculados residuales.
 
-Solo entonces cerrar el expediente.
+Solo entonces pasar a G. Después aplicar [post-close.md](post-close.md): registrar `post_close_status`, revisar anomalías razonables y no confundir una incidencia posterior con que el hito histórico de cierre nunca existió.
