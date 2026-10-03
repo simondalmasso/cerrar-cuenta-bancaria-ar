@@ -1,0 +1,150 @@
+{
+  "schema_version": "1.0",
+  "id": "bank-account-closure-case-review",
+  "title": "Bank account closure case review",
+  "purpose": "Reusable stage-gate checklist for consistent review of a bank-account-closure case. It does not score legal compliance and does not replace source verification.",
+  "result_states": [
+    "SATISFIED",
+    "OPEN",
+    "NOT_APPLICABLE"
+  ],
+  "phases": [
+    {
+      "id": "pre-request",
+      "checks": [
+        {
+          "id": "PR-01",
+          "category": "scope",
+          "severity": "blocking",
+          "question": "¿El titular es persona humana y el producto está dentro del alcance?",
+          "evidence_required": true,
+          "rationale": "Evita extrapolar el flujo a personas jurídicas o productos distintos.",
+          "pass_when": "Titular y producto están clasificados."
+        },
+        {
+          "id": "PR-02",
+          "category": "product",
+          "severity": "blocking",
+          "question": "¿Se identificó el tipo de cuenta y la moneda?",
+          "evidence_required": true,
+          "rationale": "La regla aplicable cambia según producto, saldo y moneda.",
+          "pass_when": "Producto y moneda están identificados o existe un OPEN_GAP explícito."
+        },
+        {
+          "id": "PR-03",
+          "category": "special_case",
+          "severity": "important",
+          "question": "¿Se revisaron flags especiales que desvían el árbol normal?",
+          "evidence_required": false,
+          "rationale": "Cotitularidad, poder, fallecimiento, menores o medidas judiciales requieren ruta especial.",
+          "pass_when": "Los flags relevantes están registrados o descartados razonablemente."
+        }
+      ]
+    },
+    {
+      "id": "pre-escalation",
+      "checks": [
+        {
+          "id": "PE-01",
+          "category": "evidence",
+          "severity": "blocking",
+          "question": "¿Existe reclamo previo verificable ante el banco?",
+          "evidence_required": true,
+          "rationale": "El escalamiento necesita un antecedente concreto y trazable.",
+          "pass_when": "Hay fecha y número de gestión/reclamo o evidencia equivalente."
+        },
+        {
+          "id": "PE-02",
+          "category": "cause",
+          "severity": "blocking",
+          "question": "¿El motivo de rechazo está clasificado sin mezclar FACT, BANK_CLAIM, USER_CLAIM e INFERENCE?",
+          "evidence_required": true,
+          "rationale": "Evita elevar hipótesis como hechos.",
+          "pass_when": "Cada afirmación material tiene clase de evidencia y fuente."
+        },
+        {
+          "id": "PE-03",
+          "category": "money",
+          "severity": "important",
+          "question": "¿Los importes están descompuestos entre capital, interés, impuesto, comisión y saldo?",
+          "evidence_required": true,
+          "rationale": "Un importe puede ser matemáticamente correcto y jurídicamente discutible.",
+          "pass_when": "La composición está documentada o el faltante está marcado OPEN_GAP."
+        },
+        {
+          "id": "PE-04",
+          "category": "source",
+          "severity": "blocking",
+          "question": "¿La afirmación jurídica material fue contrastada con fuente oficial vigente?",
+          "evidence_required": true,
+          "rationale": "Discovery y jurisprudencia no sustituyen la regla específica aplicable.",
+          "pass_when": "La fuente oficial relevante y fecha de verificación están registradas."
+        },
+        {
+          "id": "PE-05",
+          "category": "timing",
+          "severity": "blocking",
+          "question": "¿Se verificó el requisito temporal vigente para la segunda instancia BCRA?",
+          "evidence_required": true,
+          "rationale": "Evita escalar antes de cumplir el requisito actual.",
+          "pass_when": "El plazo aplicable fue verificado y cumplido o todavía figura OPEN."
+        }
+      ]
+    },
+    {
+      "id": "pre-close",
+      "checks": [
+        {
+          "id": "PC-01",
+          "category": "identity",
+          "severity": "blocking",
+          "question": "¿La constancia corresponde al producto exacto que se quería cerrar?",
+          "evidence_required": true,
+          "rationale": "Evita confundir cierre de paquete con cierre de todos los contratos.",
+          "pass_when": "Producto e identificador parcial coinciden."
+        },
+        {
+          "id": "PC-02",
+          "category": "effective_date",
+          "severity": "blocking",
+          "question": "¿La fecha efectiva de cierre está identificada?",
+          "evidence_required": true,
+          "rationale": "Permite analizar cargos posteriores y períodos devengados.",
+          "pass_when": "La fecha efectiva surge de constancia o comunicación inequívoca."
+        },
+        {
+          "id": "PC-03",
+          "category": "residuals",
+          "severity": "important",
+          "question": "¿Saldo residual y productos vinculados quedaron resueltos o separados?",
+          "evidence_required": true,
+          "rationale": "No todo producto vinculado se extingue con la cuenta.",
+          "pass_when": "No quedan residuales abiertos atribuibles a la cuenta o están documentados aparte."
+        }
+      ]
+    },
+    {
+      "id": "post-close",
+      "checks": [
+        {
+          "id": "PO-01",
+          "category": "monitoring",
+          "severity": "important",
+          "question": "¿Se revisó si aparecieron cargos o movimientos posteriores materialmente relevantes?",
+          "evidence_required": true,
+          "rationale": "El cierre verificado es un hito, no una garantía de ausencia de controversias posteriores.",
+          "pass_when": "El control posterior no muestra anomalías o las anomalías fueron registradas."
+        },
+        {
+          "id": "PO-02",
+          "category": "credit_reporting",
+          "severity": "informational",
+          "question": "¿Corresponde revisar reporting crediticio por una deuda o antecedente concreto?",
+          "evidence_required": false,
+          "rationale": "Solo revisar cuando el caso lo justifica; no convertir demoras de actualización en prueba automática.",
+          "pass_when": "Se revisó cuando correspondía o se marcó NOT_APPLICABLE."
+        }
+      ]
+    }
+  ]
+}
