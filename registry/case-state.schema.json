@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/simondalmasso/cerrar-cuenta-bancaria-ar/registry/case-state.schema.json",
+  "$id": "https://raw.githubusercontent.com/simondalmasso/cerrar-cuenta-bancaria-ar/main/registry/case-state.schema.json",
   "title": "cerrar-cuenta-bancaria-ar case handoff",
   "type": "object",
   "additionalProperties": false,
