@@ -19,9 +19,9 @@ Estado actual: **BLOCKED**. El proyecto sigue en `1.2.0-dev`.
 El estado conductual siempre está ligado al commit exacto evaluado. Un `FAIL` pertenece al commit que falló; si el candidato cambia después, el nuevo candidato vuelve a `NOT_RUN` hasta su propio run completo. Un resultado histórico nunca se arrastra como estado actual.
 
 
-### Evidencia histórica, no gate actual
+### Runs históricos
 
-GLM-5.3 ejecutó los 54 escenarios sobre el commit histórico `e1fd5749442ab73c0c6f7c55992a5f356241ab4f`: **53 PASS / 1 FAIL (S7)**, con 705 tool calls registrados. Ese run se conserva como evidencia de regresión en `evals/runs/glm53-e1fd574-fail.receipt.json`, pero **no define el estado del candidato actual** porque luego cambiaron `SKILL.md` y S7. Regla operativa: si cambia el comportamiento o el contrato de evals, el gate conductual vuelve a `NOT_RUN` hasta una ejecución completa sobre el nuevo commit.
+Los runs de commits anteriores se conservan únicamente como evidencia de regresión en [../evals/runs/](../evals/runs/). No definen el gate del candidato actual. Si cambia la skill, el contrato de evals o cualquier comportamiento relevante, `behavioral-evals` vuelve a `NOT_RUN` hasta una ejecución completa sobre el nuevo commit.
 
 
 No aceptar como evidencia:
@@ -59,8 +59,6 @@ Cuando todos los gates estén en PASS:
 
 ## Seguridad del repositorio
 
-Antes del tag estable:
-- CodeQL debe pasar sobre el candidato, o quedar documentado por qué no aplica;
-- ningún workflow puede usar Actions sin SHA inmutable;
-- el mantenedor debe revisar branch protection/rulesets, secret scanning/push protection y private vulnerability reporting;
-- un análisis externo (por ejemplo Strix) es opcional, no requisito del núcleo.
+La configuración administrativa ya está verificada y en PASS: ruleset de `main`, secret scanning, push protection, private vulnerability reporting y Dependabot security updates. Para cada candidato de release, `validate` y CodeQL deben seguir verdes sobre el SHA exacto.
+
+Un análisis externo adicional (por ejemplo Strix) es opcional y no forma parte del gate obligatorio.
