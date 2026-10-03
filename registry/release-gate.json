@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "target_version": "1.2.0",
+  "status": "BLOCKED",
+  "checked_at": "2026-10-02",
+  "gates": [
+    {
+      "id": "repository-ci",
+      "status": "PASS",
+      "evidence": "validate-skill run 37090891455 passed on candidate branch; CI also runs on PR/merge head"
+    },
+    {
+      "id": "source-integrity",
+      "status": "PASS",
+      "evidence": "source-integrity run 37090785087 matched legal baselines with no LEGAL_REAUDIT_REQUIRED trigger"
+    },
+    {
+      "id": "behavioral-evals",
+      "status": "NOT_RUN",
+      "evidence": "No real host/model run artifact committed yet"
+    },
+    {
+      "id": "immutable-release",
+      "status": "PENDING",
+      "evidence": "No v1.2.0 tag or GitHub Release until all gates pass"
+    },
+    {
+      "id": "privacy-synthetic-examples",
+      "status": "PASS",
+      "evidence": "examples/case-synthetic contains fictional data only"
+    },
+    {
+      "id": "vendor-neutral-core",
+      "status": "PASS",
+      "evidence": "No bank-specific core profile; optional banks schema only"
+    }
+  ]
+}

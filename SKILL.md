@@ -60,6 +60,8 @@ Etiquetar cada dato material con una de estas clases:
 
 Nunca convertir BANK_CLAIM o USER_CLAIM en FACT sin evidencia.
 
+**Llamadas no grabadas:** si la persona recuerda que “el banco dijo X” pero no existe audio/transcripción/mensaje directo, clasificar el contenido como `USER_CLAIM` con `reported_actor=bank` y `capture=user_recollection`. Reservar `BANK_CLAIM` para una afirmación del banco capturada directamente (chat, mail, grabación/transcripción o documento). Mantener estas dimensiones en [references/evidence-protocol.md](references/evidence-protocol.md).
+
 ## Fuentes y frescura
 
 Antes de formular una afirmación jurídica sustantiva, leer [references/sources-ar.md](references/sources-ar.md).
@@ -91,7 +93,11 @@ No hacer un interrogatorio completo. Pedir solo lo que cambia la ruta:
 
 No preguntar por productos vinculados de forma indiscriminada. Solo explorarlos si el banco los menciona, el contrato los vincula o los movimientos muestran una dependencia.
 
+Si aparece cotitularidad, apoderado, fallecimiento, menor, embargo/inhibición, bloqueo judicial o residencia en el exterior, activar [references/special-cases.md](references/special-cases.md) sin inventar una nueva regla general.
+
 ## Clasificación inicial
+
+Para handoff entre agentes, serializar el mínimo necesario según [registry/case-state.schema.json](registry/case-state.schema.json); no incluir identificadores completos ni secretos.
 
 Asignar un estado:
 
@@ -196,6 +202,18 @@ No pasar a **G — Cierre verificado** hasta contar con evidencia suficiente de:
 - saldo residual resuelto;
 - cuestiones de tarjeta/préstamo/etc. separadas y documentadas si continúan.
 
+Después aplicar [references/post-close.md](references/post-close.md). El cierre verificado es un hito; el monitoreo posterior se registra aparte con `post_close_status` para no borrar la historia si aparece una anomalía.
+
+## Modos de respuesta
+
+Elegir el modo mínimo que resuelva el momento:
+
+- **FAST**: default. Estado + próxima acción + texto breve + evidencia a guardar. Evitar doctrina salvo que cambie la decisión.
+- **LIVE**: cuando la persona está hablando con el banco ahora. Dar primero una frase para decir/copiar de objetivo aproximado **≤15 palabras**, luego una sola pregunta de respaldo si hace falta.
+- **FORENSIC**: para auditoría, reclamo formal, contradicción de fuentes, controversia económica compleja o preparación de expediente. Puede incluir timeline, clases de evidencia, fuentes, gaps e hipótesis.
+
+El usuario puede pedir el modo explícitamente. Si no lo hace, inferirlo por contexto y no escalar de FAST/LIVE a FORENSIC sin necesidad.
+
 ## Respuesta al usuario
 
 Mantenerla operativa. En cada turno, entregar solo lo que necesita ahora:
@@ -242,7 +260,7 @@ Los conectores son **solo de investigación**. No usar ningún MCP para operar l
 
 ## Entrega final del caso
 
-Cuando cierre, producir un mini expediente:
+Cuando cierre, producir un mini expediente. Si hay handoff a otro agente, acompañar opcionalmente un objeto compatible con `registry/case-state.schema.json`:
 
 - banco y producto;
 - fecha de primera solicitud;

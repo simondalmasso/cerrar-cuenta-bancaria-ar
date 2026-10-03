@@ -1,5 +1,7 @@
 # Frases para chat o llamada
 
+Modo **LIVE**: entregar primero una sola frase de objetivo aproximado ≤15 palabras. Si no alcanza, agregar una pregunta de respaldo. No anteponer explicación jurídica.
+
 ## Identificar blocker
 "Necesito saber cuál es el impedimento concreto que hoy bloquea el cierre."
 

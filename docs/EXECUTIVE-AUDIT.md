@@ -31,9 +31,13 @@ The project is designed to remain useful with only `SKILL.md`, its local referen
 - pinned optional PyPI MCP artifacts with recorded SHA-256, dependency metadata and yanked-state checks;
 - installer-origin, dirty-tree, local-ahead/divergence, branch-state and malicious-upstream regression tests;
 - GitHub Actions pinned by immutable SHA;
-- adversarial scenario specifications separated from behavioral execution;
+- 43 adversarial scenario specifications separated from behavioral execution;
 - verified case-law registry limited to official judiciary publications, with explicit relevance and limits per precedent;
-- presentation/research navigation that separates authority from discovery tooling.
+- presentation/research navigation that separates authority from discovery tooling;
+- machine-readable A–G handoff plus FAST/LIVE/FORENSIC response modes;
+- special-case routing and post-close monitoring kept outside the normal tree;
+- legal source drift monitoring with explicit `LEGAL_REAUDIT_REQUIRED` triggers;
+- synthetic-only examples and optional bank-profile schema without hardcoded bank protagonists.
 
 ## What is deliberately not claimed
 
@@ -88,10 +92,10 @@ Behavioral evals remain **specifications** until run by a particular model/host.
 
 ## Residual risks / next hardening
 
-Residual hardening after the hostile audit:
+Current release blockers / residuals:
 
-1. fingerprint/ETag/Last-Modified monitoring for official BCRA content with **warning-only** legal re-audit triggers;
-2. cross-host behavioral eval runner using mocks/read-only sandboxes;
+1. **Behavioral evals reales todavía no ejecutados** en un host/modelo; el repo ya incluye contrato de evidencia y verificador, pero no finge un PASS.
+2. tag + GitHub Release inmutables pendientes hasta que el behavioral gate pase.
 3. continued review of third-party free-tier/license drift.
 
 ## Release gate
@@ -106,4 +110,5 @@ A release candidate should not be called green unless:
 - legal claims embedded in evals are re-verified whenever `references/sources-ar.md` changes;
 - installer dirty-tree and local-ahead/trojan regressions are green on Bash and PowerShell;
 - any external auditor findings classified P0/P1 are resolved, not merely hidden by documentation;
+- `registry/release-gate.json` marks all release-critical gates PASS;
 - the release commit uses a consistent manifest/eval/README version and receives an immutable tag.

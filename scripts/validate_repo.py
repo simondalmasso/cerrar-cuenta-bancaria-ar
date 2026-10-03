@@ -6,6 +6,7 @@ This does NOT execute an AI model and does NOT certify behavioral compliance.
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 import sys
@@ -67,12 +68,12 @@ if skill:
 
 required = [
     "README.md","LICENSE","DISCLAIMER.md","SECURITY.md","CONTRIBUTING.md","agents/openai.yaml",
-    "docs/EXECUTIVE-AUDIT.md","docs/TOOLING-AUDIT.md","docs/PRESENTATION.md","docs/RESEARCH-STACK.md",
+    "docs/EXECUTIVE-AUDIT.md","docs/TOOLING-AUDIT.md","docs/PRESENTATION.md","docs/RESEARCH-STACK.md","docs/RELEASE-GATE.md",
     "references/sources-ar.md","references/bank-discovery.md","references/money-and-blockers.md",
-    "references/decision-tree.md","references/evidence-protocol.md","references/escalation-playbook.md",
+    "references/decision-tree.md","references/evidence-protocol.md","references/escalation-playbook.md","references/special-cases.md","references/post-close.md",
     "references/jurisprudencia.md","references/integrations.md","references/client-setup.md",
-    "references/public-web-research.md","references/source-integrity.md","registry/sources.json","registry/tooling.json","registry/case-law.json",
-    "evals/scenarios.json","evals/README.md",
+    "references/public-web-research.md","references/source-integrity.md","registry/sources.json","registry/tooling.json","registry/case-law.json","registry/legal-watch.json","registry/case-state.schema.json","registry/release-gate.json",
+    "evals/scenarios.json","evals/README.md","evals/behavioral-run.schema.json","evals/runs/README.md","banks/README.md","banks/profile.schema.json","examples/case-synthetic/README.md","examples/case-synthetic/handoff.json","examples/case-synthetic/timeline.md",
 ]
 for path in required:
     read(path)
@@ -190,10 +191,83 @@ except Exception as exc:
     fail(f"case-law registry validation failed: {exc}")
 
 try:
+    state_schema=json.loads((ROOT/"registry/case-state.schema.json").read_text(encoding="utf-8"))
+    props=state_schema.get("properties",{})
+    if props.get("case_state",{}).get("enum") != list("ABCDEFG"):
+        fail("case-state schema must preserve A-G exactly")
+    if props.get("response_mode",{}).get("enum") != ["FAST","LIVE","FORENSIC"]:
+        fail("case-state schema response_mode must be FAST/LIVE/FORENSIC")
+    evidence_enum=props.get("evidence_classes_present",{}).get("items",{}).get("enum")
+    if evidence_enum != ["FACT","BANK_CLAIM","USER_CLAIM","INFERENCE","OPEN_GAP"]:
+        fail("case-state schema evidence classes drifted")
+except Exception as exc:
+    fail(f"case-state schema validation failed: {exc}")
+
+try:
+    watch=json.loads((ROOT/"registry/legal-watch.json").read_text(encoding="utf-8"))
+    core_ids={item.get("id") for item in reg.get("core",[])}
+    watched={item.get("source_id") for item in watch.get("sources",[])}
+    if watched != core_ids:
+        fail(f"legal-watch ids must exactly match core source ids: watched={sorted(watched)} core={sorted(core_ids)}")
+    sha_re_local=re.compile(r"^[0-9a-f]{64}$")
+    for item in watch.get("sources",[]):
+        for key in ("relevant_section","local_claim"):
+            if not isinstance(item.get(key),str) or not item.get(key).strip():
+                fail(f"legal-watch {item.get('source_id')} missing {key}")
+        local_hash=str(item.get("local_claim_sha256",""))
+        if not sha_re_local.fullmatch(local_hash):
+            fail(f"legal-watch {item.get('source_id')} invalid local_claim_sha256")
+        elif hashlib.sha256(item["local_claim"].encode("utf-8")).hexdigest() != local_hash:
+            fail(f"legal-watch {item.get('source_id')} local_claim fingerprint mismatch")
+        strategy=item.get("strategy")
+        if strategy not in {"full_content","semantic_text_windows","availability_only"}:
+            fail(f"legal-watch {item.get('source_id')} invalid strategy {strategy!r}")
+        if strategy=="full_content":
+            remote=item.get("expected_remote_sha256")
+            if not sha_re_local.fullmatch(str(remote or "")):
+                fail(f"legal-watch {item.get('source_id')} full_content baseline missing/invalid")
+        elif strategy=="semantic_text_windows":
+            needles=item.get("semantic_needles")
+            if not isinstance(needles,list) or not needles or not all(isinstance(x,str) and x.strip() for x in needles):
+                fail(f"legal-watch {item.get('source_id')} semantic_needles missing")
+            if not sha_re_local.fullmatch(str(item.get("expected_semantic_sha256") or "")):
+                fail(f"legal-watch {item.get('source_id')} semantic baseline missing/invalid")
+except Exception as exc:
+    fail(f"legal-watch registry validation failed: {exc}")
+
+try:
+    gate=json.loads((ROOT/"registry/release-gate.json").read_text(encoding="utf-8"))
+    gates={item.get("id"):item.get("status") for item in gate.get("gates",[])}
+    if gates.get("repository-ci") not in {"PASS","PENDING"}:
+        fail("release gate repository-ci status invalid")
+    if gates.get("source-integrity") not in {"PASS","PENDING","PASS_WITH_LEGAL_WATCH_BASELINE_PENDING"}:
+        fail("release gate source-integrity status invalid")
+    if gates.get("behavioral-evals") not in {"NOT_RUN","PASS"}:
+        fail("release gate behavioral-evals status invalid")
+    if gates.get("immutable-release") not in {"PENDING","PASS"}:
+        fail("release gate immutable-release status invalid")
+    if gates.get("behavioral-evals")!="PASS" and gate.get("status")!="BLOCKED":
+        fail("release gate must remain BLOCKED until behavioral evals PASS")
+    if gate.get("status")=="READY" and any(gates.get(k)!="PASS" for k in ("repository-ci","source-integrity","behavioral-evals","immutable-release")):
+        fail("release gate cannot be READY before all release-critical gates PASS")
+except Exception as exc:
+    fail(f"release-gate validation failed: {exc}")
+
+try:
+    synthetic=(ROOT/"examples/case-synthetic")
+    joined="\n".join(p.read_text(encoding="utf-8",errors="ignore") for p in synthetic.rglob("*") if p.is_file())
+    if re.search(r"(?<!\d)\d{8,}(?!\d)", joined):
+        fail("synthetic example contains an 8+ digit numeric sequence; keep examples obviously synthetic")
+    if "Banco Ejemplo" not in joined or "ficticio" not in joined.lower():
+        fail("synthetic example must be explicitly marked fictitious")
+except Exception as exc:
+    fail(f"synthetic-example validation failed: {exc}")
+
+try:
     ev=json.loads((ROOT/"evals/scenarios.json").read_text(encoding="utf-8"))
     families=ev.get("families",[])
-    if len(families)<33:
-        fail(f"expected >=33 adversarial eval specifications, got {len(families)}")
+    if len(families)<43:
+        fail(f"expected >=43 adversarial eval specifications, got {len(families)}")
     if ev.get("version") != manifest_version:
         fail(f"eval version {ev.get('version')!r} != manifest version {manifest_version!r}")
     legal_baseline=ev.get("legal_baseline") or {}
@@ -313,9 +387,14 @@ print(f"- skill lines: {len(skill.splitlines())}")
 print("- local links: pass")
 print("- JSON: pass")
 print(f"- adversarial eval specifications: {len(families)} (structure pass)")
-print("- behavioral agent eval execution: NOT RUN")
+gate_now=json.loads((ROOT/"registry/release-gate.json").read_text(encoding="utf-8"))
+behavioral_status={x.get("id"):x.get("status") for x in gate_now.get("gates",[])}.get("behavioral-evals","UNKNOWN")
+print(f"- behavioral agent eval execution: {behavioral_status}")
 print("- registry/provenance invariants: pass")
 print("- verified case-law registry: pass")
+print("- case-state schema + special/post-close scaffolding: pass")
+print("- legal-watch registry: structure pass")
+print("- synthetic-example privacy lint: pass")
 print("- zero-cost tooling policy: pass")
 print("- OpenAI metadata strict-subset parse: pass")
 print("- secret scan: pass")

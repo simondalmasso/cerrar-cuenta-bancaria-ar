@@ -2,34 +2,41 @@
 """Public-source integrity/provenance checks.
 
 This is NOT a legal-freshness or legal-validity certifier.
-It checks transport/content identity for CORE sources and immutable
-package metadata/artifact hashes for pinned optional PyPI integrations.
+It checks transport/content identity for CORE sources, emits explicit
+LEGAL_REAUDIT_REQUIRED warnings on watched legal-source drift, and validates
+immutable package metadata/artifact hashes for pinned optional PyPI integrations.
 """
 from __future__ import annotations
 
+import hashlib
 import json
+import re
 import sys
 import urllib.error
 import urllib.parse
 import urllib.request
+from html.parser import HTMLParser
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 REG = json.loads((ROOT / "registry/sources.json").read_text(encoding="utf-8"))
-UA = "cerrar-cuenta-bancaria-ar-source-integrity/1.1.1 (+https://github.com/simondalmasso/cerrar-cuenta-bancaria-ar)"
+WATCH = json.loads((ROOT / "registry/legal-watch.json").read_text(encoding="utf-8"))
+WATCH_BY_ID = {item["source_id"]: item for item in WATCH.get("sources", [])}
+UA = "cerrar-cuenta-bancaria-ar-source-integrity/1.2.0-dev (+https://github.com/simondalmasso/cerrar-cuenta-bancaria-ar)"
 
 FAILURES: list[str] = []
 WARNINGS: list[str] = []
+LEGAL_REAUDIT: list[str] = []
 
-def request(url: str, *, max_bytes: int = 262144, accept: str = "*/*"):
+def request(url: str, *, max_bytes: int | None = 262144, accept: str = "*/*"):
     req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": accept}, method="GET")
     try:
         with urllib.request.urlopen(req, timeout=25) as r:
             status = int(getattr(r, "status", 200))
-            body = r.read(max_bytes)
+            body = r.read() if max_bytes is None else r.read(max_bytes)
             return status, r.geturl(), dict(r.headers.items()), body
     except urllib.error.HTTPError as exc:
-        body = exc.read(max_bytes) if exc.fp else b""
+        body = exc.read() if (exc.fp and max_bytes is None) else (exc.read(max_bytes) if exc.fp else b"")
         return int(exc.code), exc.geturl(), dict(exc.headers.items()) if exc.headers else {}, body
 
 def lower_header(headers: dict[str, str], key: str) -> str:
@@ -38,14 +45,57 @@ def lower_header(headers: dict[str, str], key: str) -> str:
             return str(v)
     return ""
 
+
+class VisibleTextParser(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.parts: list[str] = []
+        self._skip = 0
+    def handle_starttag(self, tag, attrs):
+        if tag.lower() in {"script","style","noscript"}:
+            self._skip += 1
+    def handle_endtag(self, tag):
+        if tag.lower() in {"script","style","noscript"} and self._skip:
+            self._skip -= 1
+    def handle_data(self, data):
+        if not self._skip:
+            self.parts.append(data)
+
+def normalized_visible_text(body: bytes) -> str:
+    parser = VisibleTextParser()
+    parser.feed(body.decode("utf-8", errors="ignore"))
+    return re.sub(r"\s+", " ", " ".join(parser.parts)).strip().lower()
+
+def semantic_window_fingerprint(text: str, needles: list[str], radius: int = 220) -> tuple[str | None, list[str]]:
+    windows = []
+    missing = []
+    for raw in needles:
+        needle = re.sub(r"\s+", " ", raw).strip().lower()
+        idx = text.find(needle)
+        if idx < 0:
+            missing.append(raw)
+            continue
+        start = max(0, idx-radius)
+        end = min(len(text), idx+len(needle)+radius)
+        windows.append(text[start:end])
+    if missing:
+        return None, missing
+    joined = "\n---\n".join(windows)
+    return hashlib.sha256(joined.encode("utf-8")).hexdigest(), []
+
 def normalize_repo_url(url: str) -> str:
     u = url.strip().lower().rstrip("/")
     return u[:-4] if u.endswith(".git") else u
 
+def legal_reaudit(source_id: str, reason: str) -> None:
+    msg = f"LEGAL_REAUDIT_REQUIRED {source_id}: {reason}"
+    LEGAL_REAUDIT.append(msg)
+    WARNINGS.append(msg)
+
 print("CORE SOURCE INTEGRITY")
 for item in REG.get("core", []):
     try:
-        status, final_url, headers, body = request(item["url"])
+        status, final_url, headers, body = request(item["url"], max_bytes=None)
         reasons: list[str] = []
         if not 200 <= status < 300:
             reasons.append(f"HTTP {status} (CORE requires 2xx)")
@@ -60,12 +110,71 @@ for item in REG.get("core", []):
         prefixes = [x.lower() for x in item.get("content_type_prefixes", [])]
         if prefixes and not any(ctype.startswith(x) for x in prefixes):
             reasons.append(f"unexpected Content-Type: {ctype or '<missing>'}")
-        text = body.decode("utf-8", errors="ignore").lower()
+        text_body = body.decode("utf-8", errors="ignore").lower()
         if body.startswith(b"%PDF"):
-            text = "%pdf\n" + text
+            text_body = "%pdf\n" + text_body
         markers = [m.lower() for m in item.get("body_markers_any", [])]
-        if markers and not any(m in text for m in markers):
+        if markers and not any(m in text_body for m in markers):
             reasons.append("expected content marker not found")
+
+        watch = WATCH_BY_ID.get(item["id"])
+        if watch:
+            local_claim = watch.get("local_claim", "")
+            local_expected = watch.get("local_claim_sha256")
+            local_observed = hashlib.sha256(local_claim.encode("utf-8")).hexdigest()
+            if local_expected != local_observed:
+                legal_reaudit(item["id"], f"local legal-claim fingerprint drift {local_expected!r} -> {local_observed}")
+
+            strategy = watch.get("strategy", "availability_only")
+            etag = lower_header(headers, "ETag") or None
+            last_modified = lower_header(headers, "Last-Modified") or None
+
+            if strategy == "full_content":
+                remote_sha = hashlib.sha256(body).hexdigest()
+                print(
+                    f"  OBSERVED legal-watch {item['id']} strategy=full_content "
+                    f"sha256={remote_sha} etag={etag!r} last_modified={last_modified!r} "
+                    f"section={watch.get('relevant_section')!r}"
+                )
+                expected_sha = watch.get("expected_remote_sha256")
+                if not expected_sha:
+                    legal_reaudit(item["id"], f"remote SHA-256 baseline missing; observed {remote_sha}")
+                elif expected_sha != remote_sha:
+                    legal_reaudit(item["id"], f"remote content SHA-256 changed {expected_sha} -> {remote_sha}")
+
+                expected_etag = watch.get("expected_etag")
+                if expected_etag and etag and expected_etag != etag:
+                    legal_reaudit(item["id"], f"ETag changed {expected_etag!r} -> {etag!r}")
+                expected_lm = watch.get("expected_last_modified")
+                if expected_lm and last_modified and expected_lm != last_modified:
+                    legal_reaudit(item["id"], f"Last-Modified changed {expected_lm!r} -> {last_modified!r}")
+
+            elif strategy == "semantic_text_windows":
+                visible = normalized_visible_text(body)
+                semantic_sha, missing = semantic_window_fingerprint(visible, watch.get("semantic_needles", []))
+                print(
+                    f"  OBSERVED legal-watch {item['id']} strategy=semantic_text_windows "
+                    f"semantic_sha256={semantic_sha!r} missing={missing!r} "
+                    f"section={watch.get('relevant_section')!r}"
+                )
+                if missing:
+                    legal_reaudit(item["id"], "semantic anchors missing: " + ", ".join(missing))
+                else:
+                    expected_semantic = watch.get("expected_semantic_sha256")
+                    if not expected_semantic:
+                        legal_reaudit(item["id"], f"semantic fingerprint baseline missing; observed {semantic_sha}")
+                    elif expected_semantic != semantic_sha:
+                        legal_reaudit(item["id"], f"semantic text-window fingerprint changed {expected_semantic} -> {semantic_sha}")
+
+            elif strategy == "availability_only":
+                print(
+                    f"  OBSERVED legal-watch {item['id']} strategy=availability_only "
+                    f"etag={etag!r} last_modified={last_modified!r} "
+                    f"section={watch.get('relevant_section')!r}"
+                )
+            else:
+                reasons.append(f"unknown legal-watch strategy: {strategy!r}")
+
         if reasons:
             FAILURES.append(item["id"])
             print(f"- {item['id']}: FAIL — " + "; ".join(reasons))
@@ -80,13 +189,21 @@ for item in REG.get("optional_mcp", []):
     pkg = item["id"]
     version = item["pinned_version"]
     try:
-        latest_status, _, _, latest_body = request(f"https://pypi.org/pypi/{pkg}/json", max_bytes=1024*1024, accept="application/json")
+        latest_status, _, _, latest_body = request(
+            f"https://pypi.org/pypi/{pkg}/json",
+            max_bytes=1024*1024,
+            accept="application/json",
+        )
         if latest_status == 200:
             latest = json.loads(latest_body.decode("utf-8"))["info"].get("version")
             if latest and latest != version:
                 WARNINGS.append(f"{pkg}: newer PyPI version {latest} exists; pin remains {version}")
 
-        status, _, _, body = request(f"https://pypi.org/pypi/{pkg}/{version}/json", max_bytes=1024*1024, accept="application/json")
+        status, _, _, body = request(
+            f"https://pypi.org/pypi/{pkg}/{version}/json",
+            max_bytes=1024*1024,
+            accept="application/json",
+        )
         if status != 200:
             raise RuntimeError(f"pinned PyPI metadata returned HTTP {status}")
         data = json.loads(body.decode("utf-8"))
@@ -146,7 +263,10 @@ for item in REG.get("optional_mcp", []):
             FAILURES.append(pkg)
             print(f"- {pkg}=={version}: FAIL — " + "; ".join(mismatches))
         else:
-            print(f"- {pkg}=={version}: OK — metadata + dependency set + artifact SHA-256/yanked state match; source repo HTTP {src_status}")
+            print(
+                f"- {pkg}=={version}: OK — metadata + dependency set + "
+                f"artifact SHA-256/yanked state match; source repo HTTP {src_status}"
+            )
     except Exception as exc:
         FAILURES.append(pkg)
         print(f"- {pkg}=={version}: FAIL — {type(exc).__name__}: {exc}")
@@ -176,4 +296,8 @@ if FAILURES:
     sys.exit(1)
 
 print("\nSOURCE INTEGRITY PASS")
-print("NOTE: this validates availability/provenance/content markers, not legal freshness or legal interpretation.")
+if LEGAL_REAUDIT:
+    print("LEGAL WATCH: re-audit required before stable release.")
+else:
+    print("LEGAL WATCH: baseline matched; no legal re-audit trigger.")
+print("NOTE: this detects source drift but does not decide legal freshness or legal interpretation.")

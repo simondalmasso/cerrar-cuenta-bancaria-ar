@@ -1,0 +1,187 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/simondalmasso/cerrar-cuenta-bancaria-ar/registry/case-state.schema.json",
+  "title": "cerrar-cuenta-bancaria-ar case handoff",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "case_state",
+    "response_mode",
+    "open_gaps",
+    "next_action",
+    "post_close_status"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "case_state": {
+      "enum": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G"
+      ]
+    },
+    "response_mode": {
+      "enum": [
+        "FAST",
+        "LIVE",
+        "FORENSIC"
+      ]
+    },
+    "product_type": {
+      "enum": [
+        "deposit_account",
+        "current_account",
+        "salary_account",
+        "package",
+        "other",
+        "unknown"
+      ]
+    },
+    "currencies": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 3,
+        "maxLength": 12
+      },
+      "uniqueItems": true
+    },
+    "balance_state": {
+      "enum": [
+        "positive",
+        "zero",
+        "negative",
+        "mixed",
+        "unknown"
+      ]
+    },
+    "request_status": {
+      "enum": [
+        "not_requested",
+        "pending",
+        "rejected_with_cause",
+        "rejected_ambiguous",
+        "closed_reported",
+        "closed_verified",
+        "unknown"
+      ]
+    },
+    "evidence_classes_present": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "FACT",
+          "BANK_CLAIM",
+          "USER_CLAIM",
+          "INFERENCE",
+          "OPEN_GAP"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "open_gaps": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "next_action": {
+      "type": "string",
+      "minLength": 1
+    },
+    "post_close_status": {
+      "enum": [
+        "not_applicable",
+        "not_started",
+        "monitoring",
+        "clear",
+        "issue_found"
+      ]
+    },
+    "special_case_flags": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "coholder",
+          "attorney_in_fact",
+          "deceased_holder",
+          "minor",
+          "embargo_or_inhibition",
+          "judicially_blocked",
+          "abroad"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "handoff_note": {
+      "type": "string"
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "claim_type",
+          "capture",
+          "reported_actor",
+          "summary"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^E-[0-9]{3,}$"
+          },
+          "claim_type": {
+            "enum": [
+              "FACT",
+              "BANK_CLAIM",
+              "USER_CLAIM",
+              "INFERENCE",
+              "OPEN_GAP"
+            ]
+          },
+          "capture": {
+            "enum": [
+              "direct",
+              "user_recollection",
+              "system_record",
+              "none"
+            ]
+          },
+          "reported_actor": {
+            "enum": [
+              "user",
+              "bank",
+              "third_party",
+              "system",
+              "unknown"
+            ]
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  },
+  "x-state-labels": {
+    "A": "Preparación",
+    "B": "Solicitud presentada",
+    "C": "Rechazo con causa identificada",
+    "D": "Rechazo ambiguo / loop",
+    "E": "Controversia económica",
+    "F": "Cierre informado",
+    "G": "Cierre verificado"
+  }
+}

@@ -21,6 +21,7 @@ Este documento es la ruta corta para revisar o presentar el proyecto sin recorre
 5. [../references/jurisprudencia.md](../references/jurisprudencia.md) — controversias y antecedentes verificados.
 6. [EXECUTIVE-AUDIT.md](EXECUTIVE-AUDIT.md) — assurance y riesgos.
 7. [TOOLING-AUDIT.md](TOOLING-AUDIT.md) — por qué el core sigue en USD 0.
+8. [RELEASE-GATE.md](RELEASE-GATE.md) — qué falta objetivamente para llamar estable a v1.2.0.
 
 ## Demo de 5 minutos
 
@@ -60,7 +61,7 @@ El proyecto separa tres capas:
 - `USD 0` de costo obligatorio.
 - sesiones bancarias autenticadas: prohibidas.
 - secretos/OTP/PIN/CVV: prohibidos.
-- 33 especificaciones adversariales estructurales.
+- 43 especificaciones adversariales estructurales.
 - CI valida repositorio e instaladores.
 - source-integrity controla fuentes oficiales y provenance PyPI.
 - jurisprudencia incorporada solo desde publicación judicial oficial.
@@ -69,7 +70,7 @@ El proyecto separa tres capas:
 
 **Probado por CI:** estructura, JSON, links locales, provenance, parsers de instaladores, escenarios adversariales como especificaciones y batería real-Git del updater.
 
-**No probado automáticamente:** que una norma siga jurídicamente vigente por el solo hecho de que la URL responda; que un modelo concreto cumpla conductualmente las 33 specs; que un banco cierre efectivamente el producto.
+**No probado automáticamente:** que una norma siga jurídicamente vigente por el solo hecho de que la URL responda; que un modelo concreto cumpla conductualmente las 43 specs; que un banco cierre efectivamente el producto.
 
 ## Repo map
 
@@ -81,7 +82,10 @@ references/                 conocimiento operativo y jurídico
   jurisprudencia.md         cuándo usar fallos
 registry/
   sources.json              fuentes/provenance
+  legal-watch.json          fingerprints + re-audit trigger
+  case-state.schema.json    handoff A–G / FAST-LIVE-FORENSIC
   case-law.json             jurisprudencia verificada
+  release-gate.json         estado de salida estable
   tooling.json              tooling opcional
 assets/templates/           intake y guiones
 evals/                      especificaciones adversariales
@@ -102,4 +106,4 @@ Porque discovery no es autoridad. El proyecto prefiere redundancia a nivel host 
 No. Los fallos funcionan como antecedentes contextuales en controversias; la skill no promete resultado, no representa al usuario y no sustituye análisis profesional.
 
 **¿Está listo para release?**  
-Está en `1.2.0-dev`. Para release faltan decisión explícita, tag inmutable y, si se desea elevar assurance, ejecución conductual cross-model.
+No todavía. Está en `1.2.0-dev`: el gap explícito es ejecutar behavioral evals reales sobre un host/modelo y, recién con todos los gates verdes, crear tag/release inmutable.
