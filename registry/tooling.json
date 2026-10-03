@@ -90,6 +90,28 @@
         "ai_features_need_configured_provider",
         "agpl_copyleft_surface_unnecessary_for_mit_core"
       ]
+    },
+    {
+      "id": "cloudflare-security-audit-skill",
+      "url": "https://github.com/cloudflare/security-audit-skill",
+      "observed_head": "c1c8a8c1471069fb0e188eeaff69b8e8db6564a8",
+      "license": "MIT",
+      "role": "security_audit_methodology_reference",
+      "decision": "concept_only_no_runtime_dependency",
+      "hard_dependency": false,
+      "code_imported": false,
+      "adopted_patterns": [
+        "independent_candidate_verification",
+        "confirmed_needs_validation_rejected_separation",
+        "coverage_led_audit",
+        "evidence_first_no_padding"
+      ],
+      "rejected_runtime_reasons": [
+        "requires_parallel_subagents_for_full_workflow",
+        "requires_node_for_its_validators",
+        "requires_os_enforced_sandbox_for_target_execution",
+        "maintainer_audit_method_not_bank_runtime"
+      ]
     }
   ]
 }
