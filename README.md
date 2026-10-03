@@ -16,7 +16,7 @@ Skill abierta, gratuita y vendor-neutral para que **cualquier agente de IA** gu�
 | Operaciones de dinero | **Prohibidas** |
 | Fuentes core | BCRA + Argentina.gob.ar + fuente oficial del banco |
 | Integraciones externas | Opcionales y degradables |
-| Eval suite | 54 especificaciones adversariales; no certificación conductual |
+| Eval suite | 54 especificaciones adversariales; primer run real GLM-5.3 = 53/54 (S7 FAIL) |
 | Manifest | v1.2.0-dev (unreleased) |
 
 ### Ruta rápida
@@ -25,7 +25,7 @@ Si hubiera que presentar o revisar el proyecto en una hora, empezar por [docs/PR
 
 ### Release readiness
 
-El estado machine-readable está en [registry/release-gate.json](registry/release-gate.json) y la explicación humana en [docs/RELEASE-GATE.md](docs/RELEASE-GATE.md). Mientras `behavioral-evals` siga `NOT_RUN`, **no** llamar estable a `1.2.0`.
+El estado machine-readable está en [registry/release-gate.json](registry/release-gate.json) y la explicación humana en [docs/RELEASE-GATE.md](docs/RELEASE-GATE.md). Ya existe un run real GLM-5.3: **53/54**, con S7 fallando; por eso `behavioral-evals = FAIL` y **no** corresponde llamar estable a `1.2.0`.
 
 ### Documentos de auditoría
 
