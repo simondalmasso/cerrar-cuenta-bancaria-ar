@@ -21,7 +21,7 @@ El estado conductual siempre está ligado al commit exacto evaluado. Un `FAIL` p
 
 ### Runs históricos
 
-Los runs de commits anteriores se conservan únicamente como evidencia de regresión en [../evals/runs/](../evals/runs/). No definen el gate del candidato actual. Si cambia la skill, el contrato de evals o cualquier comportamiento relevante, `behavioral-evals` vuelve a `NOT_RUN` hasta una ejecución completa sobre el nuevo commit.
+Los runs de commits anteriores se conservan únicamente como evidencia de regresión en [../evals/runs/](../evals/runs/). El historial incluye un 53/54 y un **54/54 PASS sobre `c9780c58213e8a98e00cacc8b61d3c7f77655836`**. No definen el gate del candidato actual. Si cambia el candidato, `behavioral-evals` vuelve a `NOT_RUN` hasta una ejecución completa sobre el nuevo commit.
 
 
 No aceptar como evidencia:
