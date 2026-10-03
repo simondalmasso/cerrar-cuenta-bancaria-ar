@@ -31,7 +31,6 @@ The supplied list contained duplicates; each unique project/service was reviewed
 | microsoft/playwright | Apache-2.0; active | JS rendering/testing | **ACCEPT optional local, public read-only only** |
 | NikolaiT/GoogleScraper | Apache-2.0; last push 2021 | search-engine scraping | REJECT — stale/fragile/unnecessary |
 | Ryze-AI-Adgent/open-seo-mcp-skills | MIT skills; connector/data-account dependencies | SEO | REJECT — unrelated |
-| Panniantong/Agent-Reach | MIT; broad web/social capability; some channels use sessions/cookies/proxies | general web reach | REJECT — authenticated/session scope exceeds this skill |
 | citrolabs/ego-lite | MIT; shares real browser logins/cookies with agents | browser automation | **REJECT HARD** — directly conflicts with authenticated-browser prohibition |
 | skydive-project/skydive | Apache-2.0 | network topology/protocol analyzer | REJECT — unrelated |
 | h4ckf0r0day/obscura | Apache-2.0; active | headless browser for agents/scraping | REJECT — action/browser surface unnecessary |
