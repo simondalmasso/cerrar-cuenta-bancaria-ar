@@ -16,12 +16,16 @@ Skill abierta, gratuita y vendor-neutral para que **cualquier agente de IA** gu�
 | Operaciones de dinero | **Prohibidas** |
 | Fuentes core | BCRA + Argentina.gob.ar + fuente oficial del banco |
 | Integraciones externas | Opcionales y degradables |
-| Eval suite | 33 especificaciones adversariales; no certificación conductual |
+| Eval suite | 43 especificaciones adversariales; no certificación conductual |
 | Manifest | v1.2.0-dev (unreleased) |
 
 ### Ruta rápida
 
 Si hubiera que presentar o revisar el proyecto en una hora, empezar por [docs/PRESENTATION.md](docs/PRESENTATION.md). Para investigación multi-motor y criterio de herramientas: [docs/RESEARCH-STACK.md](docs/RESEARCH-STACK.md).
+
+### Release readiness
+
+El estado machine-readable está en [registry/release-gate.json](registry/release-gate.json) y la explicación humana en [docs/RELEASE-GATE.md](docs/RELEASE-GATE.md). Mientras `behavioral-evals` siga `NOT_RUN`, **no** llamar estable a `1.2.0`.
 
 ### Documentos de auditoría
 
@@ -41,6 +45,14 @@ Si hubiera que presentar o revisar el proyecto en una hora, empezar por [docs/PR
 - arma timeline y paquete de evidencia;
 - escala banco → responsable de usuario → BCRA cuando corresponde;
 - usa jurisprudencia oficial verificada solo si la controversia lo necesita.
+
+## Modos de respuesta
+
+- **FAST**: respuesta operativa corta.
+- **LIVE**: frase inmediata para chat/llamada, antes de cualquier explicación.
+- **FORENSIC**: expediente, fuentes, timeline, hipótesis y gaps.
+
+El handoff mínimo entre agentes usa [registry/case-state.schema.json](registry/case-state.schema.json). Casos especiales y post-cierre están separados en referencias para no contaminar el flujo normal.
 
 ## Qué NO hace
 
@@ -122,6 +134,10 @@ Ver [references/public-web-research.md](references/public-web-research.md).
 
 Ver [references/sources-ar.md](references/sources-ar.md). Para controversias, [references/jurisprudencia.md](references/jurisprudencia.md) y el registro estructurado [registry/case-law.json](registry/case-law.json).
 
+## Ejemplo y perfiles opcionales
+
+El único ejemplo incluido es [examples/case-synthetic/](examples/case-synthetic/): completamente ficticio y sin datos de usuarios. El core no hardcodea bancos; [banks/profile.schema.json](banks/profile.schema.json) define cómo podrían agregarse perfiles públicos opcionales sin convertirlos en protagonistas.
+
 ## Instalación rápida
 
 Con Git:
@@ -139,7 +155,7 @@ Ver [references/client-setup.md](references/client-setup.md).
 
 ## Calidad
 
-`python scripts/validate_repo.py` valida estructura, referencias locales, JSON, provenance registry, consistencia de versión, 33 especificaciones adversariales y secretos accidentales. **No ejecuta un modelo ni certifica conducta.** El mismo chequeo corre en GitHub Actions. Un workflow separado verifica disponibilidad/integridad de fuentes y artefactos fijados; no certifica vigencia jurídica.
+`python scripts/validate_repo.py` valida estructura, referencias locales, JSON, provenance registry, handoff A–G, legal-watch, ejemplos sintéticos, consistencia de versión, 43 especificaciones adversariales y secretos accidentales. **No ejecuta un modelo ni certifica conducta.** El mismo chequeo corre en GitHub Actions. Un workflow separado verifica disponibilidad/integridad de fuentes y artefactos fijados; no certifica vigencia jurídica.
 
 ## Diseño de seguridad
 
