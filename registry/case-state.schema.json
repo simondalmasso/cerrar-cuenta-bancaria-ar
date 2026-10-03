@@ -123,6 +123,65 @@
     },
     "handoff_note": {
       "type": "string"
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "claim_type",
+          "capture",
+          "reported_actor",
+          "summary"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^E-[0-9]{3,}$"
+          },
+          "claim_type": {
+            "enum": [
+              "FACT",
+              "BANK_CLAIM",
+              "USER_CLAIM",
+              "INFERENCE",
+              "OPEN_GAP"
+            ]
+          },
+          "capture": {
+            "enum": [
+              "direct",
+              "user_recollection",
+              "system_record",
+              "none"
+            ]
+          },
+          "reported_actor": {
+            "enum": [
+              "user",
+              "bank",
+              "third_party",
+              "system",
+              "unknown"
+            ]
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
     }
+  },
+  "x-state-labels": {
+    "A": "Preparación",
+    "B": "Solicitud presentada",
+    "C": "Rechazo con causa identificada",
+    "D": "Rechazo ambiguo / loop",
+    "E": "Controversia económica",
+    "F": "Cierre informado",
+    "G": "Cierre verificado"
   }
 }
