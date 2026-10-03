@@ -6,11 +6,11 @@ Este documento es la ruta corta para revisar o presentar el proyecto sin recorre
 
 **Problema:** cerrar una cuenta bancaria argentina puede entrar en loops por saldos, productos vinculados, cargos residuales, requisitos mal explicados o derivaciones contradictorias.
 
-**Producto:** una Agent Skill vendor-neutral que investiga la regla aplicable, clasifica el caso, prepara la acción humana mínima, conserva evidencia y escala cuando corresponde.
+**Producto:** una Agent Skill independiente del proveedor que investiga la regla aplicable, clasifica el caso, prepara la acción humana mínima, conserva evidencia y escala cuando corresponde.
 
 **Límite deliberado:** la IA no entra al banco, no recibe credenciales, no mueve dinero y no presenta trámites por el usuario.
 
-**Arquitectura:** core estático, cero dependencias obligatorias, fuentes oficiales primero, research/browser tooling opcional y read-only.
+**Arquitectura:** núcleo estático, cero dependencias obligatorias, fuentes oficiales primero, herramientas opcionales de investigación/navegación en modo solo lectura.
 
 ## Ruta de lectura recomendada
 
@@ -20,10 +20,10 @@ Este documento es la ruta corta para revisar o presentar el proyecto sin recorre
 4. [../references/sources-ar.md](../references/sources-ar.md) — baseline normativo.
 5. [../references/jurisprudencia.md](../references/jurisprudencia.md) — controversias y antecedentes verificados.
 6. [EXECUTIVE-AUDIT.md](EXECUTIVE-AUDIT.md) — assurance y riesgos.
-7. [TOOLING-AUDIT.md](TOOLING-AUDIT.md) — por qué el core sigue en USD 0.
+7. [TOOLING-AUDIT.md](TOOLING-AUDIT.md) — por qué el núcleo sigue en USD 0.
 8. [RELEASE-GATE.md](RELEASE-GATE.md) — qué falta objetivamente para llamar estable a v1.2.0.
 9. [ARENA-AUDIT-RESPONSE.md](ARENA-AUDIT-RESPONSE.md) — qué hallazgos externos fueron confirmados, corregidos o rechazados con evidencia.
-10. [GEMINI-AUDIT-RESPONSE.md](GEMINI-AUDIT-RESPONSE.md) — disposición independiente del segundo hostile audit y sus hardenings aceptados.
+10. [GEMINI-AUDIT-RESPONSE.md](GEMINI-AUDIT-RESPONSE.md) — disposición independiente del segunda auditoría hostil y sus correcciones aceptadas.
 
 ## Demo sugerida
 
@@ -34,10 +34,10 @@ Escenario recomendado:
 La skill debería:
 1. clasificar el producto y verificar si es cuenta corriente/depósito;
 2. separar saldo, intereses, impuestos y cargos;
-3. no asumir que el pago cerró automáticamente el blocker;
+3. no asumir que el pago resolvió automáticamente el bloqueo;
 4. pedir causa exhaustiva y estado de la solicitud anterior;
 5. evitar repetir indefinidamente la misma baja;
-6. producir texto de reclamo y timeline;
+6. producir texto de reclamo y cronología;
 7. escalar con evidencia si corresponde.
 
 Esto muestra el valor diferencial: **diagnóstico + evidencia + próxima acción**, no automatización bancaria.
@@ -63,14 +63,14 @@ El proyecto separa tres capas:
 - `USD 0` de costo obligatorio.
 - sesiones bancarias autenticadas: prohibidas.
 - secretos/OTP/PIN/CVV: prohibidos.
-- 54 especificaciones adversariales con contrato de ejecución/verificación; el candidato actual todavía necesita su run completo.
+- 54 especificaciones adversariales con contrato de ejecución/verificación; el candidato actual todavía necesita su ejecución completa.
 - CI valida repositorio e instaladores.
-- source-integrity controla fuentes oficiales y provenance PyPI.
+- source-integrity controla fuentes oficiales y procedencia de artefactos PyPI.
 - jurisprudencia incorporada solo desde publicación judicial oficial.
 
 ## Qué está probado y qué no
 
-**Probado por CI:** estructura, JSON, links locales, provenance, parsers de instaladores, escenarios adversariales como especificaciones y batería real-Git del updater.
+**Probado por CI:** estructura, JSON, enlaces locales, procedencia, parsers de instaladores, escenarios adversariales como especificaciones y batería real-Git del updater.
 
 **No probado automáticamente:** que una norma siga jurídicamente vigente por el solo hecho de que la URL responda; que un banco cierre efectivamente el producto. **Behavioral:** existe un run histórico GLM-5.3 sobre un commit anterior, pero el candidato actual todavía no fue ejecutado de punta a punta.
 
@@ -83,17 +83,17 @@ references/                 conocimiento operativo y jurídico
   decision-tree.md          ramas del caso
   jurisprudencia.md         cuándo usar fallos
 registry/
-  sources.json              fuentes/provenance
+  sources.json              fuentes/procedencia
   legal-watch.json          fingerprints + re-audit trigger
   case-state.schema.json    handoff A–G / FAST-LIVE-FORENSIC
   review-playbook.json       stage gates FORENSIC sin score legal
   case-law.json             jurisprudencia verificada
   release-gate.json         estado de salida estable
-  tooling.json              tooling opcional
+  tooling.json              herramientas opcionales
 assets/templates/           intake y guiones
 evals/                      especificaciones adversariales
 scripts/                    validación e integrity checks
-docs/                       auditoría, tooling, research y presentación
+docs/                       auditoría, herramientas, investigación y presentación
 install/                    instalación conservadora
 ```
 
