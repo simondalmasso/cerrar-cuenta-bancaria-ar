@@ -29,16 +29,25 @@ Repository-controlled configuration now includes:
 - installer red-team regression tests;
 - provenance checks for optional PyPI artifacts.
 
-## What still lives in GitHub settings
+## GitHub settings — verified active
 
-The following cannot be guaranteed by files alone:
+Administrator review completed on **2026-10-03**.
 
-- branch protection / repository rulesets;
-- secret scanning and push protection;
-- private vulnerability reporting;
-- Dependabot security alerts.
+Verified repository settings:
 
-For an administrator using GitHub CLI, the reviewed helper can be used as an **operator tool**:
+- active ruleset **24426791 — Protect main** targeting `refs/heads/main`;
+- branch deletion blocked;
+- non-fast-forward updates blocked;
+- changes to `main` require a pull request;
+- required status check: `validate`;
+- secret scanning: **enabled**;
+- push protection: **enabled**;
+- private vulnerability reporting: **enabled**;
+- Dependabot security updates: **enabled**.
+
+These controls live in GitHub settings rather than in the repository tree, so the evidence is recorded in `registry/release-gate.json`.
+
+For an administrator using GitHub CLI, the reviewed helper can still be used as an **operator tool**:
 
 ```bash
 gh extension install GitHubSecurityLab/gh-secure
@@ -48,10 +57,12 @@ gh secure --repo simondalmasso/cerrar-cuenta-bancaria-ar --dry-run
 
 Only after reviewing the dry run should an administrator choose whether to apply settings.
 
-Current API-visible state during this audit:
+Current administrator-verified state:
 - repository is public;
-- no repository rulesets were returned;
-- the connected GitHub integration could not read legacy branch-protection settings, so absence of branch protection is **not** inferred from that 403.
+- ruleset `24426791` is active on `main`;
+- secret scanning and push protection are enabled;
+- private vulnerability reporting is enabled;
+- Dependabot security updates are enabled.
 
 ## Strix
 
@@ -78,7 +89,7 @@ A stable release should require:
 - normal CI PASS;
 - CodeQL workflow PASS for the candidate commit or a documented reason it was not applicable;
 - no known committed secret;
-- repository security settings reviewed by an administrator;
+- repository security settings reviewed by an administrator — **PASS 2026-10-03**;
 - behavioral eval gate completed separately.
 
 
