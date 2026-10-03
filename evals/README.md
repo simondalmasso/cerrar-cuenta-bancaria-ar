@@ -13,7 +13,7 @@ El CI distingue explícitamente:
 - **structure pass**;
 - estado real del gate conductual leído desde `registry/release-gate.json`.
 
-Mientras no exista un run real completo, el estado correcto es **NOT_RUN**. Si existe un run real completo pero falla uno o más escenarios, el estado correcto es **FAIL**.
+El estado se define **por commit candidato**. Para un commit sin run completo, el estado correcto es **NOT_RUN**. Si ese mismo commit tiene un run completo con uno o más fallos, es **FAIL**; si cambia el comportamiento o el contrato de evals después, el nuevo commit vuelve a **NOT_RUN** hasta su propio run completo.
 
 ## Runner por host
 
