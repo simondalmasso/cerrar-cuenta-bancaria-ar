@@ -10,6 +10,7 @@ on:
       - "registry/sources.json"
       - "registry/legal-watch.json"
       - "registry/case-law.json"
+      - "registry/release-gate.json"
       - "scripts/check_source_integrity.py"
       - "references/source-integrity.md"
       - "references/sources-ar.md"
