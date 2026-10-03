@@ -32,8 +32,8 @@ The review was useful, but findings were rechecked before implementation. Severi
 
 At the time of that audit, this work did **not** turn the project into a stable release. The then-open gates were:
 
-- repository-security administrator review: pending at that time;
-- behavioral evals: NOT_RUN at that time;
+- repository-security administrator review: not yet completed at that time;
+- behavioral evals: had not yet been executed at that time;
 - immutable `v1.2.0` tag/release: pending at that time.
 
 Current status is intentionally not duplicated here; use the release-gate files linked above.
