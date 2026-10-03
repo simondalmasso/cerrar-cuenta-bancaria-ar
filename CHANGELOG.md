@@ -29,7 +29,8 @@
 - registered Strix as optional external security assurance only, with explicit-authorization/credit safeguards;
 - Arena hostile-audit follow-up: made legal drift blocking, added live official case-law identity checks, expanded prompt-injection/precedent-misuse specs to 52, enforced text-only tracked content, and tightened workflow write-permission policy;
 - Gemini hostile-audit follow-up: replaced permissive PDF-presence acceptance with pinned SHA-256 identity, bound handoffs to privacy-safe product refs, enforced strict UTF-8 regular tracked files, and expanded adversarial specs to 54;
-- reviewed `cc-thinking-skills`, Agent-Reach, last30days, InsForge, Decision 2.0, Cloudflare `security-audit-skill`, and Agent Beacon; adopted only Cloudflare's independent-verification/coverage-led audit methodology conceptually, with no new runtime dependency or mandatory cost.
+- reviewed `cc-thinking-skills`, Agent-Reach, last30days, InsForge, Decision 2.0, Cloudflare `security-audit-skill`, and Agent Beacon; adopted only Cloudflare's independent-verification/coverage-led audit methodology conceptually, with no new runtime dependency or mandatory cost;
+- added bounded retries for transient source-integrity transport failures after a real CSJN timeout on main, while keeping final failures and identity/content mismatches release-blocking.
 
 ## Earlier unreleased external-audit preparation
 
