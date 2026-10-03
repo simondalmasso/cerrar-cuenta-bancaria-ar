@@ -1,37 +1,38 @@
 # cerrar-cuenta-bancaria-ar
 
-Skill abierta, gratuita y vendor-neutral para que **cualquier agente de IA** guíe a una persona humana en el cierre de una cuenta bancaria en Argentina —banco público o privado— con normativa, evidencia, diagnóstico de bloqueos y escalamiento.
+Agent Skill abierta y vendor-neutral para guiar a personas humanas en el cierre de cuentas bancarias en Argentina. Contrasta fuentes oficiales, diagnostica bloqueos, prepara mensajes y reclamos, y organiza evidencia; **la IA guía y la persona opera**.
 
-> **Aviso legal:** este proyecto es informativo y no constituye asesoramiento jurídico, financiero ni profesional. La IA guía; la persona decide y opera. Ver [DISCLAIMER.md](DISCLAIMER.md).
+> **Aviso legal:** proyecto informativo. No constituye asesoramiento jurídico, financiero ni profesional. Ver [DISCLAIMER.md](DISCLAIMER.md).
 
-## Estado ejecutivo
+## Resumen
 
 | Control | Estado |
 |---|---|
 | Jurisdicción | Argentina |
-| Scope principal | Personas humanas / usuarios de servicios financieros |
-| Core runtime dependencies | **0** |
+| Alcance | Personas humanas / usuarios de servicios financieros |
+| Dependencias obligatorias del core | **0** |
 | Costo obligatorio | **USD 0** |
-| Home banking / sesión autenticada | **Prohibido** |
-| Operaciones de dinero | **Prohibidas** |
-| Fuentes core | BCRA + Argentina.gob.ar + fuente oficial del banco |
+| Operaciones bancarias/autenticadas por IA | **Prohibidas** |
+| Fuentes principales | BCRA + Argentina.gob.ar + sitio oficial del banco |
 | Integraciones externas | Opcionales y degradables |
-| Eval suite | 54 especificaciones adversariales + contrato/verificador; run del candidato actual pendiente |
-| Manifest | v1.2.0-dev (unreleased) |
+| Evaluaciones | 54 escenarios adversariales + contrato/verificador; run completo del candidato actual pendiente |
+| Versión | **1.2.0-dev** — sin release estable todavía |
 
-### Ruta rápida
+### Ruta de revisión
 
-Si hubiera que presentar o revisar el proyecto en una hora, empezar por [docs/PRESENTATION.md](docs/PRESENTATION.md). Para investigación multi-motor y criterio de herramientas: [docs/RESEARCH-STACK.md](docs/RESEARCH-STACK.md).
+- [Guía de presentación y arquitectura](docs/PRESENTATION.md)
+- [Estado de publicación](docs/RELEASE-GATE.md)
+- [Política de investigación y herramientas](docs/RESEARCH-STACK.md)
 
-### Release readiness
+### Estado de publicación
 
-El estado machine-readable está en [registry/release-gate.json](registry/release-gate.json) y la explicación humana en [docs/RELEASE-GATE.md](docs/RELEASE-GATE.md). El candidato actual cambió después del primer run conductual histórico, por lo que ese resultado **no define el gate actual**. `behavioral-evals` permanece `NOT_RUN` hasta ejecutar S1–S54 contra el commit candidato vigente.
+El estado canónico está en [registry/release-gate.json](registry/release-gate.json). El candidato actual todavía requiere un run conductual completo S1–S54 sobre su commit exacto; hasta entonces no corresponde publicar `v1.2.0` como estable.
 
 ### Documentos de auditoría
 
 - [Executive audit](docs/EXECUTIVE-AUDIT.md)
-- [Arena hostile-audit response](docs/ARENA-AUDIT-RESPONSE.md)
-- [Gemini hostile-audit response](docs/GEMINI-AUDIT-RESPONSE.md)
+- [Arena hostile-audit response — histórico](docs/ARENA-AUDIT-RESPONSE.md)
+- [Gemini hostile-audit response — histórico](docs/GEMINI-AUDIT-RESPONSE.md)
 - [Tooling audit / zero-cost review](docs/TOOLING-AUDIT.md)
 - [Aviso legal](DISCLAIMER.md)
 - [Modelo de seguridad](SECURITY.md)
@@ -181,6 +182,6 @@ Eso permite usar la skill incluso en escenarios financieros sensibles sin delega
 
 ## Estado
 
-v1.2.0-dev — hardening posterior a auditoría adversarial; todavía **sin tag/release**. La próxima release debe fijar un tag inmutable sobre el commit aprobado.
+**1.2.0-dev** — candidato en validación. No existe todavía un tag/release estable; `v1.2.0` solo se publica cuando todos los gates del candidato exacto estén en PASS.
 
 Antes de usar una regla jurídica material, el agente debe volver a verificar la fuente oficial si dispone de acceso actualizado.
