@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "checked_at": "2026-10-02",
+  "checked_at": "2026-10-03",
   "policy": {
     "purpose": "case-law support for disputed bank-closure cases",
     "primary_rule_source": "BCRA/official regulation remains primary for operational closure rights",
@@ -30,7 +30,15 @@
         "necesidad de encuadre general de consumidor bancario"
       ],
       "limits": "No establece por sí solo el canal ni los requisitos para cerrar una cuenta; es un precedente marco sobre contratos bancarios de consumo.",
-      "official_url": "https://sjservicios.csjn.gov.ar/sj/verTomo?tomoId=428"
+      "official_url": "https://sjservicios.csjn.gov.ar/sj/verTomo?tomoId=428",
+      "verification_urls": [
+        "https://sjservicios.csjn.gov.ar/sj/verTomo?tomoId=428"
+      ],
+      "verification_markers_any": [
+        "Prevención, Asesoramiento y Defensa del Consumidor",
+        "BankBoston",
+        "PADEC"
+      ]
     },
     {
       "id": "caba-schvind-cfa-2024",
@@ -57,7 +65,16 @@
       ],
       "limits": "Caso individual con hechos probados específicos; no convierte cualquier débito posterior en ilícito y exige analizar devengamiento, notificación y prueba.",
       "official_url": "https://juristeca.jusbaires.gob.ar/buscador-juristeca/busqueda-avanzada-de-jurisprudencia/?accion=sumarios-del-fallo&id=55539",
-      "official_full_text": "https://juristeca.jusbaires.gob.ar/fallos/55539.pdf"
+      "official_full_text": "https://juristeca.jusbaires.gob.ar/fallos/55539.pdf",
+      "verification_urls": [
+        "https://juristeca.jusbaires.gob.ar/fallos/55539.pdf",
+        "https://juristeca.jusbaires.gob.ar/buscador-juristeca/busqueda-avanzada-de-jurisprudencia/?accion=sumarios-del-fallo&id=55539"
+      ],
+      "verification_markers_any": [
+        "Schvind",
+        "234535/2021-0",
+        "Compañía Financiera Argentina"
+      ]
     },
     {
       "id": "pba-francoz-itau-2025",
@@ -85,7 +102,15 @@
         "hay impacto crediticio"
       ],
       "limits": "El producto central era tarjeta de crédito; usar por analogía probatoria y de trato/información, no para sustituir la regulación específica de cuentas.",
-      "official_url": "https://juba.scba.gov.ar/VerTextoCompleto.aspx?idFallo=194563"
+      "official_url": "https://juba.scba.gov.ar/VerTextoCompleto.aspx?idFallo=194563",
+      "verification_urls": [
+        "https://juba.scba.gov.ar/VerTextoCompleto.aspx?idFallo=194563"
+      ],
+      "verification_markers_any": [
+        "FRANCOZ GRISELDA LILIA",
+        "138.836",
+        "BANCO ITAU ARGENTINA"
+      ]
     },
     {
       "id": "cordoba-quiroga-itau-2019",
@@ -112,7 +137,15 @@
         "se discute información o documentación que está en poder del banco"
       ],
       "limits": "No es un caso de cierre de cuenta puro; sirve como apoyo para información, prácticas abusivas, evidencia y consecuencias de cargos no esperados.",
-      "official_url": "https://www.justiciacordoba.gob.ar/Estatico/justiciaCordoba/files/TSJ/boletin_judicial/CIVIL%20DA%C3%91O%20PUNITIVO%20DESTACADO%20DEFINITIVO.pdf"
+      "official_url": "https://www.justiciacordoba.gob.ar/Estatico/justiciaCordoba/files/TSJ/boletin_judicial/CIVIL%20DA%C3%91O%20PUNITIVO%20DESTACADO%20DEFINITIVO.pdf",
+      "verification_urls": [
+        "https://www.justiciacordoba.gob.ar/Estatico/justiciaCordoba/files/TSJ/boletin_judicial/CIVIL%20DA%C3%91O%20PUNITIVO%20DESTACADO%20DEFINITIVO.pdf"
+      ],
+      "verification_markers_any": [
+        "Quiroga Crespo",
+        "6079690",
+        "Banco Itaú Argentina"
+      ]
     },
     {
       "id": "caba-ciferri-santander-2025",
@@ -137,7 +170,16 @@
       ],
       "limits": "No define el derecho inicial al cierre ni el canal de baja; es útil para la etapa de incumplimiento de un acuerdo de consumo.",
       "official_url": "https://juristeca.jusbaires.gob.ar/buscador-juristeca/busqueda-avanzada-de-jurisprudencia/?accion=sumarios-del-fallo&id=61508",
-      "official_full_text": "https://juristeca.jusbaires.gob.ar/fallos/61508.pdf"
+      "official_full_text": "https://juristeca.jusbaires.gob.ar/fallos/61508.pdf",
+      "verification_urls": [
+        "https://juristeca.jusbaires.gob.ar/fallos/61508.pdf",
+        "https://juristeca.jusbaires.gob.ar/buscador-juristeca/busqueda-avanzada-de-jurisprudencia/?accion=sumarios-del-fallo&id=61508"
+      ],
+      "verification_markers_any": [
+        "Ciferri Nazareno",
+        "108374-2024-0",
+        "Banco Santander Río"
+      ]
     }
   ]
 }
