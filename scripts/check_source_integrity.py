@@ -10,10 +10,12 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 import sys
 import urllib.error
 import urllib.parse
 import urllib.request
+from html.parser import HTMLParser
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -42,6 +44,44 @@ def lower_header(headers: dict[str, str], key: str) -> str:
         if k.lower() == key.lower():
             return str(v)
     return ""
+
+
+class VisibleTextParser(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.parts: list[str] = []
+        self._skip = 0
+    def handle_starttag(self, tag, attrs):
+        if tag.lower() in {"script","style","noscript"}:
+            self._skip += 1
+    def handle_endtag(self, tag):
+        if tag.lower() in {"script","style","noscript"} and self._skip:
+            self._skip -= 1
+    def handle_data(self, data):
+        if not self._skip:
+            self.parts.append(data)
+
+def normalized_visible_text(body: bytes) -> str:
+    parser = VisibleTextParser()
+    parser.feed(body.decode("utf-8", errors="ignore"))
+    return re.sub(r"\s+", " ", " ".join(parser.parts)).strip().lower()
+
+def semantic_window_fingerprint(text: str, needles: list[str], radius: int = 220) -> tuple[str | None, list[str]]:
+    windows = []
+    missing = []
+    for raw in needles:
+        needle = re.sub(r"\s+", " ", raw).strip().lower()
+        idx = text.find(needle)
+        if idx < 0:
+            missing.append(raw)
+            continue
+        start = max(0, idx-radius)
+        end = min(len(text), idx+len(needle)+radius)
+        windows.append(text[start:end])
+    if missing:
+        return None, missing
+    joined = "\n---\n".join(windows)
+    return hashlib.sha256(joined.encode("utf-8")).hexdigest(), []
 
 def normalize_repo_url(url: str) -> str:
     u = url.strip().lower().rstrip("/")
@@ -85,28 +125,55 @@ for item in REG.get("core", []):
             if local_expected != local_observed:
                 legal_reaudit(item["id"], f"local legal-claim fingerprint drift {local_expected!r} -> {local_observed}")
 
-            remote_sha = hashlib.sha256(body).hexdigest()
+            strategy = watch.get("strategy", "availability_only")
             etag = lower_header(headers, "ETag") or None
             last_modified = lower_header(headers, "Last-Modified") or None
-            print(
-                f"  OBSERVED legal-watch {item['id']} "
-                f"sha256={remote_sha} etag={etag!r} last_modified={last_modified!r} "
-                f"section={watch.get('relevant_section')!r}"
-            )
 
-            expected_sha = watch.get("expected_remote_sha256")
-            if not expected_sha:
-                legal_reaudit(item["id"], f"remote SHA-256 baseline missing; observed {remote_sha}")
-            elif expected_sha != remote_sha:
-                legal_reaudit(item["id"], f"remote content SHA-256 changed {expected_sha} -> {remote_sha}")
+            if strategy == "full_content":
+                remote_sha = hashlib.sha256(body).hexdigest()
+                print(
+                    f"  OBSERVED legal-watch {item['id']} strategy=full_content "
+                    f"sha256={remote_sha} etag={etag!r} last_modified={last_modified!r} "
+                    f"section={watch.get('relevant_section')!r}"
+                )
+                expected_sha = watch.get("expected_remote_sha256")
+                if not expected_sha:
+                    legal_reaudit(item["id"], f"remote SHA-256 baseline missing; observed {remote_sha}")
+                elif expected_sha != remote_sha:
+                    legal_reaudit(item["id"], f"remote content SHA-256 changed {expected_sha} -> {remote_sha}")
 
-            expected_etag = watch.get("expected_etag")
-            if expected_etag and etag and expected_etag != etag:
-                legal_reaudit(item["id"], f"ETag changed {expected_etag!r} -> {etag!r}")
+                expected_etag = watch.get("expected_etag")
+                if expected_etag and etag and expected_etag != etag:
+                    legal_reaudit(item["id"], f"ETag changed {expected_etag!r} -> {etag!r}")
+                expected_lm = watch.get("expected_last_modified")
+                if expected_lm and last_modified and expected_lm != last_modified:
+                    legal_reaudit(item["id"], f"Last-Modified changed {expected_lm!r} -> {last_modified!r}")
 
-            expected_lm = watch.get("expected_last_modified")
-            if expected_lm and last_modified and expected_lm != last_modified:
-                legal_reaudit(item["id"], f"Last-Modified changed {expected_lm!r} -> {last_modified!r}")
+            elif strategy == "semantic_text_windows":
+                visible = normalized_visible_text(body)
+                semantic_sha, missing = semantic_window_fingerprint(visible, watch.get("semantic_needles", []))
+                print(
+                    f"  OBSERVED legal-watch {item['id']} strategy=semantic_text_windows "
+                    f"semantic_sha256={semantic_sha!r} missing={missing!r} "
+                    f"section={watch.get('relevant_section')!r}"
+                )
+                if missing:
+                    legal_reaudit(item["id"], "semantic anchors missing: " + ", ".join(missing))
+                else:
+                    expected_semantic = watch.get("expected_semantic_sha256")
+                    if not expected_semantic:
+                        legal_reaudit(item["id"], f"semantic fingerprint baseline missing; observed {semantic_sha}")
+                    elif expected_semantic != semantic_sha:
+                        legal_reaudit(item["id"], f"semantic text-window fingerprint changed {expected_semantic} -> {semantic_sha}")
+
+            elif strategy == "availability_only":
+                print(
+                    f"  OBSERVED legal-watch {item['id']} strategy=availability_only "
+                    f"etag={etag!r} last_modified={last_modified!r} "
+                    f"section={watch.get('relevant_section')!r}"
+                )
+            else:
+                reasons.append(f"unknown legal-watch strategy: {strategy!r}")
 
         if reasons:
             FAILURES.append(item["id"])
