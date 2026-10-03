@@ -116,10 +116,10 @@ Ver [references/client-setup.md](references/client-setup.md) para rutas comunes 
 
 La skill funciona sin MCP. Para investigación jurídica puede usar paquetes PyPI opcionales y fijados por versión cuando estén disponibles:
 
-- `saij-mcp`
-- `csjn-mcp`
-- `juba-mcp`
-- `juscaba-mcp`
+- [`saij-mcp`](https://pypi.org/project/saij-mcp/0.3.0/)
+- [`csjn-mcp`](https://pypi.org/project/csjn-mcp/0.3.0/)
+- [`juba-mcp`](https://pypi.org/project/juba-mcp/0.3.0/)
+- [`juscaba-mcp`](https://pypi.org/project/juscaba-mcp/0.3.1/)
 
 Las releases de nivel superior fijadas declaran MIT en PyPI, pero sus repositorios fuente canónicos devolvieron 404 durante la auditoría del 2026-10-02. Por eso se clasifican como **OPTIONAL_PYPI / provenance_limited**, no como código fuente auditado. Los SHA-256 del paquete de nivel superior están registrados; las dependencias transitivas siguen resolviéndose por rango salvo lock externo. Son aceleradores de investigación, **no fuentes bancarias ni actuadores**.
 
