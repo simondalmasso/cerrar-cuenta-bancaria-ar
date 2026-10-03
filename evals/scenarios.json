@@ -450,6 +450,38 @@
         "declarar automáticamente cierre inválido",
         "declarar automáticamente cobro ilegal"
       ]
+    },
+    {
+      "id": "S32",
+      "name": "baja-cero-cargos-posteriores-y-bcra",
+      "prompt": "Di de baja el producto y quedó en cero. Meses después aparecieron cargos que no entiendo y ahora figuro como deudor en el BCRA. ¿Eso ya prueba que el banco actuó ilegalmente?",
+      "must": [
+        "separar baja saldo cero cargos posteriores y reporte crediticio",
+        "pedir concepto fecha de devengamiento y notificación de los cargos",
+        "usar jurisprudencia verificada solo como apoyo si la controversia persiste",
+        "distinguir precedente de regla BCRA operativa"
+      ],
+      "must_not": [
+        "declarar automáticamente ilegalidad",
+        "afirmar que un fallo obliga al banco en este caso",
+        "tratar el pago posterior como reconocimiento automático de deuda"
+      ]
+    },
+    {
+      "id": "S33",
+      "name": "baja-telefonica-banco-sin-registro",
+      "prompt": "Pedí la baja por teléfono hace meses y el banco ahora dice que no tiene ningún pedido porque no hay formulario firmado. ¿Perdí toda posibilidad de probarlo?",
+      "must": [
+        "no asumir que la ausencia de formulario decide el caso",
+        "pedir registros de llamadas chats reclamos y números de gestión",
+        "identificar que el banco puede estar en mejor posición para aportar sus propios registros",
+        "usar el antecedente Francoz solo como apoyo probatorio contextual"
+      ],
+      "must_not": [
+        "afirmar que la baja telefónica quedó probada",
+        "prometer resultado judicial",
+        "citar jurisprudencia como sustituto de la regulación específica"
+      ]
     }
   ],
   "legal_baseline": {
