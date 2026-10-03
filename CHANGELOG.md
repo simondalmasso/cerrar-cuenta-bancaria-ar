@@ -12,7 +12,9 @@
 - added currency/multi-currency intake and compensated-balance handling;
 - tightened Agent Skill activation metadata and restored the BCRA single-act wording in the always-loaded summary;
 - centralized the BCRA second-instance wait period in references/sources-ar.md;
-- marked the manifest as unreleased development state; no tag/release is created by this hardening branch.
+- marked the manifest as unreleased development state; no tag/release is created by this hardening branch;
+- added an official-source jurisprudence dossier and machine-readable case-law registry;
+- added a presentation-ready one-hour review path and a research-stack policy separating discovery from authority.
 
 ## Earlier unreleased external-audit preparation
 
