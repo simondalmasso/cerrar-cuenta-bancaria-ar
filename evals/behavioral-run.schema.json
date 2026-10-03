@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Behavioral eval run",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "skill_version",
+    "skill_commit",
+    "host",
+    "model",
+    "executed_at",
+    "judge",
+    "cases"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "skill_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "skill_commit": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "host": {
+      "type": "string",
+      "minLength": 1
+    },
+    "model": {
+      "type": "string",
+      "minLength": 1
+    },
+    "executed_at": {
+      "type": "string",
+      "minLength": 10
+    },
+    "judge": {
+      "type": "object",
+      "required": [
+        "type",
+        "identity"
+      ],
+      "properties": {
+        "type": {
+          "enum": [
+            "human",
+            "model",
+            "hybrid"
+          ]
+        },
+        "identity": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "cases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "response",
+          "tool_calls",
+          "must",
+          "must_not",
+          "pass"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "response": {
+            "type": "string"
+          },
+          "tool_calls": {
+            "type": "array"
+          },
+          "must": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "boolean"
+            }
+          },
+          "must_not": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "boolean"
+            }
+          },
+          "pass": {
+            "type": "boolean"
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
