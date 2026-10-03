@@ -1,10 +1,10 @@
 # Executive audit
 
-**Audit date:** 2026-10-03  
-**Manifest version:** 1.2.0-dev (unreleased)  
-**Jurisdiction:** Argentina  
-**Primary subject:** personas humanas / usuarios de servicios financieros  
-**Core runtime dependencies:** 0  
+**Audit date:** 2026-10-03
+**Manifest version:** 1.2.0-dev (unreleased)
+**Jurisdiction:** Argentina
+**Primary subject:** personas humanas / usuarios de servicios financieros
+**Core runtime dependencies:** 0
 **Bank-operation capability:** intentionally none
 
 ## Executive summary
