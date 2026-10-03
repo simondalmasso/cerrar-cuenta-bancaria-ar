@@ -11,6 +11,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -19,6 +20,7 @@ ROOT = Path(__file__).resolve().parents[1]
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("run", type=Path)
+    ap.add_argument("--expected-commit", help="candidate commit SHA; defaults to current git HEAD")
     args = ap.parse_args()
 
     scenarios = json.loads((ROOT/"evals/scenarios.json").read_text(encoding="utf-8"))
@@ -33,6 +35,23 @@ def main() -> int:
         errors.append("skill_version does not match eval version")
     if not re.fullmatch(r"[0-9a-f]{40}", str(run.get("skill_commit",""))):
         errors.append("skill_commit must be a 40-char lowercase SHA")
+    expected_commit = args.expected_commit
+    if expected_commit is None:
+        try:
+            expected_commit = subprocess.run(
+                ["git","-C",str(ROOT),"rev-parse","HEAD"],
+                check=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.DEVNULL,
+                text=True,
+            ).stdout.strip()
+        except Exception:
+            expected_commit = None
+    if expected_commit is not None:
+        if not re.fullmatch(r"[0-9a-f]{40}", expected_commit):
+            errors.append("--expected-commit/current HEAD is not a 40-char lowercase SHA")
+        elif run.get("skill_commit") != expected_commit:
+            errors.append(f"skill_commit {run.get('skill_commit')!r} does not match expected candidate {expected_commit}")
     for key in ("host","model","executed_at"):
         if not isinstance(run.get(key),str) or not run[key].strip():
             errors.append(f"missing {key}")
@@ -77,8 +96,8 @@ def main() -> int:
         computed = bool(must) and all(must.values()) and bool(must_not) and all(must_not.values())
         if result.get("pass") is not computed:
             errors.append(f"{cid}: pass={result.get('pass')!r} inconsistent with verdicts")
-        if not isinstance(result.get("response"),str):
-            errors.append(f"{cid}: response must be a string")
+        if not isinstance(result.get("response"),str) or not result.get("response","").strip():
+            errors.append(f"{cid}: response must be a non-empty string")
         if not isinstance(result.get("tool_calls"),list):
             errors.append(f"{cid}: tool_calls must be a list")
 
