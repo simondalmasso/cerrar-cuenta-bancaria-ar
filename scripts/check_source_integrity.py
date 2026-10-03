@@ -20,6 +20,8 @@ import urllib.request
 from html.parser import HTMLParser
 from pathlib import Path
 
+from integrity_utils import verify_case_law_payload
+
 ROOT = Path(__file__).resolve().parents[1]
 REG = json.loads((ROOT / "registry/sources.json").read_text(encoding="utf-8"))
 WATCH = json.loads((ROOT / "registry/legal-watch.json").read_text(encoding="utf-8"))
@@ -195,7 +197,8 @@ for case in CASE_LAW.get("cases", []):
         continue
     try:
         urls = case.get("verification_urls") or [case.get("official_full_text") or case.get("official_url")]
-        markers = [m.lower() for m in case.get("verification_markers_any", [])]
+        markers = case.get("verification_markers_any", [])
+        pinned_pdf_hashes = case.get("verification_sha256_by_url", {})
         if not urls or not urls[0]:
             raise RuntimeError("no verification URL")
         matched = False
@@ -211,21 +214,29 @@ for case in CASE_LAW.get("cases", []):
                 continue
             final_host = (urllib.parse.urlparse(final_url).hostname or "").lower()
             if allowed_hosts and final_host not in allowed_hosts:
+                observations.append(f"unexpected host {final_host}")
                 continue
-            is_pdf = body.startswith(b"%PDF") or ctype == "application/pdf"
-            if is_pdf:
-                observed_pdf_sha = hashlib.sha256(body).hexdigest()
-                print(f"  OBSERVED case-law-pdf {cid} sha256={observed_pdf_sha} url={final_url}")
-            if is_pdf and case.get("verification_pdf_presence_ok") is True:
+
+            expected_sha = pinned_pdf_hashes.get(url) or pinned_pdf_hashes.get(final_url)
+            ok, identity = verify_case_law_payload(
+                body,
+                ctype,
+                expected_sha256=expected_sha,
+                markers_any=markers,
+            )
+            observations.append(identity)
+
+            if identity.startswith("pdf_sha256_mismatch:"):
+                raise RuntimeError(
+                    f"official case-law PDF drift for {url}: {identity}"
+                )
+            if ok:
                 matched = True
                 break
-            text_body = body.decode("utf-8", errors="ignore").lower()
-            if not markers or any(m in text_body for m in markers):
-                matched = True
-                break
+
         if not matched:
             raise RuntimeError("official case-law verification failed; " + "; ".join(observations))
-        print(f"- {cid}: OK — official source + identity marker matched")
+        print(f"- {cid}: OK — official source identity verified")
     except Exception as exc:
         FAILURES.append(cid)
         print(f"- {cid}: FAIL — {type(exc).__name__}: {exc}")
