@@ -28,10 +28,12 @@ The review was useful, but findings were rechecked before implementation. Severi
 - source-integrity identity logic has network-free unit regressions;
 - the case-state handoff uses privacy-safe local product refs instead of banking identifiers.
 
-## Release status
+## Estado de release en el momento de esa auditoría
 
-This work does **not** turn the project into a stable release. The remaining material gates are intentionally visible:
+At the time of that audit, this work did **not** turn the project into a stable release. The then-open gates were:
 
-- repository-security administrator review: pending;
-- behavioral evals: NOT_RUN;
-- immutable `v1.2.0` tag/release: pending.
+- repository-security administrator review: pending at that time;
+- behavioral evals: NOT_RUN at that time;
+- immutable `v1.2.0` tag/release: pending at that time.
+
+Current status is intentionally not duplicated here; use the release-gate files linked above.
