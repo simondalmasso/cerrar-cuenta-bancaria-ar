@@ -37,7 +37,22 @@ def main() -> int:
         if not isinstance(run.get(key),str) or not run[key].strip():
             errors.append(f"missing {key}")
 
-    for result in run.get("cases", []):
+    judge = run.get("judge")
+    if (
+        not isinstance(judge, dict)
+        or judge.get("type") not in {"human","model","hybrid"}
+        or not isinstance(judge.get("identity"), str)
+        or not judge.get("identity", "").strip()
+    ):
+        errors.append("judge must declare type=human/model/hybrid and non-empty identity")
+
+    if not isinstance(run.get("cases"), list):
+        errors.append("cases must be a list")
+        case_rows = []
+    else:
+        case_rows = run["cases"]
+
+    for result in case_rows:
         cid = result.get("id")
         if cid not in expected:
             errors.append(f"unknown case {cid!r}")
@@ -77,7 +92,7 @@ def main() -> int:
             print(f"- {err}")
         return 1
 
-    passed = sum(1 for r in run["cases"] if r["pass"])
+    passed = sum(1 for r in case_rows if r["pass"])
     total = len(expected)
     print("BEHAVIORAL EVAL RUN VERIFIED")
     print(f"- host: {run['host']}")
