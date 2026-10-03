@@ -15,7 +15,15 @@
 - marked the manifest as unreleased development state; no tag/release is created by this hardening branch;
 - added an official-source jurisprudence dossier and machine-readable case-law registry;
 - added two jurisprudence-backed dispute specs for post-closure charges/credit reporting and undocumented telephone cancellation;
-- added a presentation-ready one-hour review path and a research-stack policy separating discovery from authority.
+- added a presentation-ready one-hour review path and a research-stack policy separating discovery from authority;
+- added machine-readable A–G handoff schema and FAST/LIVE/FORENSIC response modes;
+- clarified unrecorded bank-call recollections without expanding the five-class evidence ontology;
+- added special-case branches for cotitulars, powers, death, minors, judicial measures and residence abroad;
+- added a post-close verification/monitoring protocol;
+- added semantic legal-source drift monitoring with `LEGAL_REAUDIT_REQUIRED`;
+- expanded adversarial specifications to 43;
+- added a real behavioral-eval evidence contract and explicit BLOCKED release gate until such runs exist;
+- added synthetic-only workflow examples and an optional bank-profile schema while keeping the core bank-neutral.
 
 ## Earlier unreleased external-audit preparation
 
