@@ -1,6 +1,6 @@
 # Integraciones de investigación
 
-Fecha de auditoría: **2026-10-02**.
+Fecha de revisión: **2026-10-03**.
 
 ## Decisión arquitectónica
 
