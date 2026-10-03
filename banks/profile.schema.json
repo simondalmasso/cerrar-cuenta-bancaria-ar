@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Optional bank discovery profile",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "bank_id",
+    "display_name",
+    "checked_at",
+    "official_domain",
+    "public_sources"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "bank_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "display_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "checked_at": {
+      "type": "string",
+      "format": "date"
+    },
+    "official_domain": {
+      "type": "string",
+      "minLength": 3
+    },
+    "public_sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "role",
+          "url"
+        ],
+        "properties": {
+          "role": {
+            "type": "string",
+            "minLength": 1
+          },
+          "url": {
+            "type": "string",
+            "pattern": "^https://"
+          }
+        }
+      }
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}
