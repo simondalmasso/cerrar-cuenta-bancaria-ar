@@ -7,6 +7,7 @@ Estado actual: **BLOCKED**. El proyecto sigue en `1.2.0-dev`.
 | Gate | Estado | Qué falta |
 |---|---|---|
 | Repository CI | PASS | mantener verde sobre el HEAD candidato |
+| Repository security baseline | PENDING/PASS | CodeQL candidate run + admin review of GitHub security settings |
 | Source integrity / legal watch | PASS cuando no haya `LEGAL_REAUDIT_REQUIRED` | revisar cualquier drift antes del tag |
 | Behavioral evals | **NOT RUN** | ejecutar los 45 escenarios en un host/modelo real y guardar evidencia verificable |
 | Privacy / synthetic examples | PASS | no incorporar datos reales |
@@ -46,3 +47,12 @@ Cuando todos los gates estén en PASS:
 3. registrar run behavioral aprobado para ese commit;
 4. crear tag inmutable `v1.2.0`;
 5. crear GitHub Release vinculada a ese SHA.
+
+
+## Repository security baseline
+
+Antes del tag estable:
+- CodeQL debe pasar sobre el candidato, o quedar documentado por qué no aplica;
+- ningún workflow puede usar Actions sin SHA inmutable;
+- el mantenedor debe revisar branch protection/rulesets, secret scanning/push protection y private vulnerability reporting;
+- un scan externo (por ejemplo Strix) es opcional, no requisito core.

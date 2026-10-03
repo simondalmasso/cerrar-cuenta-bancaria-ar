@@ -26,6 +26,15 @@
       "cost": "local_zero_monetary_cost",
       "role": "public_js_page_rendering",
       "policy": "render_only_no_authenticated_or_transactional_actions"
+    },
+    {
+      "id": "gh-secure",
+      "url": "https://github.com/GitHubSecurityLab/gh-secure",
+      "license": "MIT",
+      "cost": "free_for_open_source_security_features",
+      "role": "repository_security_settings_helper",
+      "policy": "operator_only_dry_run_first_no_runtime_dependency",
+      "hard_dependency": false
     }
   ],
   "accepted_conditional_services": [
@@ -42,6 +51,14 @@
       "cost": "free_public_search",
       "role": "regulatory_discovery",
       "hard_dependency": false
+    },
+    {
+      "id": "strix",
+      "url": "https://strix.ai/",
+      "cost": "may_consume_credits",
+      "role": "external_repository_security_assurance",
+      "hard_dependency": false,
+      "policy": "explicit_authorization_before_scans_repository_scope_only_no_banking_credentials"
     }
   ],
   "policy": {

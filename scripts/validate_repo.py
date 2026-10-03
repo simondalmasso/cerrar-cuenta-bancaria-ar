@@ -68,12 +68,12 @@ if skill:
 
 required = [
     "README.md","LICENSE","DISCLAIMER.md","SECURITY.md","CONTRIBUTING.md","agents/openai.yaml",
-    "docs/EXECUTIVE-AUDIT.md","docs/TOOLING-AUDIT.md","docs/PRESENTATION.md","docs/RESEARCH-STACK.md","docs/RELEASE-GATE.md",
+    "docs/EXECUTIVE-AUDIT.md","docs/TOOLING-AUDIT.md","docs/PRESENTATION.md","docs/RESEARCH-STACK.md","docs/RELEASE-GATE.md","docs/SECURITY-HARDENING.md",
     "references/sources-ar.md","references/bank-discovery.md","references/money-and-blockers.md",
     "references/decision-tree.md","references/evidence-protocol.md","references/escalation-playbook.md","references/special-cases.md","references/post-close.md","references/review-playbook.md",
     "references/jurisprudencia.md","references/integrations.md","references/client-setup.md",
     "references/public-web-research.md","references/source-integrity.md","registry/sources.json","registry/tooling.json","registry/case-law.json","registry/legal-watch.json","registry/case-state.schema.json","registry/review-playbook.json","registry/release-gate.json",
-    "evals/scenarios.json","evals/README.md","evals/behavioral-run.schema.json","evals/runs/README.md","banks/README.md","banks/profile.schema.json","examples/case-synthetic/README.md","examples/case-synthetic/handoff.json","examples/case-synthetic/timeline.md",
+    "evals/scenarios.json","evals/README.md","evals/behavioral-run.schema.json","evals/runs/README.md","banks/README.md","banks/profile.schema.json","examples/case-synthetic/README.md","examples/case-synthetic/handoff.json","examples/case-synthetic/timeline.md",".github/dependabot.yml",".github/workflows/security-codeql.yml",
 ]
 for path in required:
     read(path)
@@ -300,6 +300,8 @@ try:
     gates={item.get("id"):item.get("status") for item in gate.get("gates",[])}
     if gates.get("repository-ci") not in {"PASS","PENDING"}:
         fail("release gate repository-ci status invalid")
+    if gates.get("repository-security") not in {"PASS","PENDING"}:
+        fail("release gate repository-security status invalid")
     if gates.get("source-integrity") not in {"PASS","PENDING","PASS_WITH_LEGAL_WATCH_BASELINE_PENDING"}:
         fail("release gate source-integrity status invalid")
     if gates.get("behavioral-evals") not in {"NOT_RUN","PASS"}:
@@ -308,7 +310,7 @@ try:
         fail("release gate immutable-release status invalid")
     if gates.get("behavioral-evals")!="PASS" and gate.get("status")!="BLOCKED":
         fail("release gate must remain BLOCKED until behavioral evals PASS")
-    if gate.get("status")=="READY" and any(gates.get(k)!="PASS" for k in ("repository-ci","source-integrity","behavioral-evals","immutable-release")):
+    if gate.get("status")=="READY" and any(gates.get(k)!="PASS" for k in ("repository-ci","repository-security","source-integrity","behavioral-evals","immutable-release")):
         fail("release gate cannot be READY before all release-critical gates PASS")
 except Exception as exc:
     fail(f"release-gate validation failed: {exc}")
@@ -367,6 +369,43 @@ if manifest_version:
         fail(f"README does not mention manifest version {manifest_version}")
     if manifest_version not in changelog_text:
         fail(f"CHANGELOG does not mention manifest version {manifest_version}")
+
+
+# GitHub Actions supply-chain hardening.
+action_ref_re = re.compile(r"(?m)^\s*uses:\s*([^\s#]+)\s*$")
+sha40_re = re.compile(r"^[0-9a-f]{40}$")
+for wf in (ROOT/".github/workflows").glob("*.yml"):
+    txt=wf.read_text(encoding="utf-8")
+    if re.search(r"(?m)^\s*permissions:\s*write-all\s*$", txt):
+        fail(f"workflow must not use write-all permissions: {wf.relative_to(ROOT)}")
+    for ref in action_ref_re.findall(txt):
+        if ref.startswith("./"):
+            continue
+        if "@" not in ref:
+            fail(f"workflow action missing immutable ref: {wf.relative_to(ROOT)} -> {ref}")
+            continue
+        _, version=ref.rsplit("@",1)
+        if not sha40_re.fullmatch(version):
+            fail(f"workflow action must be pinned to 40-char commit SHA: {wf.relative_to(ROOT)} -> {ref}")
+
+dependabot_text=read(".github/dependabot.yml")
+if 'package-ecosystem: "github-actions"' not in dependabot_text:
+    fail("Dependabot must monitor github-actions")
+if 'interval: "weekly"' not in dependabot_text:
+    fail("Dependabot github-actions schedule must be weekly")
+
+codeql_text=read(".github/workflows/security-codeql.yml")
+for marker in (
+    "security-events: write",
+    "languages: python",
+    "github/codeql-action/init@",
+    "github/codeql-action/analyze@",
+    "persist-credentials: false",
+):
+    if marker not in codeql_text:
+        fail(f"CodeQL workflow missing required marker: {marker}")
+if re.search(r"(?m)^\s*contents:\s*write\s*$", codeql_text):
+    fail("CodeQL workflow must not have contents: write")
 
 privacy_protocol=read("references/evidence-protocol.md")
 case_intake=read("assets/templates/case-intake.md")
@@ -457,5 +496,6 @@ print("- deterministic case-review playbook: pass")
 print("- legal-watch registry: structure pass")
 print("- synthetic-example privacy lint: pass")
 print("- zero-cost tooling policy: pass")
+print("- GitHub Actions immutable-pin + Dependabot + CodeQL security baseline: pass")
 print("- OpenAI metadata strict-subset parse: pass")
 print("- secret scan: pass")

@@ -40,6 +40,8 @@ The supplied list contained duplicates; each unique project/service was reviewed
 | TheoLeeCJ/SemIf-OpenJev | MIT | local semantic decision/reranker | REJECT — unrelated decision layer |
 | browserbase/stagehand | MIT SDK; local use possible; model/browser cloud may introduce cost | extract + browser actions | REJECT — action surface/model dependency |
 | caiiiycuk/emulators / js-dos | GPL-2.0 for emulators repo; browser DOS/Win9x runtime | emulation | REJECT — unrelated |
+| gh-secure | MIT; GitHub Security Lab; free security features for public OSS | branch protection/PVR/secret scanning/Dependabot/CodeQL setup | **ACCEPT optional operator tool** — dry-run first; not runtime |
+| Strix | hosted/self-hosted security platform; scans may consume credits | code review, supply-chain and pentest assurance | **ACCEPT conditional** — explicit authorization before scans; repo scope only; never banking credentials |
 | Prism Legal OS | AGPL-3.0-only; Node 22 + PostgreSQL + Qdrant/object storage; AI features require configured provider and indexed search uses OpenAI | useful ideas: reusable review rulebooks, source-grounded review, saved checkpoints | **ADOPT CONCEPT ONLY** — no code/runtime dependency; independently implement a minimal case-review playbook |
 
 ## Why only three local web adapters were accepted
