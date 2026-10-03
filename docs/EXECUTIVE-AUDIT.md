@@ -33,7 +33,7 @@ The project is designed to remain useful with only `SKILL.md`, its local referen
 - GitHub Actions pinned by immutable SHA;
 - GitHub Actions immutable SHA enforcement in local validation;
 - Dependabot monitoring for Actions plus CodeQL Python scanning;
-- 52 adversarial scenario specifications separated from behavioral execution;
+- 54 adversarial scenario specifications separated from behavioral execution;
 - verified case-law registry limited to official judiciary publications, with explicit relevance and limits per precedent;
 - presentation/research navigation that separates authority from discovery tooling;
 - machine-readable A–G handoff plus FAST/LIVE/FORENSIC response modes;
