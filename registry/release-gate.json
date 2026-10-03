@@ -22,7 +22,7 @@
     {
       "id": "behavioral-evals",
       "status": "NOT_RUN",
-      "evidence": "No complete behavioral run exists for the current candidate commit. Historical evidence: GLM-5.3 executed 54 cases on ancestor e1fd5749442ab73c0c6f7c55992a5f356241ab4f with 53 PASS / 1 FAIL (S7), 705 recorded tool calls, full artifact SHA-256 b6eb13d68955228be42afd459368603d327de32252671b256634555c695e2f44. That run is retained as regression evidence only; after the S7 contract/skill change, the release gate reset to NOT_RUN and requires a fresh complete S1-S54 run on the exact current candidate."
+      "evidence": "No complete behavioral run exists for the current candidate commit. Historical runs are retained under evals/runs/ as regression evidence only and are never inherited across commits. A fresh complete S1-S54 run is required on the exact candidate SHA."
     },
     {
       "id": "immutable-release",
