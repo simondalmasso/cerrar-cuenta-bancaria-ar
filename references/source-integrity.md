@@ -11,7 +11,9 @@ Para fuentes CORE oficiales:
 2. host final permitido;
 3. path esperado;
 4. Content-Type esperado;
-5. marcador mínimo de contenido.
+5. marcador mínimo de contenido;
+6. `legal-watch` según estrategia: SHA-256 completo para PDFs normativos estables, ventanas semánticas para HTML dinámico y disponibilidad para directorios;
+7. fingerprint del resumen jurídico local (`local_claim`).
 
 Para paquetes PyPI opcionales fijados:
 1. versión;
@@ -27,7 +29,9 @@ Para paquetes PyPI opcionales fijados:
 Un resultado verde **no prueba** que:
 - una norma siga jurídicamente vigente;
 - la interpretación jurídica sea correcta;
-- un PDF oficial no haya cambiado de contenido manteniendo la misma URL.
+- una modificación textual sea jurídicamente material o inmaterial.
+
+Si cambia un fingerprint observado, el workflow emite `LEGAL_REAUDIT_REQUIRED`. Eso obliga a revisar la fuente y el resumen jurídico antes de rebaselinar; no declara por sí solo que la regla haya cambiado.
 
 Antes de una afirmación jurídica material, el agente debe volver a leer la fuente oficial aplicable.
 
@@ -43,3 +47,7 @@ Si una integración opcional falla, degradar a BCRA, Argentina.gob.ar, sitio ofi
 ## Revisión manual
 
 Los links de documentación de proveedores/hosts que puedan bloquear bots se revisan manualmente al menos en cada release y, si no hay release, trimestralmente. Un 403 de bot no se interpreta automáticamente como caída del recurso.
+
+## Registro de vigilancia
+
+`registry/legal-watch.json` guarda `checked_at`, sección relevante, estrategia, anclas semánticas cuando corresponden y fingerprints esperados. No editar un baseline solo para silenciar una alerta: primero verificar la fuente oficial y actualizar `references/sources-ar.md` si cambió la proposición jurídica.
