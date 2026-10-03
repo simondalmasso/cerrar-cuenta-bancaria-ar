@@ -3,8 +3,10 @@
 
 This is NOT a legal-freshness or legal-validity certifier.
 It checks transport/content identity for CORE sources, emits explicit
-LEGAL_REAUDIT_REQUIRED warnings on watched legal-source drift, and validates
-immutable package metadata/artifact hashes for pinned optional PyPI integrations.
+LEGAL_REAUDIT_REQUIRED findings on watched legal-source drift, verifies
+official case-law endpoints, and validates immutable package metadata/artifact
+hashes for pinned optional PyPI integrations. Any legal re-audit trigger exits
+non-zero so CI cannot report a green integrity gate until it is reviewed.
 """
 from __future__ import annotations
 
@@ -22,6 +24,7 @@ ROOT = Path(__file__).resolve().parents[1]
 REG = json.loads((ROOT / "registry/sources.json").read_text(encoding="utf-8"))
 WATCH = json.loads((ROOT / "registry/legal-watch.json").read_text(encoding="utf-8"))
 WATCH_BY_ID = {item["source_id"]: item for item in WATCH.get("sources", [])}
+CASE_LAW = json.loads((ROOT / "registry/case-law.json").read_text(encoding="utf-8"))
 UA = "cerrar-cuenta-bancaria-ar-source-integrity/1.2.0-dev (+https://github.com/simondalmasso/cerrar-cuenta-bancaria-ar)"
 
 FAILURES: list[str] = []
@@ -184,6 +187,40 @@ for item in REG.get("core", []):
         FAILURES.append(item["id"])
         print(f"- {item['id']}: FAIL — {type(exc).__name__}: {exc}")
 
+print("\nOFFICIAL CASE-LAW INTEGRITY")
+for case in CASE_LAW.get("cases", []):
+    cid = case.get("id", "<missing>")
+    if case.get("status") != "VERIFIED_OFFICIAL":
+        print(f"- {cid}: SKIP — status={case.get('status')!r}")
+        continue
+    try:
+        urls = case.get("verification_urls") or [case.get("official_full_text") or case.get("official_url")]
+        markers = [m.lower() for m in case.get("verification_markers_any", [])]
+        if not urls or not urls[0]:
+            raise RuntimeError("no verification URL")
+        matched = False
+        observations: list[str] = []
+        for url in urls:
+            if not url:
+                continue
+            status, final_url, headers, body = request(url, max_bytes=None)
+            ctype = lower_header(headers, "Content-Type").split(";", 1)[0].strip().lower()
+            observations.append(f"{status} {final_url}")
+            if not 200 <= status < 300:
+                continue
+            text_body = body.decode("utf-8", errors="ignore").lower()
+            if body.startswith(b"%PDF"):
+                text_body = "%pdf\n" + text_body
+            if not markers or any(m in text_body for m in markers):
+                matched = True
+                break
+        if not matched:
+            raise RuntimeError("official case-law verification failed; " + "; ".join(observations))
+        print(f"- {cid}: OK — official source + identity marker matched")
+    except Exception as exc:
+        FAILURES.append(cid)
+        print(f"- {cid}: FAIL — {type(exc).__name__}: {exc}")
+
 print("\nPINNED OPTIONAL PYPI PROVENANCE")
 for item in REG.get("optional_mcp", []):
     pkg = item["id"]
@@ -295,9 +332,12 @@ if FAILURES:
     print("\nSOURCE INTEGRITY FAILED: " + ", ".join(FAILURES))
     sys.exit(1)
 
-print("\nSOURCE INTEGRITY PASS")
 if LEGAL_REAUDIT:
-    print("LEGAL WATCH: re-audit required before stable release.")
-else:
-    print("LEGAL WATCH: baseline matched; no legal re-audit trigger.")
+    print("\nSOURCE INTEGRITY BLOCKED")
+    print("LEGAL WATCH: re-audit required before merge/release.")
+    print("NOTE: drift is not itself a legal conclusion; review and rebaseline only after verifying the official source.")
+    sys.exit(2)
+
+print("\nSOURCE INTEGRITY PASS")
+print("LEGAL WATCH: baseline matched; no legal re-audit trigger.")
 print("NOTE: this detects source drift but does not decide legal freshness or legal interpretation.")
