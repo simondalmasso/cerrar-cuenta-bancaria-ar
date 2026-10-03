@@ -21,9 +21,10 @@
 - added special-case branches for cotitulars, powers, death, minors, judicial measures and residence abroad;
 - added a post-close verification/monitoring protocol;
 - added semantic legal-source drift monitoring with `LEGAL_REAUDIT_REQUIRED`;
-- expanded adversarial specifications to 43;
+- expanded adversarial specifications to 45;
 - added a real behavioral-eval evidence contract and explicit BLOCKED release gate until such runs exist;
-- added synthetic-only workflow examples and an optional bank-profile schema while keeping the core bank-neutral.
+- added synthetic-only workflow examples and an optional bank-profile schema while keeping the core bank-neutral;
+- reviewed Prism Legal OS and adopted only its reusable-review-playbook concept: independently implemented stage-gate checks, no Prism code/runtime dependency, no legal compliance score.
 
 ## Earlier unreleased external-audit preparation
 

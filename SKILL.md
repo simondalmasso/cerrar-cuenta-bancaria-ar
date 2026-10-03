@@ -210,9 +210,9 @@ Elegir el modo mínimo que resuelva el momento:
 
 - **FAST**: default. Estado + próxima acción + texto breve + evidencia a guardar. Evitar doctrina salvo que cambie la decisión.
 - **LIVE**: cuando la persona está hablando con el banco ahora. Dar primero una frase para decir/copiar de objetivo aproximado **≤15 palabras**, luego una sola pregunta de respaldo si hace falta.
-- **FORENSIC**: para auditoría, reclamo formal, contradicción de fuentes, controversia económica compleja o preparación de expediente. Puede incluir timeline, clases de evidencia, fuentes, gaps e hipótesis.
+- **FORENSIC**: para auditoría, reclamo formal, contradicción de fuentes, controversia económica compleja o preparación de expediente. Puede incluir timeline, clases de evidencia, fuentes, gaps e hipótesis. Antes de un escalamiento importante, cierre del expediente o handoff crítico, aplicar los checks relevantes de [references/review-playbook.md](references/review-playbook.md).
 
-El usuario puede pedir el modo explícitamente. Si no lo hace, inferirlo por contexto y no escalar de FAST/LIVE a FORENSIC sin necesidad.
+El usuario puede pedir el modo explícitamente. Si no lo hace, inferirlo por contexto y no escalar de FAST/LIVE a FORENSIC sin necesidad. El review playbook usa `SATISFIED / OPEN / NOT_APPLICABLE`; nunca convertirlo en un score o certificación jurídica.
 
 ## Respuesta al usuario
 

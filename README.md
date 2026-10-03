@@ -16,7 +16,7 @@ Skill abierta, gratuita y vendor-neutral para que **cualquier agente de IA** gu�
 | Operaciones de dinero | **Prohibidas** |
 | Fuentes core | BCRA + Argentina.gob.ar + fuente oficial del banco |
 | Integraciones externas | Opcionales y degradables |
-| Eval suite | 43 especificaciones adversariales; no certificación conductual |
+| Eval suite | 45 especificaciones adversariales; no certificación conductual |
 | Manifest | v1.2.0-dev (unreleased) |
 
 ### Ruta rápida
@@ -53,6 +53,12 @@ El estado machine-readable está en [registry/release-gate.json](registry/releas
 - **FORENSIC**: expediente, fuentes, timeline, hipótesis y gaps.
 
 El handoff mínimo entre agentes usa [registry/case-state.schema.json](registry/case-state.schema.json). Casos especiales y post-cierre están separados en referencias para no contaminar el flujo normal.
+
+## Review playbook
+
+En modo **FORENSIC**, la skill puede aplicar un checklist estructurado por etapas antes de escalar, cerrar o hacer un handoff crítico. Usa `SATISFIED / OPEN / NOT_APPLICABLE`, sin porcentajes de “cumplimiento jurídico”. Ver [references/review-playbook.md](references/review-playbook.md) y [registry/review-playbook.json](registry/review-playbook.json).
+
+Este patrón fue incorporado como concepto después de revisar Prism Legal OS; no se agregó Prism como dependencia ni se copió su código.
 
 ## Qué NO hace
 
@@ -155,7 +161,7 @@ Ver [references/client-setup.md](references/client-setup.md).
 
 ## Calidad
 
-`python scripts/validate_repo.py` valida estructura, referencias locales, JSON, provenance registry, handoff A–G, legal-watch, ejemplos sintéticos, consistencia de versión, 43 especificaciones adversariales y secretos accidentales. **No ejecuta un modelo ni certifica conducta.** El mismo chequeo corre en GitHub Actions. Un workflow separado verifica disponibilidad/integridad de fuentes y artefactos fijados; no certifica vigencia jurídica.
+`python scripts/validate_repo.py` valida estructura, referencias locales, JSON, provenance registry, handoff A–G, review playbook, legal-watch, ejemplos sintéticos, consistencia de versión, 45 especificaciones adversariales y secretos accidentales. **No ejecuta un modelo ni certifica conducta.** El mismo chequeo corre en GitHub Actions. Un workflow separado verifica disponibilidad/integridad de fuentes y artefactos fijados; no certifica vigencia jurídica.
 
 ## Diseño de seguridad
 

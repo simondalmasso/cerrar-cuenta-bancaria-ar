@@ -1,6 +1,6 @@
 # Tooling audit — zero-cost / scope review
 
-**Date:** 2026-10-02  
+**Date:** 2026-10-03  
 **Rule:** no candidate becomes a required dependency. "Accepted" means optional capability only.
 
 The supplied list contained duplicates; each unique project/service was reviewed once.
@@ -40,6 +40,7 @@ The supplied list contained duplicates; each unique project/service was reviewed
 | TheoLeeCJ/SemIf-OpenJev | MIT | local semantic decision/reranker | REJECT — unrelated decision layer |
 | browserbase/stagehand | MIT SDK; local use possible; model/browser cloud may introduce cost | extract + browser actions | REJECT — action surface/model dependency |
 | caiiiycuk/emulators / js-dos | GPL-2.0 for emulators repo; browser DOS/Win9x runtime | emulation | REJECT — unrelated |
+| Prism Legal OS | AGPL-3.0-only; Node 22 + PostgreSQL + Qdrant/object storage; AI features require configured provider and indexed search uses OpenAI | useful ideas: reusable review rulebooks, source-grounded review, saved checkpoints | **ADOPT CONCEPT ONLY** — no code/runtime dependency; independently implement a minimal case-review playbook |
 
 ## Why only three local web adapters were accepted
 
@@ -60,3 +61,19 @@ See [../references/public-web-research.md](../references/public-web-research.md)
 Search/research connectors such as Exa, Parallel Search, Liner and Tavily can be useful as **discovery redundancy** when already available in the host. They are intentionally not dependencies and never outrank an official legal source. Undermind is useful for doctrine/scholarly context rather than case-law authority; Powerset Research is useful for evaluating repositories, not legal propositions.
 
 The operational policy is documented in [RESEARCH-STACK.md](RESEARCH-STACK.md).
+
+
+## Prism Legal OS — qué se integra
+
+Prism sí aporta una idea útil: separar la **lista reutilizable de checks** del resultado jurídico. Su patrón de rulebooks y revisión respaldada por fuentes encaja con el modo FORENSIC.
+
+No se integra el producto ni su código. El proyecto completo tiene otro alcance (gestión contractual/documental), una superficie operativa mucho mayor y licencia AGPL-3.0-only. Además, varias capacidades AI/RAG requieren proveedor configurado e infraestructura adicional.
+
+La adopción local es deliberadamente mínima e independiente:
+- `registry/review-playbook.json`: checks estructurados por etapa;
+- `references/review-playbook.md`: reglas de uso;
+- sin porcentajes de “cumplimiento jurídico”;
+- sin importar código, prompts ni plantillas de Prism;
+- sin nueva dependencia, servicio, credencial o costo obligatorio.
+
+Esto mantiene el core MIT, USD 0 y vendor-neutral.
