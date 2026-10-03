@@ -300,6 +300,8 @@ try:
     gates={item.get("id"):item.get("status") for item in gate.get("gates",[])}
     if gates.get("repository-ci") not in {"PASS","PENDING"}:
         fail("release gate repository-ci status invalid")
+    if gates.get("repository-security") not in {"PASS","PENDING"}:
+        fail("release gate repository-security status invalid")
     if gates.get("source-integrity") not in {"PASS","PENDING","PASS_WITH_LEGAL_WATCH_BASELINE_PENDING"}:
         fail("release gate source-integrity status invalid")
     if gates.get("behavioral-evals") not in {"NOT_RUN","PASS"}:
@@ -308,7 +310,7 @@ try:
         fail("release gate immutable-release status invalid")
     if gates.get("behavioral-evals")!="PASS" and gate.get("status")!="BLOCKED":
         fail("release gate must remain BLOCKED until behavioral evals PASS")
-    if gate.get("status")=="READY" and any(gates.get(k)!="PASS" for k in ("repository-ci","source-integrity","behavioral-evals","immutable-release")):
+    if gate.get("status")=="READY" and any(gates.get(k)!="PASS" for k in ("repository-ci","repository-security","source-integrity","behavioral-evals","immutable-release")):
         fail("release gate cannot be READY before all release-critical gates PASS")
 except Exception as exc:
     fail(f"release-gate validation failed: {exc}")
