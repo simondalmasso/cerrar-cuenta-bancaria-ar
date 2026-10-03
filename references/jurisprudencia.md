@@ -39,6 +39,10 @@ Ejemplos de impacto operativo:
 - Si la cuenta/producto quedó en cero y meses después aparecen cargos no explicados, **Schvind** justifica exigir composición, fecha de devengamiento, notificación y fundamento antes de tratar el pago como reconocimiento de deuda.
 - Si existe acuerdo conciliatorio incumplido, **Ciferri** vuelve relevante documentar vencimiento, pago tardío y ejecución del acuerdo.
 
+## Daño punitivo
+
+Los antecedentes que tratan daño punitivo **no** crean una indemnización automática ni una suma estándar. Es una cuestión judicial dependiente de hechos, prueba y jurisdicción. En reclamos administrativos, usar el antecedente solo para contextualizar la gravedad alegada o preservar evidencia; no prometer condena, no trasladar montos de otro expediente y no presentar una cifra como derecho adquirido.
+
 ## Jerarquía de búsqueda
 
 1. Corte Suprema / Secretaría de Jurisprudencia.
