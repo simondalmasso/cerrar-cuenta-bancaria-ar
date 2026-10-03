@@ -23,7 +23,7 @@ This response does **not** accept findings by severity label alone. Each claim w
 | P2-002 precedent could be used as norm | **ALREADY CONTROLLED / HARDENED** | SKILL and jurisprudence guide already forbid it; two additional precedent-misuse evals were added. |
 | P2-004 critical external links not checked | **PARTLY TRUE / FIXED FOR AUTHORITY LINKS** | Core legal sources and verified case-law endpoints are now live-checked. Generic documentation links are not promoted to legal release gates. |
 
-## Behavioral release blocker at audit time
+## Behavioral status at audit time
 
 At the time of this audit, the remaining material blocker was:
 
