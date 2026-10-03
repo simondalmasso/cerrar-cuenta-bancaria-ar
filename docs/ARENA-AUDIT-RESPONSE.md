@@ -1,10 +1,6 @@
 # Arena hostile-audit response — 2026-10-03
 
-> **Documento histórico.** Registra la disposición de hallazgos sobre el commit auditado en ese momento; **no describe el estado actual del release**. Para estado vigente usar [registry/release-gate.json](../registry/release-gate.json) y [RELEASE-GATE.md](RELEASE-GATE.md).
-
-## Documento histórico
-
-> **Documento histórico.** Registra el estado y los hallazgos al momento de esa auditoría; no representa el estado actual del candidato. Para el estado vigente usar [registry/release-gate.json](../registry/release-gate.json) y [RELEASE-GATE.md](RELEASE-GATE.md).
+> **Documento histórico.** Registra la disposición de hallazgos sobre el commit auditado en ese momento; **no describe el estado actual del release**. Para el estado vigente usar [registry/release-gate.json](../registry/release-gate.json) y [RELEASE-GATE.md](RELEASE-GATE.md).
 
 External audit target: `7319259bb4fc7a1281d752dea590f237cacac11e`.
 
@@ -27,7 +23,7 @@ This response does **not** accept findings by severity label alone. Each claim w
 | P2-002 precedent could be used as norm | **ALREADY CONTROLLED / HARDENED** | SKILL and jurisprudence guide already forbid it; two additional precedent-misuse evals were added. |
 | P2-004 critical external links not checked | **PARTLY TRUE / FIXED FOR AUTHORITY LINKS** | Core legal sources and verified case-law endpoints are now live-checked. Generic documentation links are not promoted to legal release gates. |
 
-## Behavioral release blocker
+## Estado de release en el momento de esa auditoría
 
 The remaining material blocker is intentionally visible:
 
