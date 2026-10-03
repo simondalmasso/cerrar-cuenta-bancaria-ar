@@ -1,6 +1,6 @@
 {
   "schema_version": "1.2",
-  "checked_at": "2026-10-02",
+  "checked_at": "2026-10-03",
   "core": [
     {
       "id": "bcra-pusf",
@@ -177,7 +177,8 @@
       "requires_dist": [
         "mcp>=1.0.0"
       ],
-      "package_url": "https://pypi.org/project/saij-mcp/0.3.0/"
+      "package_url": "https://pypi.org/project/saij-mcp/0.3.0/",
+      "package_url_verified_at": "2026-10-03"
     },
     {
       "id": "csjn-mcp",
@@ -207,7 +208,8 @@
       "requires_dist": [
         "mcp>=1.0.0"
       ],
-      "package_url": "https://pypi.org/project/csjn-mcp/0.3.0/"
+      "package_url": "https://pypi.org/project/csjn-mcp/0.3.0/",
+      "package_url_verified_at": "2026-10-03"
     },
     {
       "id": "juba-mcp",
@@ -237,7 +239,8 @@
       "requires_dist": [
         "mcp>=1.0.0"
       ],
-      "package_url": "https://pypi.org/project/juba-mcp/0.3.0/"
+      "package_url": "https://pypi.org/project/juba-mcp/0.3.0/",
+      "package_url_verified_at": "2026-10-03"
     },
     {
       "id": "juscaba-mcp",
@@ -268,7 +271,8 @@
         "httpx>=0.27",
         "mcp[cli]>=1.0"
       ],
-      "package_url": "https://pypi.org/project/juscaba-mcp/0.3.1/"
+      "package_url": "https://pypi.org/project/juscaba-mcp/0.3.1/",
+      "package_url_verified_at": "2026-10-03"
     }
   ],
   "conditional": [
