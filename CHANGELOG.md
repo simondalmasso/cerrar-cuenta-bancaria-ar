@@ -14,6 +14,7 @@
 - centralized the BCRA second-instance wait period in references/sources-ar.md;
 - marked the manifest as unreleased development state; no tag/release is created by this hardening branch;
 - added an official-source jurisprudence dossier and machine-readable case-law registry;
+- added two jurisprudence-backed dispute specs for post-closure charges/credit reporting and undocumented telephone cancellation;
 - added a presentation-ready one-hour review path and a research-stack policy separating discovery from authority.
 
 ## Earlier unreleased external-audit preparation
