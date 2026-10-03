@@ -1,6 +1,6 @@
 # Executive audit
 
-**Audit date:** 2026-10-02  
+**Audit date:** 2026-10-03  
 **Manifest version:** 1.2.0-dev (unreleased)  
 **Jurisdiction:** Argentina  
 **Primary subject:** personas humanas / usuarios de servicios financieros  
