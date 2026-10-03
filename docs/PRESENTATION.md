@@ -72,7 +72,7 @@ El proyecto separa tres capas:
 
 **Probado por CI:** estructura, JSON, enlaces locales, procedencia, parsers de instaladores, escenarios adversariales como especificaciones y batería real-Git del updater.
 
-**No probado automáticamente:** que una norma siga jurídicamente vigente por el solo hecho de que la URL responda; que un banco cierre efectivamente el producto. **Behavioral:** existe un run histórico GLM-5.3 sobre un commit anterior, pero el candidato actual todavía no fue ejecutado de punta a punta.
+**No probado automáticamente:** que una norma siga jurídicamente vigente por el solo hecho de que la URL responda; que un banco cierre efectivamente el producto. **Evaluación conductual:** el candidato actual todavía no tiene una ejecución completa S1–S54; el historial de runs se conserva en `evals/runs/`.
 
 ## Repo map
 
