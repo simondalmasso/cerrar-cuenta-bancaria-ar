@@ -49,7 +49,7 @@
         "al menos 10 días hábiles",
         "número de reclamo"
       ],
-      "expected_semantic_sha256": null
+      "expected_semantic_sha256": "039b2275691db2463d94893935b8121ec11ee2066408731afa7885772e37f772"
     },
     {
       "source_id": "bcra-entities",
@@ -87,7 +87,7 @@
         "presencial o virtual mediante el homebanking",
         "constancia del trámite"
       ],
-      "expected_semantic_sha256": null
+      "expected_semantic_sha256": "ef7ae35d688f423fd5e1efab24214dd2aefbf09b9044a58323c810821a553f6b"
     }
   ]
 }
