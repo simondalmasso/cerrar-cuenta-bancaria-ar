@@ -70,9 +70,9 @@ required = [
     "README.md","LICENSE","DISCLAIMER.md","SECURITY.md","CONTRIBUTING.md","agents/openai.yaml",
     "docs/EXECUTIVE-AUDIT.md","docs/TOOLING-AUDIT.md","docs/PRESENTATION.md","docs/RESEARCH-STACK.md","docs/RELEASE-GATE.md",
     "references/sources-ar.md","references/bank-discovery.md","references/money-and-blockers.md",
-    "references/decision-tree.md","references/evidence-protocol.md","references/escalation-playbook.md","references/special-cases.md","references/post-close.md",
+    "references/decision-tree.md","references/evidence-protocol.md","references/escalation-playbook.md","references/special-cases.md","references/post-close.md","references/review-playbook.md",
     "references/jurisprudencia.md","references/integrations.md","references/client-setup.md",
-    "references/public-web-research.md","references/source-integrity.md","registry/sources.json","registry/tooling.json","registry/case-law.json","registry/legal-watch.json","registry/case-state.schema.json","registry/release-gate.json",
+    "references/public-web-research.md","references/source-integrity.md","registry/sources.json","registry/tooling.json","registry/case-law.json","registry/legal-watch.json","registry/case-state.schema.json","registry/review-playbook.json","registry/release-gate.json",
     "evals/scenarios.json","evals/README.md","evals/behavioral-run.schema.json","evals/runs/README.md","banks/README.md","banks/profile.schema.json","examples/case-synthetic/README.md","examples/case-synthetic/handoff.json","examples/case-synthetic/timeline.md",
 ]
 for path in required:
@@ -158,6 +158,22 @@ try:
                 fail(f"tooling URL must use https: {tid}")
             if item.get("hard_dependency") is True:
                 fail(f"optional tooling cannot be a hard dependency: {tid}")
+    for item in tooling.get("architectural_references",[]):
+        tid=item.get("id")
+        if not tid:
+            fail("architectural reference without id")
+            continue
+        if tid in tool_ids:
+            fail(f"duplicate tooling/reference id: {tid}")
+        tool_ids.append(tid)
+        if not str(item.get("url","")).startswith("https://"):
+            fail(f"architectural reference URL must use https: {tid}")
+        if item.get("hard_dependency") is not False:
+            fail(f"architectural reference cannot be a hard dependency: {tid}")
+        if item.get("code_imported") is not False:
+            fail(f"architectural reference must explicitly record code_imported=false: {tid}")
+        if item.get("decision") != "concept_only_no_runtime_dependency":
+            fail(f"architectural reference decision invalid: {tid}")
     if len(tool_ids) != len(set(tool_ids)):
         fail("duplicate tooling ids")
     policy=tooling.get("policy",{})
@@ -189,6 +205,50 @@ try:
                 fail(f"case-law {cid} requires non-empty string list {key}")
 except Exception as exc:
     fail(f"case-law registry validation failed: {exc}")
+
+try:
+    playbook=json.loads((ROOT/"registry/review-playbook.json").read_text(encoding="utf-8"))
+    if playbook.get("result_states") != ["SATISFIED","OPEN","NOT_APPLICABLE"]:
+        fail("review playbook result_states must be SATISFIED/OPEN/NOT_APPLICABLE")
+    phases=playbook.get("phases")
+    if not isinstance(phases,list) or not phases:
+        fail("review playbook requires phases")
+    else:
+        phase_ids=[]
+        check_ids=[]
+        allowed_severity={"blocking","important","informational"}
+        for phase in phases:
+            pid=phase.get("id")
+            if not isinstance(pid,str) or not pid:
+                fail("review playbook phase missing id")
+                continue
+            phase_ids.append(pid)
+            checks=phase.get("checks")
+            if not isinstance(checks,list) or not checks:
+                fail(f"review playbook phase {pid} requires checks")
+                continue
+            for check in checks:
+                cid=check.get("id")
+                if not isinstance(cid,str) or not cid:
+                    fail(f"review playbook {pid} check missing id")
+                    continue
+                check_ids.append(cid)
+                for key in ("category","question","rationale","pass_when"):
+                    if not isinstance(check.get(key),str) or not check.get(key).strip():
+                        fail(f"review playbook {cid} missing non-empty {key}")
+                if check.get("severity") not in allowed_severity:
+                    fail(f"review playbook {cid} invalid severity")
+                if not isinstance(check.get("evidence_required"),bool):
+                    fail(f"review playbook {cid} evidence_required must be boolean")
+        if len(phase_ids) != len(set(phase_ids)):
+            fail("review playbook duplicate phase ids")
+        if len(check_ids) != len(set(check_ids)):
+            fail("review playbook duplicate check ids")
+        required_phases={"pre-request","pre-escalation","pre-close","post-close"}
+        if set(phase_ids) != required_phases:
+            fail(f"review playbook phases must be exactly {sorted(required_phases)}")
+except Exception as exc:
+    fail(f"review playbook validation failed: {exc}")
 
 try:
     state_schema=json.loads((ROOT/"registry/case-state.schema.json").read_text(encoding="utf-8"))
@@ -266,8 +326,8 @@ except Exception as exc:
 try:
     ev=json.loads((ROOT/"evals/scenarios.json").read_text(encoding="utf-8"))
     families=ev.get("families",[])
-    if len(families)<43:
-        fail(f"expected >=43 adversarial eval specifications, got {len(families)}")
+    if len(families)<45:
+        fail(f"expected >=45 adversarial eval specifications, got {len(families)}")
     if ev.get("version") != manifest_version:
         fail(f"eval version {ev.get('version')!r} != manifest version {manifest_version!r}")
     legal_baseline=ev.get("legal_baseline") or {}
@@ -393,6 +453,7 @@ print(f"- behavioral agent eval execution: {behavioral_status}")
 print("- registry/provenance invariants: pass")
 print("- verified case-law registry: pass")
 print("- case-state schema + special/post-close scaffolding: pass")
+print("- deterministic case-review playbook: pass")
 print("- legal-watch registry: structure pass")
 print("- synthetic-example privacy lint: pass")
 print("- zero-cost tooling policy: pass")
