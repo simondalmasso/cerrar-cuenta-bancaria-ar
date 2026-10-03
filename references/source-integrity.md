@@ -1,6 +1,6 @@
 # Source integrity protocol
 
-Última revisión de política: **2026-10-02**.
+Última revisión de política: **2026-10-03**.
 
 Este protocolo separa **integridad técnica** de **vigencia jurídica**.
 
