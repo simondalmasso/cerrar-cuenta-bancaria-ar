@@ -399,11 +399,11 @@ for wf in (ROOT/".github/workflows").glob("*.yml"):
     rel=str(wf.relative_to(ROOT)).replace("\\","/")
     if re.search(r"(?m)^\s*permissions:\s*write-all\s*$", txt):
         fail(f"workflow must not use write-all permissions: {wf.relative_to(ROOT)}")
-    write_scopes=re.findall(r"(?m)^\s{2}([a-z-]+):\s*write\s*$", txt)
+    write_scopes=re.findall(r"(?m)^\s+([a-z-]+):\s*write\s*$", txt)
     if rel.endswith("security-codeql.yml"):
         if write_scopes != ["security-events"]:
             fail(f"CodeQL workflow write scopes must be exactly security-events: {write_scopes}")
-        if not re.search(r"(?m)^\s{2}contents:\s*read\s*$", txt):
+        if not re.search(r"(?m)^\s+contents:\s*read\s*$", txt):
             fail("CodeQL workflow must keep contents: read")
     elif write_scopes:
         fail(f"non-CodeQL workflow must not request write scopes: {rel} -> {write_scopes}")
