@@ -1,8 +1,8 @@
-# Presentation pack — revisión en una hora
+# Guía de revisión y presentación
 
 Este documento es la ruta corta para revisar o presentar el proyecto sin recorrer todo el repositorio.
 
-## 60 segundos
+## Resumen ejecutivo
 
 **Problema:** cerrar una cuenta bancaria argentina puede entrar en loops por saldos, productos vinculados, cargos residuales, requisitos mal explicados o derivaciones contradictorias.
 
@@ -12,7 +12,7 @@ Este documento es la ruta corta para revisar o presentar el proyecto sin recorre
 
 **Arquitectura:** core estático, cero dependencias obligatorias, fuentes oficiales primero, research/browser tooling opcional y read-only.
 
-## Ruta de lectura — 10 minutos
+## Ruta de lectura recomendada
 
 1. [../README.md](../README.md) — alcance, estado y garantías.
 2. [../SKILL.md](../SKILL.md) — comportamiento que recibe el agente.
@@ -25,7 +25,7 @@ Este documento es la ruta corta para revisar o presentar el proyecto sin recorre
 9. [ARENA-AUDIT-RESPONSE.md](ARENA-AUDIT-RESPONSE.md) — qué hallazgos externos fueron confirmados, corregidos o rechazados con evidencia.
 10. [GEMINI-AUDIT-RESPONSE.md](GEMINI-AUDIT-RESPONSE.md) — disposición independiente del segundo hostile audit y sus hardenings aceptados.
 
-## Demo de 5 minutos
+## Demo sugerida
 
 Escenario recomendado:
 
@@ -97,7 +97,7 @@ docs/                       auditoría, tooling, research y presentación
 install/                    instalación conservadora
 ```
 
-## Preguntas difíciles esperables
+## Preguntas clave
 
 **¿Por qué no automatiza el home banking?**  
 Porque añadir acceso autenticado no mejora la calidad jurídica del diagnóstico y aumenta riesgo, superficie de secretos y posibilidad de acciones irreversibles.
