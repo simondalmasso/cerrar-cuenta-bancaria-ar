@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "checked_at": "2026-10-02",
+  "checked_at": "2026-10-03",
   "required_dependencies": [],
   "accepted_optional": [
     {
@@ -50,5 +50,29 @@
     "bank_credentials": false,
     "transactional_actions": false,
     "fallback": "official_public_sources"
-  }
+  },
+  "architectural_references": [
+    {
+      "id": "prism-legal-os",
+      "url": "https://github.com/FuturixAI-and-Quantum-Works/Prism-Legal-OS",
+      "observed_head": "e4f5ecbe97399d419fc395444208f7aadaa57f52",
+      "license": "AGPL-3.0-only",
+      "role": "legal_workflow_architecture_reference",
+      "decision": "concept_only_no_runtime_dependency",
+      "hard_dependency": false,
+      "code_imported": false,
+      "adopted_patterns": [
+        "reusable_review_playbook",
+        "source_grounded_review",
+        "human_verification",
+        "saved_review_checkpoints"
+      ],
+      "rejected_runtime_reasons": [
+        "scope_mismatch_contract_management_platform",
+        "heavy_node_postgres_qdrant_storage_stack",
+        "ai_features_need_configured_provider",
+        "agpl_copyleft_surface_unnecessary_for_mit_core"
+      ]
+    }
+  ]
 }
