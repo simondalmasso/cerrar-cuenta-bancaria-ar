@@ -1,0 +1,143 @@
+{
+  "schema_version": "1.0",
+  "checked_at": "2026-10-02",
+  "policy": {
+    "purpose": "case-law support for disputed bank-closure cases",
+    "primary_rule_source": "BCRA/official regulation remains primary for operational closure rights",
+    "authority_required": "official court or official judiciary publication",
+    "automatic_precedent_claims": false
+  },
+  "cases": [
+    {
+      "id": "csjn-padec-bankboston-2017",
+      "status": "VERIFIED_OFFICIAL",
+      "court": "Corte Suprema de Justicia de la Nación",
+      "jurisdiction": "Nacional",
+      "date": "2017-03-14",
+      "case_name": "Prevención, Asesoramiento y Defensa del Consumidor c/ BankBoston N.A. s/ sumarísimo",
+      "identifier": "Fallos 340:172",
+      "topics": [
+        "banking_contracts",
+        "consumer_protection",
+        "maintenance_fees",
+        "abusive_practices"
+      ],
+      "relevance": "framework",
+      "verified_summary": "La CSJN destacó la tutela reforzada del consumidor en contratos bancarios predispuestos y sostuvo que la habilitación regulatoria de un cargo no legitima por sí sola una aplicación que desnaturalice la economía del contrato.",
+      "use_when": [
+        "cargo de mantenimiento discutido",
+        "cláusula o práctica bancaria potencialmente abusiva",
+        "necesidad de encuadre general de consumidor bancario"
+      ],
+      "limits": "No establece por sí solo el canal ni los requisitos para cerrar una cuenta; es un precedente marco sobre contratos bancarios de consumo.",
+      "official_url": "https://sjservicios.csjn.gov.ar/sj/verTomo?tomoId=428"
+    },
+    {
+      "id": "caba-schvind-cfa-2024",
+      "status": "VERIFIED_OFFICIAL",
+      "court": "Cámara de Apelaciones en lo Contencioso Administrativo y Tributario y de Relaciones de Consumo, Sala II",
+      "jurisdiction": "Ciudad Autónoma de Buenos Aires",
+      "date": "2024-03-14",
+      "case_name": "Schvind Myriam Inés c/ Compañía Financiera Argentina S.A.",
+      "identifier": "Causa 234535-2021-0; Fallo JURISTECA 55539",
+      "topics": [
+        "post_closure_charges",
+        "duty_to_inform",
+        "credit_reporting",
+        "damages",
+        "punitive_damages"
+      ],
+      "relevance": "direct",
+      "verified_summary": "Tras la baja y saldo cero aparecieron cargos nuevos no explicados ni notificados; la consumidora terminó informada en la Central de Deudores del BCRA. La Cámara confirmó responsabilidad y daños y trató la conducta como incumplimiento relevante del deber de información.",
+      "use_when": [
+        "aparecen cargos después de la baja",
+        "el banco no explica una deuda residual",
+        "hay reporte BCRA/Veraz posterior",
+        "el usuario pagó para salir del registro sin reconocer el origen"
+      ],
+      "limits": "Caso individual con hechos probados específicos; no convierte cualquier débito posterior en ilícito y exige analizar devengamiento, notificación y prueba.",
+      "official_url": "https://juristeca.jusbaires.gob.ar/buscador-juristeca/busqueda-avanzada-de-jurisprudencia/?accion=sumarios-del-fallo&id=55539",
+      "official_full_text": "https://juristeca.jusbaires.gob.ar/fallos/55539.pdf"
+    },
+    {
+      "id": "pba-francoz-itau-2025",
+      "status": "VERIFIED_OFFICIAL",
+      "court": "Cámara II de Apelación en lo Civil y Comercial, Sala I, La Plata",
+      "jurisdiction": "Provincia de Buenos Aires",
+      "date": "2025-03-13",
+      "case_name": "Francoz Griselda Lilia c/ Banco Itaú Argentina S.A. y otro/a s/ daños y perjuicios - incumplimiento contractual",
+      "identifier": "Causa 138836; Registro 80",
+      "topics": [
+        "cancellation_not_processed",
+        "renewal_charges",
+        "credit_reporting",
+        "evidence",
+        "dynamic_burden",
+        "damages",
+        "punitive_damages"
+      ],
+      "relevance": "direct",
+      "verified_summary": "La Cámara trató una baja de tarjeta que no fue efectivizada oportunamente; se generaron cargos de renovación, deuda y registración negativa. También destacó que el banco estaba en mejor posición para aportar registros de reclamos y comunicaciones.",
+      "use_when": [
+        "la baja fue pedida por teléfono o sucursal y falta constancia escrita",
+        "el banco dice que no existe pedido de baja",
+        "se generaron cargos de renovación tras el pedido",
+        "hay impacto crediticio"
+      ],
+      "limits": "El producto central era tarjeta de crédito; usar por analogía probatoria y de trato/información, no para sustituir la regulación específica de cuentas.",
+      "official_url": "https://juba.scba.gov.ar/VerTextoCompleto.aspx?idFallo=194563"
+    },
+    {
+      "id": "cordoba-quiroga-itau-2019",
+      "status": "VERIFIED_OFFICIAL",
+      "court": "Cámara Quinta de Apelaciones en lo Civil y Comercial de Córdoba",
+      "jurisdiction": "Provincia de Córdoba",
+      "date": "2019-10-02",
+      "case_name": "Quiroga Crespo, Carlos Guido José c/ Banco Itaú Argentina S.A. - Ordinario - daños y perjuicios",
+      "identifier": "Expte. 6079690; Sentencia 116",
+      "topics": [
+        "unilateral_change",
+        "unexpected_charges",
+        "duty_to_inform",
+        "dignified_treatment",
+        "evidence",
+        "credit_reporting",
+        "punitive_damages"
+      ],
+      "relevance": "supportive",
+      "verified_summary": "El tribunal trató la modificación unilateral y no informada de condiciones de un paquete bancario, cargos posteriores y consecuencias crediticias, con énfasis en información, trato digno y carga probatoria del proveedor profesional.",
+      "use_when": [
+        "el banco cambió una bonificación o condición sin explicación suficiente",
+        "aparecen cargos inesperados",
+        "se discute información o documentación que está en poder del banco"
+      ],
+      "limits": "No es un caso de cierre de cuenta puro; sirve como apoyo para información, prácticas abusivas, evidencia y consecuencias de cargos no esperados.",
+      "official_url": "https://www.justiciacordoba.gob.ar/Estatico/justiciaCordoba/files/TSJ/boletin_judicial/CIVIL%20DA%C3%91O%20PUNITIVO%20DESTACADO%20DEFINITIVO.pdf"
+    },
+    {
+      "id": "caba-ciferri-santander-2025",
+      "status": "VERIFIED_OFFICIAL",
+      "court": "Cámara de Apelaciones en lo Contencioso Administrativo y Tributario y de Relaciones de Consumo, Sala II",
+      "jurisdiction": "Ciudad Autónoma de Buenos Aires",
+      "date": "2025-11-18",
+      "case_name": "Ciferri Nazareno c/ Banco Santander Río",
+      "identifier": "Causa 108374-2024-0; Fallo JURISTECA 61508",
+      "topics": [
+        "coprec",
+        "settlement_breach",
+        "late_compliance",
+        "punitive_damages",
+        "post_cancellation_dispute"
+      ],
+      "relevance": "escalation",
+      "verified_summary": "La Cámara confirmó la ejecución de un acuerdo COPREC incumplido o cumplido tardíamente por la entidad bancaria y admitió examinar daño punitivo en ese contexto. El expediente menciona un producto bancario cancelado con anterioridad al conflicto ejecutivo.",
+      "use_when": [
+        "existe acuerdo COPREC homologado y el banco no lo cumple o lo cumple tarde",
+        "la controversia persiste mucho después de la cancelación del producto"
+      ],
+      "limits": "No define el derecho inicial al cierre ni el canal de baja; es útil para la etapa de incumplimiento de un acuerdo de consumo.",
+      "official_url": "https://juristeca.jusbaires.gob.ar/buscador-juristeca/busqueda-avanzada-de-jurisprudencia/?accion=sumarios-del-fallo&id=61508",
+      "official_full_text": "https://juristeca.jusbaires.gob.ar/fallos/61508.pdf"
+    }
+  ]
+}
