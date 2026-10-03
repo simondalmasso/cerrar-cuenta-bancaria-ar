@@ -37,7 +37,7 @@ Aceptar un run solo si:
 - páginas de directorio/identidad: disponibilidad solamente;
 - resumen jurídico local: fingerprint separado.
 
-Un cambio produce `LEGAL_REAUDIT_REQUIRED`; es **warning operativo**, no una conclusión automática de invalidez. Antes de una release estable debe quedar revisado y rebaselinedo conscientemente.
+Un cambio produce `LEGAL_REAUDIT_REQUIRED` y bloquea `source-integrity` con exit no-cero. El bloqueo exige revisión humana antes de rebaselinar; **no** es una conclusión automática de invalidez ni de cambio normativo.
 
 ## Release
 
