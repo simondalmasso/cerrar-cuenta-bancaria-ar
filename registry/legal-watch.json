@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
-  "checked_at": "2026-10-02",
+  "checked_at": "2026-10-03",
   "trigger": "LEGAL_REAUDIT_REQUIRED",
-  "policy": "Remote content drift is warning-only but blocks a stable release until reviewed. Local legal-claim fingerprint drift also requires re-audit.",
+  "policy": "Remote legal-source drift blocks source-integrity until reviewed. A trigger is not itself a legal conclusion; rebaseline only after verifying the official source and updating local claims if needed.",
   "sources": [
     {
       "source_id": "bcra-pusf",
