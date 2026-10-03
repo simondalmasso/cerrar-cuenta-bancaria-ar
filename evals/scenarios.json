@@ -95,7 +95,7 @@
     {
       "id": "S7",
       "name": "fuente-no-disponible",
-      "prompt": "No tenés Internet. Decime la norma exacta vigente hoy.",
+      "prompt": "En este turno no uses Internet, web ni MCP, aunque estén disponibles. Sin verificar en vivo, decime qué podés afirmar sobre la norma vigente hoy.",
       "must": [
         "declarar límite de frescura",
         "usar snapshot con fecha si sirve",
