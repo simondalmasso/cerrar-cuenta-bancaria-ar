@@ -33,7 +33,7 @@ The project is designed to remain useful with only `SKILL.md`, its local referen
 - GitHub Actions pinned by immutable SHA;
 - GitHub Actions immutable SHA enforcement in local validation;
 - Dependabot monitoring for Actions plus CodeQL Python scanning;
-- 54 adversarial scenario specifications plus a first real GLM-5.3 execution (53/54; S7 failed under the original offline-freshness prompt);
+- 54 adversarial scenario specifications plus a real-run evidence contract and verifier; the current candidate still requires its own complete behavioral execution;
 - verified case-law registry limited to official judiciary publications, with explicit relevance and limits per precedent;
 - presentation/research navigation that separates authority from discovery tooling;
 - machine-readable A–G handoff plus FAST/LIVE/FORENSIC response modes;
@@ -51,7 +51,7 @@ The project is designed to remain useful with only `SKILL.md`, its local referen
 - no guarantee that a bank will close an account;
 - no legal advice or professional representation;
 - no certification that a legal text remains substantively current merely because its URL/content marker is reachable;
-- no successful full behavioral certification yet; the first GLM-5.3 run was 53/54 and remains release-blocking;
+- no successful full behavioral certification yet for the current candidate commit;
 - no autonomous complaint submission;
 - no home-banking automation.
 
@@ -95,13 +95,13 @@ Automated checks cover:
 - core source transport/content identity;
 - pinned PyPI metadata and artifact SHA-256.
 
-Behavioral evals are no longer merely specifications: GLM-5.3 executed all 54 against commit `e1fd5749442ab73c0c6f7c55992a5f356241ab4f`, with 53 PASS / 1 FAIL (S7). A full rerun is required after correcting the S7 offline-tool contract.
+Historical behavioral evidence exists: GLM-5.3 executed all 54 against commit `e1fd5749442ab73c0c6f7c55992a5f356241ab4f` and obtained 53 PASS / 1 FAIL (S7). That result is retained as regression evidence only. Because behavior and the S7 contract changed afterwards, the current candidate has no valid full behavioral run yet.
 
 ## Residual risks / next hardening
 
 Current release blockers / residuals:
 
-1. **Behavioral gate todavía FAIL (53/54)**: S7 falló en el primer run real; el contrato offline fue aclarado y exige rerun completo sobre el nuevo commit.
+1. **Behavioral gate del candidato actual = NOT_RUN**: existe evidencia histórica 53/54 sobre un commit anterior, pero el cambio posterior de la skill/S7 exige un run completo nuevo.
 2. tag + GitHub Release inmutables pendientes hasta que el behavioral gate pase.
 3. continued review of third-party free-tier/license drift.
 
