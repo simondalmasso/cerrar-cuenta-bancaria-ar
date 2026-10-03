@@ -9,6 +9,7 @@ from __future__ import annotations
 import hashlib
 import json
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -68,7 +69,7 @@ if skill:
 
 required = [
     "README.md","LICENSE","DISCLAIMER.md","SECURITY.md","CONTRIBUTING.md","agents/openai.yaml",
-    "docs/EXECUTIVE-AUDIT.md","docs/TOOLING-AUDIT.md","docs/PRESENTATION.md","docs/RESEARCH-STACK.md","docs/RELEASE-GATE.md","docs/SECURITY-HARDENING.md",
+    "docs/EXECUTIVE-AUDIT.md","docs/ARENA-AUDIT-RESPONSE.md","docs/TOOLING-AUDIT.md","docs/PRESENTATION.md","docs/RESEARCH-STACK.md","docs/RELEASE-GATE.md","docs/SECURITY-HARDENING.md",
     "references/sources-ar.md","references/bank-discovery.md","references/money-and-blockers.md",
     "references/decision-tree.md","references/evidence-protocol.md","references/escalation-playbook.md","references/special-cases.md","references/post-close.md","references/review-playbook.md",
     "references/jurisprudencia.md","references/integrations.md","references/client-setup.md",
@@ -197,8 +198,20 @@ try:
         if cid in ids:
             fail(f"duplicate case-law id: {cid}")
         ids.add(cid)
-        if item.get("status")=="VERIFIED_OFFICIAL" and not str(item.get("official_url","")).startswith("https://"):
-            fail(f"verified case-law source must use https: {cid}")
+        if item.get("status")=="VERIFIED_OFFICIAL":
+            if not str(item.get("official_url","")).startswith("https://"):
+                fail(f"verified case-law source must use https: {cid}")
+            urls=item.get("verification_urls")
+            hosts=item.get("verification_allowed_hosts")
+            markers=item.get("verification_markers_any")
+            if not isinstance(urls,list) or not urls or not all(isinstance(x,str) and x.startswith("https://") for x in urls):
+                fail(f"verified case-law {cid} requires https verification_urls")
+            if not isinstance(hosts,list) or not hosts or not all(isinstance(x,str) and x.strip() for x in hosts):
+                fail(f"verified case-law {cid} requires verification_allowed_hosts")
+            if item.get("verification_pdf_presence_ok") is not True and (
+                not isinstance(markers,list) or not markers or not all(isinstance(x,str) and x.strip() for x in markers)
+            ):
+                fail(f"verified case-law {cid} requires identity markers unless official PDF presence is accepted")
         for key in ("topics","use_when"):
             value=item.get(key)
             if not isinstance(value,list) or not value or not all(isinstance(x,str) and x.strip() for x in value):
@@ -328,8 +341,8 @@ except Exception as exc:
 try:
     ev=json.loads((ROOT/"evals/scenarios.json").read_text(encoding="utf-8"))
     families=ev.get("families",[])
-    if len(families)<45:
-        fail(f"expected >=45 adversarial eval specifications, got {len(families)}")
+    if len(families)<52:
+        fail(f"expected >=52 adversarial eval specifications, got {len(families)}")
     if ev.get("version") != manifest_version:
         fail(f"eval version {ev.get('version')!r} != manifest version {manifest_version!r}")
     legal_baseline=ev.get("legal_baseline") or {}
@@ -362,6 +375,13 @@ try:
 except Exception as exc:
     fail(f"eval validation failed: {exc}")
 
+sources_ar_text=read("references/sources-ar.md")
+decision_tree_text=read("references/decision-tree.md")
+if "prevalece el análisis de la norma específica" not in sources_ar_text:
+    fail("sources-ar.md must state that specific BCRA analysis prevails over the simplified general guide")
+if "no venderlo como derecho garantizado" not in decision_tree_text:
+    fail("decision-tree.md must not promise mandatory remote closure for current-account debtor balances")
+
 readme_text=read("README.md")
 changelog_text=read("CHANGELOG.md")
 if manifest_version:
@@ -376,8 +396,19 @@ action_ref_re = re.compile(r"(?m)^\s*uses:\s*([^\s#]+)\s*$")
 sha40_re = re.compile(r"^[0-9a-f]{40}$")
 for wf in (ROOT/".github/workflows").glob("*.yml"):
     txt=wf.read_text(encoding="utf-8")
+    rel=str(wf.relative_to(ROOT)).replace("\\","/")
     if re.search(r"(?m)^\s*permissions:\s*write-all\s*$", txt):
         fail(f"workflow must not use write-all permissions: {wf.relative_to(ROOT)}")
+    write_scopes=re.findall(r"(?m)^\s+([a-z-]+):\s*write\s*$", txt)
+    if rel.endswith("security-codeql.yml"):
+        if write_scopes != ["security-events"]:
+            fail(f"CodeQL workflow write scopes must be exactly security-events: {write_scopes}")
+        if not re.search(r"(?m)^\s+contents:\s*read\s*$", txt):
+            fail("CodeQL workflow must keep contents: read")
+    elif write_scopes:
+        fail(f"non-CodeQL workflow must not request write scopes: {rel} -> {write_scopes}")
+    if "permissions:" not in txt:
+        fail(f"workflow must declare explicit permissions: {rel}")
     for ref in action_ref_re.findall(txt):
         if ref.startswith("./"):
             continue
@@ -459,6 +490,42 @@ try:
 except Exception as exc:
     fail(f"agents/openai.yaml strict subset validation failed: {exc}")
 
+# Repository content policy: keep tracked source text-only.
+# Binary user evidence or executable payloads do not belong in source control.
+allowed_suffixes={".md",".json",".py",".yml",".yaml",".sh",".ps1"}
+allowed_extensionless={"LICENSE"}
+try:
+    proc=subprocess.run(
+        ["git","-C",str(ROOT),"ls-files","-z"],
+        check=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.DEVNULL,
+    )
+    content_paths=[ROOT / raw.decode("utf-8") for raw in proc.stdout.split(b"\0") if raw]
+except Exception:
+    content_paths=[
+        p for p in ROOT.rglob("*")
+        if p.is_file()
+        and ".git" not in p.parts
+        and "__pycache__" not in p.parts
+        and ".pytest_cache" not in p.parts
+    ]
+
+for p in content_paths:
+    if not p.is_file():
+        continue
+    rel=p.relative_to(ROOT)
+    if p.suffix.lower() not in allowed_suffixes and p.name not in allowed_extensionless:
+        fail(f"binary/unknown tracked file type is not allowed in repository: {rel}")
+        continue
+    try:
+        raw=p.read_bytes()
+    except Exception as exc:
+        fail(f"cannot read repository file {rel}: {exc}")
+        continue
+    if b"\x00" in raw:
+        fail(f"NUL byte detected; binary tracked content is not allowed: {rel}")
+
 secret_patterns=[
     re.compile(r"sk-[A-Za-z0-9_-]{20,}"),
     re.compile(r"jur_[A-Za-z0-9]{20,}"),
@@ -490,12 +557,13 @@ gate_now=json.loads((ROOT/"registry/release-gate.json").read_text(encoding="utf-
 behavioral_status={x.get("id"):x.get("status") for x in gate_now.get("gates",[])}.get("behavioral-evals","UNKNOWN")
 print(f"- behavioral agent eval execution: {behavioral_status}")
 print("- registry/provenance invariants: pass")
-print("- verified case-law registry: pass")
+print("- verified case-law registry + live-verification metadata: pass")
 print("- case-state schema + special/post-close scaffolding: pass")
 print("- deterministic case-review playbook: pass")
 print("- legal-watch registry: structure pass")
 print("- synthetic-example privacy lint: pass")
 print("- zero-cost tooling policy: pass")
-print("- GitHub Actions immutable-pin + Dependabot + CodeQL security baseline: pass")
+print("- GitHub Actions immutable-pin + least-write-permission + Dependabot + CodeQL baseline: pass")
+print("- repository text-only / binary-artifact ban: pass")
 print("- OpenAI metadata strict-subset parse: pass")
 print("- secret scan: pass")

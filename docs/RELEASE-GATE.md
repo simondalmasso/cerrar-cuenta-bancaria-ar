@@ -9,7 +9,7 @@ Estado actual: **BLOCKED**. El proyecto sigue en `1.2.0-dev`.
 | Repository CI | PASS | mantener verde sobre el HEAD candidato |
 | Repository security baseline | PENDING/PASS | CodeQL candidate run + admin review of GitHub security settings |
 | Source integrity / legal watch | PASS cuando no haya `LEGAL_REAUDIT_REQUIRED` | revisar cualquier drift antes del tag |
-| Behavioral evals | **NOT RUN** | ejecutar los 45 escenarios en un host/modelo real y guardar evidencia verificable |
+| Behavioral evals | **NOT RUN** | ejecutar los 52 escenarios en un host/modelo real y guardar evidencia verificable |
 | Privacy / synthetic examples | PASS | no incorporar datos reales |
 | Vendor-neutral core | PASS | perfiles bancarios solo opcionales |
 | Immutable release | PENDING | crear tag `v1.2.0` y GitHub Release solo después de todos los gates |
@@ -37,7 +37,7 @@ Aceptar un run solo si:
 - páginas de directorio/identidad: disponibilidad solamente;
 - resumen jurídico local: fingerprint separado.
 
-Un cambio produce `LEGAL_REAUDIT_REQUIRED`; es **warning operativo**, no una conclusión automática de invalidez. Antes de una release estable debe quedar revisado y rebaselinedo conscientemente.
+Un cambio produce `LEGAL_REAUDIT_REQUIRED` y bloquea `source-integrity` con exit no-cero. El bloqueo exige revisión humana antes de rebaselinar; **no** es una conclusión automática de invalidez ni de cambio normativo.
 
 ## Release
 

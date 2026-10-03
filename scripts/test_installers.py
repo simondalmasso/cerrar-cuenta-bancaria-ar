@@ -91,7 +91,7 @@ def installer_commands(target: Path):
 with tempfile.TemporaryDirectory(prefix="skill-installer-tests-") as td:
     td = Path(td)
     seed = td / "seed"
-    shutil.copytree(ROOT, seed, ignore=shutil.ignore_patterns(".git"))
+    shutil.copytree(ROOT, seed, ignore=shutil.ignore_patterns(".git", "__pycache__", "*.pyc", ".pytest_cache"))
     git("init", "-q", "-b", "main", seed)
     set_identity(seed)
     git("-C", seed, "add", ".")
@@ -161,15 +161,15 @@ with tempfile.TemporaryDirectory(prefix="skill-installer-tests-") as td:
     updater = td / "updater"
     git("clone", "-q", origin, updater)
     set_identity(updater)
-    (updater / ".ci-update-marker").write_text("safe fast-forward\n", encoding="utf-8")
-    git("-C", updater, "add", ".ci-update-marker")
+    (updater / ".ci-update-marker.md").write_text("safe fast-forward\n", encoding="utf-8")
+    git("-C", updater, "add", ".ci-update-marker.md")
     git("-C", updater, "commit", "-q", "-m", "ci: safe update fixture")
     git("-C", updater, "push", "-q", "origin", "main")
 
     for label, target in stale_targets.items():
         cmd = [BASH, str(ROOT / "install/install.sh"), str(target)] if label == "bash" else [PWSH, "-NoProfile", "-File", str(ROOT / "install/install.ps1"), "-Target", str(target)]
         expect_ok(cmd, env=env)
-        if not (target / ".ci-update-marker").is_file():
+        if not (target / ".ci-update-marker.md").is_file():
             raise AssertionError(f"{label}: legitimate stale install did not fast-forward")
         local = git("-C", target, "rev-parse", "HEAD").stdout.strip()
         remote = git("--git-dir", origin, "rev-parse", "refs/heads/main").stdout.strip()
