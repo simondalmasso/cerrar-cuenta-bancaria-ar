@@ -15,9 +15,14 @@
 - Reclamo formal:
 - Evidencia disponible:
 - Objetivo inmediato:
+- Modo: FAST / LIVE / FORENSIC:
+- Flags especiales: coholder / attorney_in_fact / deceased_holder / minor / embargo_or_inhibition / judicially_blocked / abroad / ninguno:
 
 ## Estado
 A / B / C / D / E / F / G
+
+## Post-cierre
+not_applicable / not_started / monitoring / clear / issue_found
 
 ## Gaps críticos
 - 
