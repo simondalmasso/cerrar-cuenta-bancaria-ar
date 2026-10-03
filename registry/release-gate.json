@@ -2,12 +2,17 @@
   "schema_version": "1.0",
   "target_version": "1.2.0",
   "status": "BLOCKED",
-  "checked_at": "2026-10-02",
+  "checked_at": "2026-10-03",
   "gates": [
     {
       "id": "repository-ci",
       "status": "PASS",
       "evidence": "validate-skill run 37090891455 passed on candidate branch; CI also runs on PR/merge head"
+    },
+    {
+      "id": "repository-security",
+      "status": "PENDING",
+      "evidence": "Dependabot + CodeQL + immutable Action pins are in-tree; GitHub settings (rulesets/branch protection, secret scanning/push protection, private vulnerability reporting) still require administrator review."
     },
     {
       "id": "source-integrity",
