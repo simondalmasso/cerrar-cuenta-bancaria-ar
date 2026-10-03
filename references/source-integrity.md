@@ -1,5 +1,7 @@
 # Source integrity protocol
 
+Última revisión de política: **2026-10-02**.
+
 Este protocolo separa **integridad técnica** de **vigencia jurídica**.
 
 ## Qué controla automáticamente
