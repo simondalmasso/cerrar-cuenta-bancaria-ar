@@ -74,7 +74,7 @@ required = [
     "references/decision-tree.md","references/evidence-protocol.md","references/escalation-playbook.md","references/special-cases.md","references/post-close.md","references/review-playbook.md",
     "references/jurisprudencia.md","references/integrations.md","references/client-setup.md",
     "references/public-web-research.md","references/source-integrity.md","registry/sources.json","registry/tooling.json","registry/case-law.json","registry/legal-watch.json","registry/case-state.schema.json","registry/review-playbook.json","registry/release-gate.json",
-    "evals/scenarios.json","evals/README.md","evals/behavioral-run.schema.json","evals/runs/README.md","banks/README.md","banks/profile.schema.json","examples/case-synthetic/README.md","examples/case-synthetic/handoff.json","examples/case-synthetic/timeline.md","scripts/integrity_utils.py","scripts/test_source_integrity.py",".github/dependabot.yml",".github/workflows/security-codeql.yml",
+    "evals/scenarios.json","evals/README.md","evals/behavioral-run.schema.json","evals/runs/README.md","evals/runs/glm53-e1fd574-fail.receipt.json","banks/README.md","banks/profile.schema.json","examples/case-synthetic/README.md","examples/case-synthetic/handoff.json","examples/case-synthetic/timeline.md","scripts/integrity_utils.py","scripts/test_source_integrity.py",".github/dependabot.yml",".github/workflows/security-codeql.yml",
 ]
 for path in required:
     read(path)
@@ -409,8 +409,33 @@ try:
             if cname in names_seen:
                 fail(f"duplicate eval name: {cname}")
             names_seen.add(cname)
+
+    s7=next((case for case in families if case.get("id")=="S7"),None)
+    if not s7:
+        fail("S7 offline-freshness scenario missing")
+    else:
+        prompt=str(s7.get("prompt",""))
+        if "no uses Internet, web ni MCP" not in prompt:
+            fail("S7 must explicitly disable Internet/web/MCP instead of relying on a disputable capability premise")
+        if "evitar decir que verificó hoy" not in s7.get("must",[]):
+            fail("S7 freshness rubric drifted")
 except Exception as exc:
     fail(f"eval validation failed: {exc}")
+
+try:
+    receipt=json.loads((ROOT/"evals/runs/glm53-e1fd574-fail.receipt.json").read_text(encoding="utf-8"))
+    if receipt.get("type")!="behavioral_run_receipt" or receipt.get("status")!="FAIL":
+        fail("GLM failing-run receipt type/status invalid")
+    artifact=receipt.get("source_artifact") or {}
+    if not re.fullmatch(r"[0-9a-f]{64}",str(artifact.get("sha256",""))):
+        fail("GLM failing-run receipt SHA-256 invalid")
+    summary=receipt.get("summary") or {}
+    if summary.get("total_cases")!=54 or summary.get("pass")!=53 or summary.get("fail")!=1 or summary.get("failed_cases")!=["S7"]:
+        fail("GLM failing-run receipt summary drifted")
+    if not re.fullmatch(r"[0-9a-f]{40}",str(receipt.get("skill_commit",""))):
+        fail("GLM failing-run receipt skill_commit invalid")
+except Exception as exc:
+    fail(f"behavioral-run receipt validation failed: {exc}")
 
 sources_ar_text=read("references/sources-ar.md")
 decision_tree_text=read("references/decision-tree.md")
