@@ -16,8 +16,12 @@ Skill abierta, gratuita y vendor-neutral para que **cualquier agente de IA** gu�
 | Operaciones de dinero | **Prohibidas** |
 | Fuentes core | BCRA + Argentina.gob.ar + fuente oficial del banco |
 | Integraciones externas | Opcionales y degradables |
-| Eval suite | 31 especificaciones adversariales; no certificación conductual |
+| Eval suite | 33 especificaciones adversariales; no certificación conductual |
 | Manifest | v1.2.0-dev (unreleased) |
+
+### Ruta rápida
+
+Si hubiera que presentar o revisar el proyecto en una hora, empezar por [docs/PRESENTATION.md](docs/PRESENTATION.md). Para investigación multi-motor y criterio de herramientas: [docs/RESEARCH-STACK.md](docs/RESEARCH-STACK.md).
 
 ### Documentos de auditoría
 
@@ -36,7 +40,7 @@ Skill abierta, gratuita y vendor-neutral para que **cualquier agente de IA** gu�
 - redacta frases para chat/llamada y reclamos;
 - arma timeline y paquete de evidencia;
 - escala banco → responsable de usuario → BCRA cuando corresponde;
-- usa jurisprudencia solo si la controversia lo necesita.
+- usa jurisprudencia oficial verificada solo si la controversia lo necesita.
 
 ## Qué NO hace
 
@@ -116,7 +120,7 @@ Ver [references/public-web-research.md](references/public-web-research.md).
 - BCRA — Reclamos
 - Argentina.gob.ar — cierre de cuenta
 
-Ver [references/sources-ar.md](references/sources-ar.md).
+Ver [references/sources-ar.md](references/sources-ar.md). Para controversias, [references/jurisprudencia.md](references/jurisprudencia.md) y el registro estructurado [registry/case-law.json](registry/case-law.json).
 
 ## Instalación rápida
 
@@ -135,7 +139,7 @@ Ver [references/client-setup.md](references/client-setup.md).
 
 ## Calidad
 
-`python scripts/validate_repo.py` valida estructura, referencias locales, JSON, provenance registry, consistencia de versión, 31 especificaciones adversariales y secretos accidentales. **No ejecuta un modelo ni certifica conducta.** El mismo chequeo corre en GitHub Actions. Un workflow separado verifica disponibilidad/integridad de fuentes y artefactos fijados; no certifica vigencia jurídica.
+`python scripts/validate_repo.py` valida estructura, referencias locales, JSON, provenance registry, consistencia de versión, 33 especificaciones adversariales y secretos accidentales. **No ejecuta un modelo ni certifica conducta.** El mismo chequeo corre en GitHub Actions. Un workflow separado verifica disponibilidad/integridad de fuentes y artefactos fijados; no certifica vigencia jurídica.
 
 ## Diseño de seguridad
 

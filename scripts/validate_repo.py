@@ -67,11 +67,11 @@ if skill:
 
 required = [
     "README.md","LICENSE","DISCLAIMER.md","SECURITY.md","CONTRIBUTING.md","agents/openai.yaml",
-    "docs/EXECUTIVE-AUDIT.md","docs/TOOLING-AUDIT.md",
+    "docs/EXECUTIVE-AUDIT.md","docs/TOOLING-AUDIT.md","docs/PRESENTATION.md","docs/RESEARCH-STACK.md",
     "references/sources-ar.md","references/bank-discovery.md","references/money-and-blockers.md",
     "references/decision-tree.md","references/evidence-protocol.md","references/escalation-playbook.md",
     "references/jurisprudencia.md","references/integrations.md","references/client-setup.md",
-    "references/public-web-research.md","references/source-integrity.md","registry/sources.json","registry/tooling.json",
+    "references/public-web-research.md","references/source-integrity.md","registry/sources.json","registry/tooling.json","registry/case-law.json",
     "evals/scenarios.json","evals/README.md",
 ]
 for path in required:
@@ -167,10 +167,33 @@ except Exception as exc:
     fail(f"tooling registry validation failed: {exc}")
 
 try:
+    case_law=json.loads((ROOT/"registry/case-law.json").read_text(encoding="utf-8"))
+    cases=case_law.get("cases",[])
+    if len(cases)<5:
+        fail(f"expected >=5 verified case-law records, got {len(cases)}")
+    ids=set()
+    for i,item in enumerate(cases,start=1):
+        for key in ("id","status","court","jurisdiction","date","case_name","identifier","verified_summary","relevance","limits","official_url"):
+            if not isinstance(item.get(key),str) or not item.get(key).strip():
+                fail(f"case-law #{i} missing non-empty {key}")
+        cid=item.get("id")
+        if cid in ids:
+            fail(f"duplicate case-law id: {cid}")
+        ids.add(cid)
+        if item.get("status")=="VERIFIED_OFFICIAL" and not str(item.get("official_url","")).startswith("https://"):
+            fail(f"verified case-law source must use https: {cid}")
+        for key in ("topics","use_when"):
+            value=item.get(key)
+            if not isinstance(value,list) or not value or not all(isinstance(x,str) and x.strip() for x in value):
+                fail(f"case-law {cid} requires non-empty string list {key}")
+except Exception as exc:
+    fail(f"case-law registry validation failed: {exc}")
+
+try:
     ev=json.loads((ROOT/"evals/scenarios.json").read_text(encoding="utf-8"))
     families=ev.get("families",[])
-    if len(families)<31:
-        fail(f"expected >=31 adversarial eval specifications, got {len(families)}")
+    if len(families)<33:
+        fail(f"expected >=33 adversarial eval specifications, got {len(families)}")
     if ev.get("version") != manifest_version:
         fail(f"eval version {ev.get('version')!r} != manifest version {manifest_version!r}")
     legal_baseline=ev.get("legal_baseline") or {}
@@ -292,6 +315,7 @@ print("- JSON: pass")
 print(f"- adversarial eval specifications: {len(families)} (structure pass)")
 print("- behavioral agent eval execution: NOT RUN")
 print("- registry/provenance invariants: pass")
+print("- verified case-law registry: pass")
 print("- zero-cost tooling policy: pass")
 print("- OpenAI metadata strict-subset parse: pass")
 print("- secret scan: pass")

@@ -31,7 +31,9 @@ The project is designed to remain useful with only `SKILL.md`, its local referen
 - pinned optional PyPI MCP artifacts with recorded SHA-256, dependency metadata and yanked-state checks;
 - installer-origin, dirty-tree, local-ahead/divergence, branch-state and malicious-upstream regression tests;
 - GitHub Actions pinned by immutable SHA;
-- adversarial scenario specifications separated from behavioral execution.
+- adversarial scenario specifications separated from behavioral execution;
+- verified case-law registry limited to official judiciary publications, with explicit relevance and limits per precedent;
+- presentation/research navigation that separates authority from discovery tooling.
 
 ## What is deliberately not claimed
 
