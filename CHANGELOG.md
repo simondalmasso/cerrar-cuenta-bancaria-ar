@@ -15,7 +15,7 @@
 - marked the manifest as unreleased development state; no tag/release is created by this hardening branch;
 - added an official-source jurisprudence dossier and machine-readable case-law registry;
 - added two jurisprudence-backed dispute specs for post-closure charges/credit reporting and undocumented telephone cancellation;
-- added a presentation-ready one-hour review path and a research-stack policy separating discovery from authority;
+- added a presentation/review guide and a research-stack policy separating discovery from authority;
 - added machine-readable A–G handoff schema and FAST/LIVE/FORENSIC response modes;
 - clarified unrecorded bank-call recollections without expanding the five-class evidence ontology;
 - added special-case branches for cotitulars, powers, death, minors, judicial measures and residence abroad;
@@ -32,7 +32,8 @@
 - reviewed `cc-thinking-skills`, Agent-Reach, last30days, InsForge, Decision 2.0, Cloudflare `security-audit-skill`, and Agent Beacon; adopted only Cloudflare's independent-verification/coverage-led audit methodology conceptually, with no new runtime dependency or mandatory cost;
 - added bounded retries for transient source-integrity transport failures after a real CSJN timeout on main, while keeping final failures and identity/content mismatches release-blocking;
 - preserved the first real behavioral run (GLM-5.3 on an earlier commit, 53/54, S7 fail) as historical regression evidence, clarified the S7 offline-tool contract, and made behavioral gate status explicitly scoped to the exact candidate commit;
-- rewrote public-facing README/presentation copy, removed arbitrary time-boxed review language, refreshed skill/OpenAI/repository descriptions, corrected current-candidate release status, added resolvable PyPI/schema links, and refreshed official-source review metadata.
+- rewrote public-facing README/presentation copy, removed arbitrary time-boxed review language, refreshed skill/OpenAI/repository descriptions, corrected current-candidate release status, added resolvable PyPI/schema links, and refreshed official-source review metadata;
+- recorded the historical 54/54 GLM-5.3 pass for commit `c9780c58213e8a98e00cacc8b61d3c7f77655836` as a digest-only regression receipt without carrying that PASS forward to later commits.
 
 ## Earlier unreleased external-audit preparation
 
