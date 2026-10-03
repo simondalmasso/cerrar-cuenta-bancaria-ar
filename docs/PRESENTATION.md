@@ -23,6 +23,7 @@ Este documento es la ruta corta para revisar o presentar el proyecto sin recorre
 7. [TOOLING-AUDIT.md](TOOLING-AUDIT.md) — por qué el core sigue en USD 0.
 8. [RELEASE-GATE.md](RELEASE-GATE.md) — qué falta objetivamente para llamar estable a v1.2.0.
 9. [ARENA-AUDIT-RESPONSE.md](ARENA-AUDIT-RESPONSE.md) — qué hallazgos externos fueron confirmados, corregidos o rechazados con evidencia.
+10. [GEMINI-AUDIT-RESPONSE.md](GEMINI-AUDIT-RESPONSE.md) — disposición independiente del segundo hostile audit y sus hardenings aceptados.
 
 ## Demo de 5 minutos
 
