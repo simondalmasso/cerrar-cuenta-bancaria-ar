@@ -125,7 +125,7 @@ try:
 
     sha_re=re.compile(r"^[0-9a-f]{64}$")
     for item in reg.get("optional_mcp", []):
-        for key in ("pinned_version","license_expression","requires_python","package_url","source_repo_url","source_repo_status","source_repo_verified_at"):
+        for key in ("pinned_version","license_expression","requires_python","package_url","package_url_verified_at","source_repo_url","source_repo_status","source_repo_verified_at"):
             if not item.get(key):
                 fail(f"optional MCP {item.get('id')} missing {key}")
         if not str(item.get("package_url","")).startswith("https://"):
@@ -448,6 +448,10 @@ if "prevalece el análisis de la norma específica" not in sources_ar_text:
 if "no venderlo como derecho garantizado" not in decision_tree_text:
     fail("decision-tree.md must not promise mandatory remote closure for current-account debtor balances")
 
+public_overview = read("README.md") + "\n" + read("docs/PRESENTATION.md")
+for stale_phrase in ("una hora","60 segundos","10 minutos","5 minutos","53/54","S7 FAIL","S7 fail","Release readiness","Ruta rápida","Estado ejecutivo"):
+    if stale_phrase in public_overview:
+        fail(f"public overview contains stale/time-boxed wording: {stale_phrase}")
 readme_text=read("README.md")
 changelog_text=read("CHANGELOG.md")
 if manifest_version:
