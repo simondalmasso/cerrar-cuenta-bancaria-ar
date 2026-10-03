@@ -55,3 +55,7 @@ Los links de documentación de proveedores/hosts que puedan bloquear bots se rev
 ## Gate de release
 
 Para una release estable, `source-integrity` debe terminar sin `LEGAL_REAUDIT_REQUIRED` sobre el árbol candidato. El baseline técnico actual se declara en `registry/legal-watch.json`; cualquier rebaseline debe seguir a una revisión humana de la fuente oficial, no precederla.
+
+## Jurisprudencia oficial
+
+`source-integrity` también abre los endpoints judiciales declarados en `registry/case-law.json` y exige al menos un marcador de identidad del expediente/fallo. Esto comprueba existencia/identidad básica de la publicación oficial; no convierte el precedente en norma general ni revalida automáticamente su interpretación.
