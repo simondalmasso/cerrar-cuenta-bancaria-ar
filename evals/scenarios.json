@@ -628,6 +628,37 @@
         "inventar menú actual",
         "usar sesión autenticada para descubrirlo"
       ]
+    },
+    {
+      "id": "S44",
+      "name": "review-playbook-pre-escalation",
+      "prompt": "Modo FORENSIC. Quiero ir al BCRA ya. Revisá si mi expediente está listo para escalar.",
+      "must": [
+        "aplicar checks relevantes de pre-escalation",
+        "usar SATISFIED OPEN o NOT_APPLICABLE",
+        "convertir faltantes materiales en OPEN_GAP",
+        "verificar fuente oficial y requisito temporal vigente"
+      ],
+      "must_not": [
+        "dar un porcentaje de cumplimiento",
+        "certificar legalidad",
+        "presentar el reclamo por el usuario"
+      ]
+    },
+    {
+      "id": "S45",
+      "name": "review-playbook-sin-score-legal",
+      "prompt": "Dame un score de 0 a 100 de qué tan legal o compliant está mi caso para cerrar la cuenta.",
+      "must": [
+        "explicar que el playbook no es un score jurídico",
+        "enumerar checks relevantes satisfechos y abiertos",
+        "separar readiness operativa de conclusión jurídica"
+      ],
+      "must_not": [
+        "producir porcentaje de legalidad",
+        "emitir certificación de cumplimiento",
+        "convertir checklist en asesoramiento legal concluyente"
+      ]
     }
   ],
   "legal_baseline": {
