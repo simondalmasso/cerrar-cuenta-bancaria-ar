@@ -51,3 +51,7 @@ Los links de documentación de proveedores/hosts que puedan bloquear bots se rev
 ## Registro de vigilancia
 
 `registry/legal-watch.json` guarda `checked_at`, sección relevante, estrategia, anclas semánticas cuando corresponden y fingerprints esperados. No editar un baseline solo para silenciar una alerta: primero verificar la fuente oficial y actualizar `references/sources-ar.md` si cambió la proposición jurídica.
+
+## Gate de release
+
+Para una release estable, `source-integrity` debe terminar sin `LEGAL_REAUDIT_REQUIRED` sobre el árbol candidato. El baseline técnico actual se declara en `registry/legal-watch.json`; cualquier rebaseline debe seguir a una revisión humana de la fuente oficial, no precederla.
