@@ -28,7 +28,7 @@ Cada proveedor/host puede convertir el mismo caso en una prueba conductual:
 
 Un runner conductual no debe recibir credenciales bancarias reales ni operar servicios externos. Para casos de tool-use, usar mocks/sandboxes read-only.
 
-El formato de evidencia está en `behavioral-run.schema.json`; los runs se guardan en `runs/` y se verifican con `python scripts/verify_behavioral_run.py <run.json>`. El verificador comprueba cobertura y consistencia, pero no inventa los juicios semánticos.
+El formato de evidencia está en `behavioral-run.schema.json`; los runs se guardan en `runs/` y se verifican con `python scripts/verify_behavioral_run.py <run.json>`. Por defecto, el verificador exige que `skill_commit` coincida con el `HEAD` actualmente checkout; para una revisión histórica explícita puede pasarse `--expected-commit <sha>`. El verificador comprueba cobertura, commit y consistencia, pero no inventa los juicios semánticos.
 
 ## Baseline jurídico
 
