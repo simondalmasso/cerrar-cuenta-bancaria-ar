@@ -30,6 +30,7 @@ El estado machine-readable está en [registry/release-gate.json](registry/releas
 ### Documentos de auditoría
 
 - [Executive audit](docs/EXECUTIVE-AUDIT.md)
+- [Arena hostile-audit response](docs/ARENA-AUDIT-RESPONSE.md)
 - [Tooling audit / zero-cost review](docs/TOOLING-AUDIT.md)
 - [Aviso legal](DISCLAIMER.md)
 - [Modelo de seguridad](SECURITY.md)
