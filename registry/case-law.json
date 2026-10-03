@@ -41,7 +41,8 @@
       ],
       "verification_allowed_hosts": [
         "sjservicios.csjn.gov.ar"
-      ]
+      ],
+      "verification_pdf_presence_ok": true
     },
     {
       "id": "caba-schvind-cfa-2024",
