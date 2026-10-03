@@ -95,13 +95,13 @@ Automated checks cover:
 - core source transport/content identity;
 - pinned PyPI metadata and artifact SHA-256.
 
-Historical behavioral evidence exists: GLM-5.3 executed all 54 against commit `e1fd5749442ab73c0c6f7c55992a5f356241ab4f` and obtained 53 PASS / 1 FAIL (S7). That result is retained as regression evidence only. Because behavior and the S7 contract changed afterwards, the current candidate has no valid full behavioral run yet.
+Historical behavioral runs are retained under `evals/runs/` as regression evidence. They do not define the current candidate. The current candidate still needs its own complete S1–S54 execution.
 
 ## Residual risks / next hardening
 
 Current release blockers / residuals:
 
-1. **Behavioral gate del candidato actual = NOT_RUN**: existe evidencia histórica 53/54 sobre un commit anterior, pero el cambio posterior de la skill/S7 exige un run completo nuevo.
+1. **Behavioral gate del candidato actual = NOT_RUN**: falta un run completo S1–S54 ligado al SHA exacto del candidato.
 2. tag + GitHub Release inmutables pendientes hasta que el behavioral gate pase.
 3. continued review of third-party free-tier/license drift.
 
