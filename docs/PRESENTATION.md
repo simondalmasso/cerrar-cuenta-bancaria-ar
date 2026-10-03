@@ -60,7 +60,7 @@ El proyecto separa tres capas:
 - `USD 0` de costo obligatorio.
 - sesiones bancarias autenticadas: prohibidas.
 - secretos/OTP/PIN/CVV: prohibidos.
-- 31 especificaciones adversariales estructurales.
+- 33 especificaciones adversariales estructurales.
 - CI valida repositorio e instaladores.
 - source-integrity controla fuentes oficiales y provenance PyPI.
 - jurisprudencia incorporada solo desde publicación judicial oficial.
@@ -69,7 +69,7 @@ El proyecto separa tres capas:
 
 **Probado por CI:** estructura, JSON, links locales, provenance, parsers de instaladores, escenarios adversariales como especificaciones y batería real-Git del updater.
 
-**No probado automáticamente:** que una norma siga jurídicamente vigente por el solo hecho de que la URL responda; que un modelo concreto cumpla conductualmente las 31 specs; que un banco cierre efectivamente el producto.
+**No probado automáticamente:** que una norma siga jurídicamente vigente por el solo hecho de que la URL responda; que un modelo concreto cumpla conductualmente las 33 specs; que un banco cierre efectivamente el producto.
 
 ## Repo map
 
