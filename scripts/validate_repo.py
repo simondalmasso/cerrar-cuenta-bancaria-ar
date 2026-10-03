@@ -452,6 +452,15 @@ public_overview = read("README.md") + "\n" + read("docs/PRESENTATION.md")
 for stale_phrase in ("una hora","60 segundos","10 minutos","5 minutos","53/54","S7 FAIL","S7 fail","Release readiness","Ruta rápida","Estado ejecutivo"):
     if stale_phrase in public_overview:
         fail(f"public overview contains stale/time-boxed wording: {stale_phrase}")
+# Keep public-facing copy current and free of arbitrary presentation time-boxes.
+public_copy = "\n".join((read("README.md"), read("docs/PRESENTATION.md")))
+for forbidden in ("una hora","one-hour","60 segundos","10 minutos","5 minutos"):
+    if forbidden.lower() in public_copy.lower():
+        fail(f"public-facing docs must not reintroduce arbitrary review time-boxes: {forbidden}")
+for stale in ("53/54 (S7 FAIL)","primer run real GLM-5.3"):
+    if stale.lower() in read("README.md").lower():
+        fail(f"README must show current candidate status, not historical behavioral score: {stale}")
+
 readme_text=read("README.md")
 changelog_text=read("CHANGELOG.md")
 if manifest_version:
