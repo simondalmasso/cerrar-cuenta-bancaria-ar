@@ -75,6 +75,8 @@ Jerarquía:
 4. SAIJ, CSJN u otra fuente judicial oficial.
 5. Fuentes secundarias solo para descubrir material que luego debe verificarse.
 
+Si una guía general (por ejemplo Argentina.gob.ar) entra en tensión con un texto BCRA específico aplicable al producto/estado del caso, **prevalece el análisis de la norma BCRA específica**. En particular, no convertir la guía general de cierre inmediato en un derecho remoto obligatorio para una cuenta corriente con saldo deudor.
+
 Si el host tiene web/MCP, verificar la fuente en la sesión. Si no tiene acceso actualizado, indicar la fecha del snapshot incorporado en esta skill y evitar presentar la regla como recién verificada.
 
 ## Intake mínimo
