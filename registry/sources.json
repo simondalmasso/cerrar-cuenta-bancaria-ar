@@ -161,7 +161,7 @@
       "verified_at": "2026-10-02",
       "source_repo_url": "https://github.com/hernan-cc/saij-mcp",
       "source_repo_status": "unavailable_404",
-      "source_repo_verified_at": "2026-10-02",
+      "source_repo_verified_at": "2026-10-03",
       "artifacts": [
         {
           "filename": "saij_mcp-0.3.0-py3-none-any.whl",
@@ -192,7 +192,7 @@
       "verified_at": "2026-10-02",
       "source_repo_url": "https://github.com/hernan-cc/csjn-mcp",
       "source_repo_status": "unavailable_404",
-      "source_repo_verified_at": "2026-10-02",
+      "source_repo_verified_at": "2026-10-03",
       "artifacts": [
         {
           "filename": "csjn_mcp-0.3.0-py3-none-any.whl",
@@ -223,7 +223,7 @@
       "verified_at": "2026-10-02",
       "source_repo_url": "https://github.com/hernan-cc/juba-mcp",
       "source_repo_status": "unavailable_404",
-      "source_repo_verified_at": "2026-10-02",
+      "source_repo_verified_at": "2026-10-03",
       "artifacts": [
         {
           "filename": "juba_mcp-0.3.0-py3-none-any.whl",
@@ -254,7 +254,7 @@
       "verified_at": "2026-10-02",
       "source_repo_url": "https://github.com/hernan-cc/juscaba-mcp",
       "source_repo_status": "unavailable_404",
-      "source_repo_verified_at": "2026-10-02",
+      "source_repo_verified_at": "2026-10-03",
       "artifacts": [
         {
           "filename": "juscaba_mcp-0.3.1-py3-none-any.whl",
