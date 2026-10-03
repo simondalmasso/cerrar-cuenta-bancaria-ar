@@ -24,9 +24,9 @@ Puede pasar a **G** cuando existe evidencia suficiente de que el producto correc
 
 ## Alcance de G
 
-`G — Cierre verificado` se refiere **al producto objetivo identificado**, no a la extinción automática de todo vínculo con el banco. Una tarjeta, préstamo, seguro u otro contrato vinculado puede seguir abierto si quedó expresamente separado y documentado.
+`G — Cierre verificado` se refiere **al producto objetivo identificado**, no a la extinción automática de todo vínculo con el banco. En handoffs machine-readable, identificar ese producto con un `target_product_ref` local del caso (`P-001`, `P-002`, etc.), nunca con el número completo de cuenta/tarjeta. Una tarjeta, préstamo, seguro u otro contrato vinculado puede seguir abierto si quedó expresamente separado y documentado.
 
-Antes de G, verificar que los vinculados relevantes fueron: **cerrados**, **confirmados como aún abiertos por decisión/contrato independiente**, o **separados como tema residual**. No exigir cerrar un producto distinto solo por estar vinculado.
+Antes de G, verificar que los vinculados relevantes fueron: **cerrados**, **confirmados como aún abiertos por decisión/contrato independiente**, o **separados como tema residual**. En `related_products[]`, no dejar `status=unknown` al pasar a G. No exigir cerrar un producto distinto solo por estar vinculado.
 
 ## Monitoreo posterior
 
