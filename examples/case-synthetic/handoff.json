@@ -20,5 +20,35 @@
   "next_action": "Pedir causa única y exhaustiva por canal oficial y número de reclamo.",
   "post_close_status": "not_applicable",
   "special_case_flags": [],
-  "handoff_note": "Caso completamente sintético; no contiene identificadores reales."
+  "handoff_note": "Caso completamente sintético; no contiene identificadores reales.",
+  "evidence_refs": [
+    {
+      "id": "E-001",
+      "claim_type": "FACT",
+      "capture": "direct",
+      "reported_actor": "user",
+      "summary": "Existe una solicitud sintética de cierre."
+    },
+    {
+      "id": "E-002",
+      "claim_type": "BANK_CLAIM",
+      "capture": "direct",
+      "reported_actor": "bank",
+      "summary": "Banco ficticio informó un cargo residual."
+    },
+    {
+      "id": "E-003",
+      "claim_type": "FACT",
+      "capture": "system_record",
+      "reported_actor": "system",
+      "summary": "Saldo sintético visible en cero."
+    },
+    {
+      "id": "E-004",
+      "claim_type": "FACT",
+      "capture": "system_record",
+      "reported_actor": "system",
+      "summary": "Segundo intento sintético rechazado sin causa visible."
+    }
+  ]
 }
