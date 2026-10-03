@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "case_state": "D",
+  "response_mode": "FAST",
+  "product_type": "deposit_account",
+  "currencies": [
+    "ARS"
+  ],
+  "balance_state": "zero",
+  "request_status": "rejected_ambiguous",
+  "evidence_classes_present": [
+    "FACT",
+    "BANK_CLAIM",
+    "USER_CLAIM",
+    "OPEN_GAP"
+  ],
+  "open_gaps": [
+    "motivo exhaustivo del segundo rechazo"
+  ],
+  "next_action": "Pedir causa única y exhaustiva por canal oficial y número de reclamo.",
+  "post_close_status": "not_applicable",
+  "special_case_flags": [],
+  "handoff_note": "Caso completamente sintético; no contiene identificadores reales."
+}
