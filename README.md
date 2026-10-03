@@ -30,10 +30,10 @@ El estado canónico está en [registry/release-gate.json](registry/release-gate.
 
 ### Documentos de auditoría
 
-- [Executive audit](docs/EXECUTIVE-AUDIT.md)
-- [Arena hostile-audit response — histórico](docs/ARENA-AUDIT-RESPONSE.md)
-- [Gemini hostile-audit response — histórico](docs/GEMINI-AUDIT-RESPONSE.md)
-- [Tooling audit / zero-cost review](docs/TOOLING-AUDIT.md)
+- [Auditoría ejecutiva](docs/EXECUTIVE-AUDIT.md)
+- [Respuesta a auditoría Arena — histórico](docs/ARENA-AUDIT-RESPONSE.md)
+- [Respuesta a auditoría Gemini — histórico](docs/GEMINI-AUDIT-RESPONSE.md)
+- [Auditoría de herramientas / costo cero](docs/TOOLING-AUDIT.md)
 - [Aviso legal](DISCLAIMER.md)
 - [Modelo de seguridad](SECURITY.md)
 - [Arquitectura](references/architecture.md)
@@ -57,7 +57,7 @@ El estado canónico está en [registry/release-gate.json](registry/release-gate.
 
 El handoff mínimo entre agentes usa [registry/case-state.schema.json](registry/case-state.schema.json). Casos especiales y post-cierre están separados en referencias para no contaminar el flujo normal.
 
-## Review playbook
+## Checklist de revisión FORENSIC
 
 En modo **FORENSIC**, la skill puede aplicar un checklist estructurado por etapas antes de escalar, cerrar o hacer un handoff crítico. Usa `SATISFIED / OPEN / NOT_APPLICABLE`, sin porcentajes de “cumplimiento jurídico”. Ver [references/review-playbook.md](references/review-playbook.md) y [registry/review-playbook.json](registry/review-playbook.json).
 
@@ -71,7 +71,7 @@ La persona mantiene el control de cada acción externa.
 
 ## Arquitectura
 
-El core es un **Agent Skill**, no un bot, API ni MCP.
+El núcleo es una **Agent Skill**, no un bot, API ni MCP.
 
 ```
 Agente IA
@@ -114,7 +114,7 @@ Ver [references/client-setup.md](references/client-setup.md) para rutas comunes 
 
 ## MCP: opcional
 
-La skill funciona sin MCP. Para investigación jurídica puede usar paquetes PyPI opcionales y fijados por versión cuando estén disponibles:
+La skill funciona sin MCP. Para investigación jurídica puede usar paquetes PyPI opcionales, fijados por versión y con procedencia limitada documentada:
 
 - [`saij-mcp`](https://pypi.org/project/saij-mcp/0.3.0/)
 - [`csjn-mcp`](https://pypi.org/project/csjn-mcp/0.3.0/)
@@ -125,7 +125,7 @@ Las releases de nivel superior fijadas declaran MIT en PyPI, pero sus repositori
 
 Ver [references/integrations.md](references/integrations.md). Hay un ejemplo combinado en [integrations/mcp-stdio.example.json](integrations/mcp-stdio.example.json).
 
-**OpenArg / Vigía** quedan como discovery opcional: OpenArg para datasets públicos y Vigía para radar normativo. Ninguno reemplaza la fuente oficial ni es dependencia core.
+**OpenArg / Vigía** quedan como descubrimiento opcional: OpenArg para datos públicos y Vigía para radar normativo. Ninguno reemplaza la fuente oficial ni es dependencia del núcleo.
 
 ## Web pública opcional
 
@@ -133,7 +133,7 @@ Para páginas oficiales difíciles de extraer, el repo acepta como adaptadores l
 
 Ver [references/public-web-research.md](references/public-web-research.md).
 
-## Fuentes core
+## Fuentes principales
 
 - BCRA — Protección de usuarios
 - BCRA — Depósitos de ahorro/cuenta sueldo/especiales
@@ -145,7 +145,7 @@ Ver [references/sources-ar.md](references/sources-ar.md). Para controversias, [r
 
 ## Ejemplo y perfiles opcionales
 
-El único ejemplo incluido es [examples/case-synthetic/](examples/case-synthetic/): completamente ficticio y sin datos de usuarios. El core no hardcodea bancos; [banks/profile.schema.json](banks/profile.schema.json) define cómo podrían agregarse perfiles públicos opcionales sin convertirlos en protagonistas.
+El único ejemplo incluido es [examples/case-synthetic/](examples/case-synthetic/): completamente ficticio y sin datos de usuarios. El núcleo no fija bancos concretos; [banks/profile.schema.json](banks/profile.schema.json) define cómo podrían agregarse perfiles públicos opcionales sin convertirlos en protagonistas.
 
 ## Instalación rápida
 
