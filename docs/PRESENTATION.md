@@ -63,7 +63,7 @@ El proyecto separa tres capas:
 - `USD 0` de costo obligatorio.
 - sesiones bancarias autenticadas: prohibidas.
 - secretos/OTP/PIN/CVV: prohibidos.
-- 54 especificaciones adversariales; primer run real GLM-5.3: **53/54**, con S7 como único fallo.
+- 54 especificaciones adversariales con contrato de ejecución/verificación; el candidato actual todavía necesita su run completo.
 - CI valida repositorio e instaladores.
 - source-integrity controla fuentes oficiales y provenance PyPI.
 - jurisprudencia incorporada solo desde publicación judicial oficial.
@@ -72,7 +72,7 @@ El proyecto separa tres capas:
 
 **Probado por CI:** estructura, JSON, links locales, provenance, parsers de instaladores, escenarios adversariales como especificaciones y batería real-Git del updater.
 
-**No probado automáticamente:** que una norma siga jurídicamente vigente por el solo hecho de que la URL responda; que un banco cierre efectivamente el producto. **Behavioral:** GLM-5.3 ya ejecutó las 54 specs una vez y obtuvo 53/54; todavía no hay run 54/54 sobre el candidato corregido.
+**No probado automáticamente:** que una norma siga jurídicamente vigente por el solo hecho de que la URL responda; que un banco cierre efectivamente el producto. **Behavioral:** existe un run histórico GLM-5.3 sobre un commit anterior, pero el candidato actual todavía no fue ejecutado de punta a punta.
 
 ## Repo map
 
@@ -109,4 +109,4 @@ Porque discovery no es autoridad. El proyecto prefiere redundancia a nivel host 
 No. Los fallos funcionan como antecedentes contextuales en controversias; la skill no promete resultado, no representa al usuario y no sustituye análisis profesional.
 
 **¿Está listo para release?**  
-No todavía. Está en `1.2.0-dev`: ya hubo un run behavioral real (GLM-5.3, 53/54), pero S7 bloqueó el gate. Hay que rerunear los 54 sobre el commit corregido y recién con 54/54 crear tag/release inmutable.
+No todavía. Está en `1.2.0-dev`: el gate conductual del candidato actual está `NOT_RUN`. Hay que ejecutar S1–S54 completos contra el commit candidato exacto y recién con 54/54 crear tag/release inmutable.
