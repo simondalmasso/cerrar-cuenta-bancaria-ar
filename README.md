@@ -159,6 +159,12 @@ También hay instaladores conservadores: verifican `origin`, exigen `main`, rech
 
 Ver [references/client-setup.md](references/client-setup.md).
 
+## Seguridad del repositorio
+
+Además de la seguridad bancaria, el repo aplica controles de supply chain: Dependabot para GitHub Actions, CodeQL para Python y validación de que toda Action esté fijada a un SHA inmutable. Ver [docs/SECURITY-HARDENING.md](docs/SECURITY-HARDENING.md).
+
+`gh-secure` queda como herramienta opcional del mantenedor para revisar settings de GitHub. Strix queda como assurance externo opcional; sus scans no son dependencia core y requieren autorización explícita.
+
 ## Calidad
 
 `python scripts/validate_repo.py` valida estructura, referencias locales, JSON, provenance registry, handoff A–G, review playbook, legal-watch, ejemplos sintéticos, consistencia de versión, 45 especificaciones adversariales y secretos accidentales. **No ejecuta un modelo ni certifica conducta.** El mismo chequeo corre en GitHub Actions. Un workflow separado verifica disponibilidad/integridad de fuentes y artefactos fijados; no certifica vigencia jurídica.
