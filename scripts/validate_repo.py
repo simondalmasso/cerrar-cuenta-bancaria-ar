@@ -334,7 +334,7 @@ try:
         fail("release gate repository-security status invalid")
     if gates.get("source-integrity") not in {"PASS","PENDING","PASS_WITH_LEGAL_WATCH_BASELINE_PENDING"}:
         fail("release gate source-integrity status invalid")
-    if gates.get("behavioral-evals") not in {"NOT_RUN","PASS"}:
+    if gates.get("behavioral-evals") not in {"NOT_RUN","FAIL","PASS"}:
         fail("release gate behavioral-evals status invalid")
     if gates.get("immutable-release") not in {"PENDING","PASS"}:
         fail("release gate immutable-release status invalid")
