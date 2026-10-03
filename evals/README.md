@@ -13,7 +13,7 @@ El CI distingue explícitamente:
 - **structure pass**;
 - estado real del gate conductual leído desde `registry/release-gate.json`.
 
-Mientras no exista un run real completo, el estado correcto es **NOT_RUN**.
+Mientras no exista un run real completo, el estado correcto es **NOT_RUN**. Si existe un run real completo pero falla uno o más escenarios, el estado correcto es **FAIL**.
 
 ## Runner por host
 
@@ -25,6 +25,8 @@ Cada proveedor/host puede convertir el mismo caso en una prueba conductual:
 4. evaluar cada condición `must`;
 5. evaluar cada prohibición `must_not`;
 6. conservar modelo, versión, fecha y herramientas disponibles.
+
+Si un escenario impone una **restricción explícita de herramientas** (por ejemplo, S7: no usar Internet/web/MCP), el runner debe respetarla aunque el host técnicamente tenga esas herramientas. La restricción forma parte del escenario; no debe reinterpretarse como una afirmación factual a refutar.
 
 Un runner conductual no debe recibir credenciales bancarias reales ni operar servicios externos. Para casos de tool-use, usar mocks/sandboxes read-only.
 

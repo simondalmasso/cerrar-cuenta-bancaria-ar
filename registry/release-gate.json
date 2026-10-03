@@ -21,8 +21,8 @@
     },
     {
       "id": "behavioral-evals",
-      "status": "NOT_RUN",
-      "evidence": "No real host/model run artifact committed yet; 54 adversarial specifications remain structural until executed."
+      "status": "FAIL",
+      "evidence": "Real GLM-5.3 behavioral run on commit e1fd5749442ab73c0c6f7c55992a5f356241ab4f: 54 cases executed, 53 PASS / 1 FAIL (S7), 705 recorded tool calls. Full artifact SHA-256 b6eb13d68955228be42afd459368603d327de32252671b256634555c695e2f44; failure was an offline-freshness contract mismatch. S7/spec contract is being clarified; a complete rerun on the new candidate commit is required."
     },
     {
       "id": "immutable-release",
