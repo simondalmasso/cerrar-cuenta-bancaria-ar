@@ -1,6 +1,6 @@
 # cerrar-cuenta-bancaria-ar
 
-Agent Skill abierta y vendor-neutral para guiar a personas humanas en el cierre de cuentas bancarias en Argentina. Contrasta fuentes oficiales, diagnostica bloqueos, prepara mensajes y reclamos, y organiza evidencia; **la IA guía y la persona opera**.
+Agent Skill abierta e independiente del proveedor para guiar a personas humanas en el cierre de cuentas bancarias en Argentina. Contrasta fuentes oficiales, diagnostica bloqueos, prepara mensajes y reclamos, y organiza evidencia; **la IA guía y la persona opera**.
 
 > **Aviso legal:** proyecto informativo. No constituye asesoramiento jurídico, financiero ni profesional. Ver [DISCLAIMER.md](DISCLAIMER.md).
 
@@ -10,13 +10,13 @@ Agent Skill abierta y vendor-neutral para guiar a personas humanas en el cierre 
 |---|---|
 | Jurisdicción | Argentina |
 | Alcance | Personas humanas / usuarios de servicios financieros |
-| Dependencias obligatorias del core | **0** |
+| Dependencias obligatorias del núcleo | **0** |
 | Costo obligatorio | **USD 0** |
 | Operaciones bancarias/autenticadas por IA | **Prohibidas** |
 | Fuentes principales | BCRA + Argentina.gob.ar + sitio oficial del banco |
 | Integraciones externas | Opcionales y degradables |
-| Evaluaciones | 54 escenarios adversariales + contrato/verificador; run completo del candidato actual pendiente |
-| Versión | **1.2.0-dev** — sin release estable todavía |
+| Evaluaciones | 54 escenarios adversariales + contrato/verificador; ejecución completa del candidato actual pendiente |
+| Versión | **1.2.0-dev** — sin publicación estable todavía |
 
 ### Ruta de revisión
 
@@ -45,7 +45,7 @@ El estado canónico está en [registry/release-gate.json](registry/release-gate.
 - detecta saldos, descubiertos, intereses, cheques y dependencias reales;
 - evita loops de "volvé a pedir la baja";
 - redacta frases para chat/llamada y reclamos;
-- arma timeline y paquete de evidencia;
+- arma una cronología y un paquete de evidencia;
 - escala banco → responsable de usuario → BCRA cuando corresponde;
 - usa jurisprudencia oficial verificada solo si la controversia lo necesita.
 
@@ -53,7 +53,7 @@ El estado canónico está en [registry/release-gate.json](registry/release-gate.
 
 - **FAST**: respuesta operativa corta.
 - **LIVE**: frase inmediata para chat/llamada, antes de cualquier explicación.
-- **FORENSIC**: expediente, fuentes, timeline, hipótesis y gaps.
+- **FORENSIC**: expediente, fuentes, cronología, hipótesis y faltantes.
 
 El handoff mínimo entre agentes usa [registry/case-state.schema.json](registry/case-state.schema.json). Casos especiales y post-cierre están separados en referencias para no contaminar el flujo normal.
 
@@ -78,7 +78,7 @@ Agente IA
   ├─ SKILL.md
   ├─ references/       normativa + decisión + evidencia
   ├─ assets/templates/ textos reutilizables
-  └─ MCP opcional      solo investigación jurídica read-only
+  └─ MCP opcional      solo investigación jurídica en lectura
 ```
 
 Esto evita atar el proyecto a OpenAI, Anthropic, Google u otra empresa.
@@ -110,7 +110,7 @@ Cargá `SKILL.md` como instrucción y permitile leer `references/`. La lógica n
 
 ## Conexión por agente
 
-Ver [references/client-setup.md](references/client-setup.md) para rutas comunes de instalación sin duplicar la skill por proveedor. El archivo opcional `agents/openai.yaml` agrega presentación nativa para OpenAI sin cambiar el core vendor-neutral.
+Ver [references/client-setup.md](references/client-setup.md) para rutas comunes de instalación sin duplicar la skill por proveedor. El archivo opcional `agents/openai.yaml` agrega presentación nativa para OpenAI sin cambiar el núcleo independiente del proveedor.
 
 ## MCP: opcional
 
@@ -121,7 +121,7 @@ La skill funciona sin MCP. Para investigación jurídica puede usar paquetes PyP
 - `juba-mcp`
 - `juscaba-mcp`
 
-Las releases de nivel superior fijadas declaran MIT en PyPI, pero sus repositorios fuente canónicos devolvieron 404 durante la auditoría del 2026-10-02. Por eso se clasifican como **OPTIONAL_PYPI / provenance_limited**, no como source auditado. Los SHA-256 del paquete de nivel superior están registrados; las dependencias transitivas siguen resolviéndose por rango salvo lock externo. Son aceleradores de investigación, **no fuentes bancarias ni actuadores**.
+Las releases de nivel superior fijadas declaran MIT en PyPI, pero sus repositorios fuente canónicos devolvieron 404 durante la auditoría del 2026-10-02. Por eso se clasifican como **OPTIONAL_PYPI / provenance_limited**, no como código fuente auditado. Los SHA-256 del paquete de nivel superior están registrados; las dependencias transitivas siguen resolviéndose por rango salvo lock externo. Son aceleradores de investigación, **no fuentes bancarias ni actuadores**.
 
 Ver [references/integrations.md](references/integrations.md). Hay un ejemplo combinado en [integrations/mcp-stdio.example.json](integrations/mcp-stdio.example.json).
 
@@ -164,13 +164,13 @@ Ver [references/client-setup.md](references/client-setup.md).
 
 ## Seguridad del repositorio
 
-Además de la seguridad bancaria, el repo aplica controles de supply chain: Dependabot para GitHub Actions, CodeQL para Python y validación de que toda Action esté fijada a un SHA inmutable. Ver [docs/SECURITY-HARDENING.md](docs/SECURITY-HARDENING.md).
+Además de la seguridad bancaria, el repo aplica controles de cadena de suministro: Dependabot para GitHub Actions, CodeQL para Python y validación de que toda Action esté fijada a un SHA inmutable. Ver [docs/SECURITY-HARDENING.md](docs/SECURITY-HARDENING.md).
 
 `gh-secure` queda como herramienta opcional del mantenedor para revisar settings de GitHub. Strix queda como assurance externo opcional; sus scans no son dependencia core y requieren autorización explícita.
 
 ## Calidad
 
-`python scripts/validate_repo.py` valida estructura, referencias locales, JSON, provenance registry, handoff A–G, review playbook, legal-watch, ejemplos sintéticos, consistencia de versión, 54 especificaciones adversariales y secretos accidentales. **No ejecuta un modelo ni certifica conducta.** El mismo chequeo corre en GitHub Actions. Un workflow separado verifica disponibilidad/integridad de fuentes y artefactos fijados; no certifica vigencia jurídica.
+`python scripts/validate_repo.py` valida estructura, referencias locales, JSON, registro de procedencia, handoff A–G, review playbook, legal-watch, ejemplos sintéticos, consistencia de versión, 54 escenarios adversariales y secretos accidentales. **No ejecuta un modelo ni certifica conducta.** El mismo chequeo corre en GitHub Actions. Un workflow separado verifica disponibilidad/integridad de fuentes y artefactos fijados; no certifica vigencia jurídica.
 
 ## Diseño de seguridad
 
