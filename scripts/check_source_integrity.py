@@ -14,6 +14,7 @@ import hashlib
 import json
 import re
 import sys
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -43,6 +44,35 @@ def request(url: str, *, max_bytes: int | None = 262144, accept: str = "*/*"):
     except urllib.error.HTTPError as exc:
         body = exc.read() if (exc.fp and max_bytes is None) else (exc.read(max_bytes) if exc.fp else b"")
         return int(exc.code), exc.geturl(), dict(exc.headers.items()) if exc.headers else {}, body
+
+def request_with_retry(
+    url: str,
+    *,
+    max_bytes: int | None = 262144,
+    accept: str = "*/*",
+    attempts: int = 3,
+):
+    """Retry transient transport failures and retryable HTTP statuses.
+
+    Identity/content mismatches are never retried here; only transport-like
+    failures are. The final failure still blocks integrity.
+    """
+    retryable_statuses = {408, 425, 429, 500, 502, 503, 504}
+    last_exc: Exception | None = None
+    for attempt in range(1, attempts + 1):
+        try:
+            result = request(url, max_bytes=max_bytes, accept=accept)
+            status = result[0]
+            if status not in retryable_statuses or attempt == attempts:
+                return result
+        except (TimeoutError, urllib.error.URLError, ConnectionError, OSError) as exc:
+            last_exc = exc
+            if attempt == attempts:
+                raise
+        time.sleep(0.75 * attempt)
+    if last_exc is not None:
+        raise last_exc
+    raise RuntimeError("request retry loop exhausted unexpectedly")
 
 def lower_header(headers: dict[str, str], key: str) -> str:
     for k, v in headers.items():
@@ -100,7 +130,7 @@ def legal_reaudit(source_id: str, reason: str) -> None:
 print("CORE SOURCE INTEGRITY")
 for item in REG.get("core", []):
     try:
-        status, final_url, headers, body = request(item["url"], max_bytes=None)
+        status, final_url, headers, body = request_with_retry(item["url"], max_bytes=None)
         reasons: list[str] = []
         if not 200 <= status < 300:
             reasons.append(f"HTTP {status} (CORE requires 2xx)")
@@ -207,7 +237,7 @@ for case in CASE_LAW.get("cases", []):
         for url in urls:
             if not url:
                 continue
-            status, final_url, headers, body = request(url, max_bytes=None)
+            status, final_url, headers, body = request_with_retry(url, max_bytes=None)
             ctype = lower_header(headers, "Content-Type").split(";", 1)[0].strip().lower()
             observations.append(f"{status} {final_url}")
             if not 200 <= status < 300:
@@ -246,7 +276,7 @@ for item in REG.get("optional_mcp", []):
     pkg = item["id"]
     version = item["pinned_version"]
     try:
-        latest_status, _, _, latest_body = request(
+        latest_status, _, _, latest_body = request_with_retry(
             f"https://pypi.org/pypi/{pkg}/json",
             max_bytes=1024*1024,
             accept="application/json",
@@ -256,7 +286,7 @@ for item in REG.get("optional_mcp", []):
             if latest and latest != version:
                 WARNINGS.append(f"{pkg}: newer PyPI version {latest} exists; pin remains {version}")
 
-        status, _, _, body = request(
+        status, _, _, body = request_with_retry(
             f"https://pypi.org/pypi/{pkg}/{version}/json",
             max_bytes=1024*1024,
             accept="application/json",
@@ -309,7 +339,7 @@ for item in REG.get("optional_mcp", []):
                 reason = got["yanked_reason"] or "no reason supplied"
                 mismatches.append(f"artifact yanked: {expected['filename']} ({reason})")
 
-        src_status, _, _, _ = request(item["source_repo_url"], max_bytes=4096, accept="text/html")
+        src_status, _, _, _ = request_with_retry(item["source_repo_url"], max_bytes=4096, accept="text/html")
         expected_src = item.get("source_repo_status")
         if expected_src == "unavailable_404" and src_status != 404:
             WARNINGS.append(f"{pkg}: source repo status changed from expected 404 to HTTP {src_status}; re-audit provenance")
@@ -334,7 +364,7 @@ for item in REG.get("conditional", []):
     if not url:
         continue
     try:
-        status, final_url, _, _ = request(url, max_bytes=4096)
+        status, final_url, _, _ = request_with_retry(url, max_bytes=4096)
         ok = 200 <= status < 400
         print(f"- {item['id']}: {'OK' if ok else 'WARN'} — HTTP {status}, {final_url}")
         if not ok:
