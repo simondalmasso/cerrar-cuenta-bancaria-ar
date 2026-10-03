@@ -16,7 +16,7 @@ Skill abierta, gratuita y vendor-neutral para que **cualquier agente de IA** gu�
 | Operaciones de dinero | **Prohibidas** |
 | Fuentes core | BCRA + Argentina.gob.ar + fuente oficial del banco |
 | Integraciones externas | Opcionales y degradables |
-| Eval suite | 31 especificaciones adversariales; no certificación conductual |
+| Eval suite | 33 especificaciones adversariales; no certificación conductual |
 | Manifest | v1.2.0-dev (unreleased) |
 
 ### Ruta rápida
@@ -139,7 +139,7 @@ Ver [references/client-setup.md](references/client-setup.md).
 
 ## Calidad
 
-`python scripts/validate_repo.py` valida estructura, referencias locales, JSON, provenance registry, consistencia de versión, 31 especificaciones adversariales y secretos accidentales. **No ejecuta un modelo ni certifica conducta.** El mismo chequeo corre en GitHub Actions. Un workflow separado verifica disponibilidad/integridad de fuentes y artefactos fijados; no certifica vigencia jurídica.
+`python scripts/validate_repo.py` valida estructura, referencias locales, JSON, provenance registry, consistencia de versión, 33 especificaciones adversariales y secretos accidentales. **No ejecuta un modelo ni certifica conducta.** El mismo chequeo corre en GitHub Actions. Un workflow separado verifica disponibilidad/integridad de fuentes y artefactos fijados; no certifica vigencia jurídica.
 
 ## Diseño de seguridad
 
