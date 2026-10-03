@@ -11,8 +11,8 @@
     },
     {
       "id": "repository-security",
-      "status": "PENDING",
-      "evidence": "CodeQL run 37145167708 passed on main commit 27a0e554e411230c73fb0e40807c0bc237e0c908; Dependabot + immutable Action pins are in-tree. GitHub settings (rulesets/branch protection, secret scanning/push protection, private vulnerability reporting) still require administrator review."
+      "status": "PASS",
+      "evidence": "Administrator review completed 2026-10-03. Active repository ruleset 24426791 ('Protect main') targets refs/heads/main, blocks deletion/non-fast-forward, requires pull requests and the 'validate' status check; secret scanning=enabled; push protection=enabled; private vulnerability reporting=enabled; Dependabot security updates=enabled. CodeQL remains configured and previously passed."
     },
     {
       "id": "source-integrity",
