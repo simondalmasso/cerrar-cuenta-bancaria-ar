@@ -9,34 +9,34 @@
       "relevant_section": "Protección de usuarios — rescisión, información, cargos y atención",
       "local_claim": "Protección de los usuarios de servicios financieros: derechos básicos; botón de baja/rescisión; requisitos contractuales; comisiones/cargos; canales y atención al usuario.",
       "local_claim_sha256": "1098e7991aff8e6a65e374308729d4f093bb26e540ae240ba9ae84dcdcfd7fae",
-      "expected_remote_sha256": null,
-      "expected_etag": null,
-      "expected_last_modified": null
+      "expected_remote_sha256": "48564cc714daa9a8c8bbd7115dfe006307ca7cb1c3d78b106c52555fe75a12ec",
+      "expected_etag": "\"69fca45a-2630be\"",
+      "expected_last_modified": "Thu, 07 May 2026 14:40:26 GMT"
     },
     {
       "source_id": "bcra-deposits",
       "relevant_section": "Depósitos de ahorro / cuenta sueldo / especiales — cierre (punto 4.17 snapshot)",
       "local_claim": "La entidad debe facilitar el cierre eficiente; admitir cualquier sucursal y mecanismos electrónicos simples, eficaces e inmediatos que permitan el cierre en un solo acto; habilitar como mínimo home banking; proporcionar constancia; no devengar comisiones/cargos desde la solicitud de cierre.",
       "local_claim_sha256": "ae33dc7ccef1114b0d0d14bd833d5813371c83328be9329551a41fa1af8aa823",
-      "expected_remote_sha256": null,
-      "expected_etag": null,
-      "expected_last_modified": null
+      "expected_remote_sha256": "2ff44e7e60912c23fd69eb4dd506120335acc4d0f12ef2ac1d16f4ceed3efc91",
+      "expected_etag": "\"6aa7ea57-3be9d3\"",
+      "expected_last_modified": "Mon, 14 Sep 2026 12:36:39 GMT"
     },
     {
       "source_id": "bcra-current-account",
       "relevant_section": "Reglamentación de cuenta corriente — cierre de cuentas",
       "local_claim": "Sin cheques y sin saldo deudor: mecanismos electrónicos simples, eficaces e inmediatos, como mínimo home banking; cierre en cualquier sucursal. Con saldo deudor: al menos cierre presencial en cualquier sucursal. Entregar constancia y no devengar comisiones/cargos desde la solicitud.",
       "local_claim_sha256": "daa05c9a1f6965ce21a2a0a12fdee7029f7b9cd853a08ec73dd70559b57ba9ca",
-      "expected_remote_sha256": null,
-      "expected_etag": null,
-      "expected_last_modified": null
+      "expected_remote_sha256": "11e76738b2f308e00a2aabf350d8f7d7d0772f873ef790d76f86740248909345",
+      "expected_etag": "\"6abe93b6-38a940\"",
+      "expected_last_modified": "Thu, 01 Oct 2026 17:09:10 GMT"
     },
     {
       "source_id": "bcra-complaints",
       "relevant_section": "Reclamos BCRA — segunda instancia y plazo",
       "local_claim": "El BCRA actúa como segunda instancia; requiere reclamo formal previo, número de reclamo y al menos 10 días hábiles desde la presentación sin solución o con respuesta no satisfactoria, salvo cambio vigente verificado.",
       "local_claim_sha256": "6315e3fa091f4bce34e207855aa69439570f85ade3c1380765e61707ba70c7f8",
-      "expected_remote_sha256": null,
+      "expected_remote_sha256": "5b364dbd8cac18c6fdb5b2f91433add837a6b608597c3d9b38d777ea077a772b",
       "expected_etag": null,
       "expected_last_modified": null
     },
@@ -45,7 +45,7 @@
       "relevant_section": "Identidad de entidades financieras reguladas",
       "local_claim": "Usar para confirmar que la entidad está regulada y su identidad oficial.",
       "local_claim_sha256": "bec01de506e209c26c775b0a8de7a80ca40b610ea66d5e3a69e8f7c3981e7001",
-      "expected_remote_sha256": null,
+      "expected_remote_sha256": "2154b4281f6b9c868013e7a1ca61f0f9e76baaa0b89e8a2ad58e2b23488f147b",
       "expected_etag": null,
       "expected_last_modified": null
     },
@@ -54,7 +54,7 @@
       "relevant_section": "Responsables de atención al usuario",
       "local_claim": "Usar para localizar responsables y datos oficiales de escalamiento del banco.",
       "local_claim_sha256": "6957d7fd4a087fc2c32a165fa48caced67c05cc0c89ea7047dd9f5eec8a92829",
-      "expected_remote_sha256": null,
+      "expected_remote_sha256": "aedb3de619447dbd72eaee526afdec523ab0f267e0a32e34d0ed82fc7ec41019",
       "expected_etag": null,
       "expected_last_modified": null
     },
@@ -63,7 +63,7 @@
       "relevant_section": "Guía general — cómo cerrar una cuenta",
       "local_claim": "Guía pública general: cierre inmediato como regla general, sin comisión/cargo desde la solicitud, canal presencial o virtual mediante home banking, disposición de fondos y constancia; si contradice un texto BCRA específico, prevalece el análisis de la norma específica.",
       "local_claim_sha256": "823922a7bf0be05d4ea3a1952fbae6b8e40626319cc9699743e358a15596dfcf",
-      "expected_remote_sha256": null,
+      "expected_remote_sha256": "1c35b0f823f3de2be9d46ddfdfd254fbef9aa79fe39d762bee9d7fefd0aaeb78",
       "expected_etag": null,
       "expected_last_modified": null
     }
