@@ -1,5 +1,7 @@
 # Arena hostile-audit response — 2026-10-03
 
+> **Documento histórico.** Registra el estado y los hallazgos al momento de esa auditoría; no representa el estado actual del candidato. Para el estado vigente usar [registry/release-gate.json](../registry/release-gate.json) y [RELEASE-GATE.md](RELEASE-GATE.md).
+
 External audit target: `7319259bb4fc7a1281d752dea590f237cacac11e`.
 
 This response does **not** accept findings by severity label alone. Each claim was checked against the audited tree and, where needed, against the official source.
