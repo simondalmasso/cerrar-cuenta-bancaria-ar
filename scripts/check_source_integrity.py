@@ -213,6 +213,9 @@ for case in CASE_LAW.get("cases", []):
             if allowed_hosts and final_host not in allowed_hosts:
                 continue
             is_pdf = body.startswith(b"%PDF") or ctype == "application/pdf"
+            if is_pdf:
+                observed_pdf_sha = hashlib.sha256(body).hexdigest()
+                print(f"  OBSERVED case-law-pdf {cid} sha256={observed_pdf_sha} url={final_url}")
             if is_pdf and case.get("verification_pdf_presence_ok") is True:
                 matched = True
                 break
