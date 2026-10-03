@@ -22,6 +22,7 @@ Este documento es la ruta corta para revisar o presentar el proyecto sin recorre
 6. [EXECUTIVE-AUDIT.md](EXECUTIVE-AUDIT.md) — assurance y riesgos.
 7. [TOOLING-AUDIT.md](TOOLING-AUDIT.md) — por qué el core sigue en USD 0.
 8. [RELEASE-GATE.md](RELEASE-GATE.md) — qué falta objetivamente para llamar estable a v1.2.0.
+9. [ARENA-AUDIT-RESPONSE.md](ARENA-AUDIT-RESPONSE.md) — qué hallazgos externos fueron confirmados, corregidos o rechazados con evidencia.
 
 ## Demo de 5 minutos
 
