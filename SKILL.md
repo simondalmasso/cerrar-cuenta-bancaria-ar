@@ -97,7 +97,7 @@ Si aparece cotitularidad, apoderado, fallecimiento, menor, embargo/inhibición, 
 
 ## Clasificación inicial
 
-Asignar un estado. Para handoff entre agentes, serializar el mínimo necesario según [registry/case-state.schema.json](registry/case-state.schema.json); no incluir identificadores completos ni secretos.
+Para handoff entre agentes, serializar el mínimo necesario según [registry/case-state.schema.json](registry/case-state.schema.json); no incluir identificadores completos ni secretos.
 
 Asignar un estado:
 
