@@ -7,7 +7,7 @@
     {
       "id": "repository-ci",
       "status": "PASS",
-      "evidence": "validate-skill run 37145167728 passed on main commit 27a0e554e411230c73fb0e40807c0bc237e0c908; includes Python compile, repository validator, source-integrity unit regressions, Bash/PowerShell installer parse and adversarial installer regression battery."
+      "evidence": "The protected main branch requires the validate status check. Candidate-tree validation passed during the 2026-10-03 review; the release procedure reruns validate on the exact final release commit."
     },
     {
       "id": "repository-security",
@@ -17,7 +17,7 @@
     {
       "id": "source-integrity",
       "status": "PASS",
-      "evidence": "source-integrity run 37145167733 passed on main commit 27a0e554e411230c73fb0e40807c0bc237e0c908; legal-watch baseline matched, no LEGAL_REAUDIT_REQUIRED, all 5 VERIFIED_OFFICIAL case-law entries passed official-source identity verification, and transient transport failures now retry with bounded backoff before a final blocking failure."
+      "evidence": "Candidate legal/source files passed source-integrity on 2026-10-03 with no LEGAL_REAUDIT_REQUIRED; all 5 VERIFIED_OFFICIAL case-law identities passed. The release procedure reruns source-integrity on the exact final release commit."
     },
     {
       "id": "behavioral-evals",
