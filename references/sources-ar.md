@@ -1,6 +1,6 @@
 # Fuentes argentinas y snapshot normativo
 
-Última revisión del paquete: **2026-10-02**.
+Última revisión del paquete: **2026-10-03**.
 
 Este archivo no sustituye la verificación en vivo. Cuando el host tenga acceso a Internet o a una base oficial, comprobar nuevamente las reglas materiales antes de afirmarlas como vigentes.
 

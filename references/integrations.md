@@ -1,6 +1,6 @@
 # Integraciones de investigación
 
-Fecha de auditoría: **2026-10-02**.
+Fecha de revisión: **2026-10-03**.
 
 ## Decisión arquitectónica
 
@@ -30,10 +30,10 @@ Por eso se clasifican como `OPTIONAL_PYPI / provenance_limited`.
 
 | Paquete | Pin | Wheel SHA-256 | Source repo |
 |---|---:|---|---|
-| `saij-mcp` | 0.3.0 | `bac95044c4822854f119c446b0c9eb0895e23e293ab9ab59fbc5df63f0bd5f6b` | 404 verificado 2026-10-02 |
-| `csjn-mcp` | 0.3.0 | `be0f32d63d661159f6d71f1f815d3571f7833158489b399a539f691117058839` | 404 verificado 2026-10-02 |
-| `juba-mcp` | 0.3.0 | `24d99aa7dbacefe397d306086df5231b5631aef50a82300d4c846a0efc509b95` | 404 verificado 2026-10-02 |
-| `juscaba-mcp` | 0.3.1 | `032f0e377841139a459b2c7378d13e857e5f2770e7dcdd6895ef9a9634d6983e` | 404 verificado 2026-10-02 |
+| [`saij-mcp`](https://pypi.org/project/saij-mcp/0.3.0/) | 0.3.0 | `bac95044c4822854f119c446b0c9eb0895e23e293ab9ab59fbc5df63f0bd5f6b` | 404 verificado 2026-10-02 |
+| [`csjn-mcp`](https://pypi.org/project/csjn-mcp/0.3.0/) | 0.3.0 | `be0f32d63d661159f6d71f1f815d3571f7833158489b399a539f691117058839` | 404 verificado 2026-10-02 |
+| [`juba-mcp`](https://pypi.org/project/juba-mcp/0.3.0/) | 0.3.0 | `24d99aa7dbacefe397d306086df5231b5631aef50a82300d4c846a0efc509b95` | 404 verificado 2026-10-02 |
+| [`juscaba-mcp`](https://pypi.org/project/juscaba-mcp/0.3.1/) | 0.3.1 | `032f0e377841139a459b2c7378d13e857e5f2770e7dcdd6895ef9a9634d6983e` | 404 verificado 2026-10-02 |
 
 El registro conserva también los hashes de sdist: [registry/sources.json](../registry/sources.json).
 

@@ -35,7 +35,7 @@ Administrator review completed on **2026-10-03**.
 
 Verified repository settings:
 
-- active ruleset **24426791 — Protect main** targeting `refs/heads/main`;
+- active ruleset [**24426791 — Protect main**](https://github.com/simondalmasso/cerrar-cuenta-bancaria-ar/rules/24426791) targeting `refs/heads/main`;
 - branch deletion blocked;
 - non-fast-forward updates blocked;
 - changes to `main` require a pull request;

@@ -1,8 +1,8 @@
 ---
 name: cerrar-cuenta-bancaria-ar
-description: Usar cuando una persona humana quiera cerrar, dar de baja o rescindir una cuenta o paquete bancario en Argentina. Investiga normativa y canales vigentes, diagnostica bloqueos, prepara mensajes y reclamos, conserva evidencia y escala ante el banco/BCRA cuando corresponde. Puede leer web pública; nunca opera sesiones bancarias autenticadas, cuentas, dinero ni trámites externos por cuenta del usuario.
+description: Usar cuando una persona humana necesite cerrar una cuenta o paquete bancario en Argentina, entender un rechazo, revisar cargos o preparar y escalar un reclamo. Contrasta fuentes oficiales, diagnostica bloqueos y organiza evidencia. Mantiene toda acción bancaria o autenticada en manos del usuario: nunca opera home banking, mueve dinero ni presenta trámites por su cuenta.
 license: MIT
-compatibility: Vendor-neutral Agent Skill. Funciona sin MCP; puede aprovechar fuentes web oficiales y MCP jurídicos de solo lectura cuando el host los tenga disponibles.
+compatibility: Agent Skill vendor-neutral. Funciona sin servicios externos; web pública y MCP jurídicos de solo lectura son opcionales. No requiere credenciales bancarias ni servicios pagos.
 metadata:
   author: simondalmasso
   jurisdiction: argentina

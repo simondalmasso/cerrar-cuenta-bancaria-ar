@@ -62,4 +62,4 @@ The repository also protects its own software supply chain:
 - CodeQL scans Python on relevant pushes/PRs and weekly;
 - local validation scans for accidental secret patterns.
 
-Repository-setting controls such as branch protection/rulesets, secret-scanning push protection and private vulnerability reporting must be reviewed by a repository administrator. See [docs/SECURITY-HARDENING.md](docs/SECURITY-HARDENING.md).
+Repository settings were administrator-verified on 2026-10-03: the `Protect main` ruleset is active, changes to `main` require a pull request and the `validate` check, secret scanning and push protection are enabled, private vulnerability reporting is enabled, and Dependabot security updates are enabled. See [docs/SECURITY-HARDENING.md](docs/SECURITY-HARDENING.md).

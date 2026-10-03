@@ -1,5 +1,7 @@
 # Gemini hostile-audit response — 2026-10-03
 
+> **Documento histórico.** Registra el estado y los hallazgos al momento de esa auditoría; no representa el estado actual del candidato. Para el estado vigente usar [registry/release-gate.json](../registry/release-gate.json) y [RELEASE-GATE.md](RELEASE-GATE.md).
+
 External audit target: `e2c409e3a57a3158e4b4e82d5d63cf4a8965ec72`.
 
 The review was useful, but findings were rechecked before implementation. Severity labels were not treated as evidence.

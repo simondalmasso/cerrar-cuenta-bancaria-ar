@@ -1,18 +1,18 @@
-# Presentation pack — revisión en una hora
+# Guía de revisión y presentación
 
 Este documento es la ruta corta para revisar o presentar el proyecto sin recorrer todo el repositorio.
 
-## 60 segundos
+## Resumen ejecutivo
 
 **Problema:** cerrar una cuenta bancaria argentina puede entrar en loops por saldos, productos vinculados, cargos residuales, requisitos mal explicados o derivaciones contradictorias.
 
-**Producto:** una Agent Skill vendor-neutral que investiga la regla aplicable, clasifica el caso, prepara la acción humana mínima, conserva evidencia y escala cuando corresponde.
+**Producto:** una Agent Skill independiente del proveedor que investiga la regla aplicable, clasifica el caso, prepara la acción humana mínima, conserva evidencia y escala cuando corresponde.
 
 **Límite deliberado:** la IA no entra al banco, no recibe credenciales, no mueve dinero y no presenta trámites por el usuario.
 
-**Arquitectura:** core estático, cero dependencias obligatorias, fuentes oficiales primero, research/browser tooling opcional y read-only.
+**Arquitectura:** núcleo estático, cero dependencias obligatorias, fuentes oficiales primero, herramientas opcionales de investigación/navegación en modo solo lectura.
 
-## Ruta de lectura — 10 minutos
+## Ruta de lectura recomendada
 
 1. [../README.md](../README.md) — alcance, estado y garantías.
 2. [../SKILL.md](../SKILL.md) — comportamiento que recibe el agente.
@@ -20,12 +20,12 @@ Este documento es la ruta corta para revisar o presentar el proyecto sin recorre
 4. [../references/sources-ar.md](../references/sources-ar.md) — baseline normativo.
 5. [../references/jurisprudencia.md](../references/jurisprudencia.md) — controversias y antecedentes verificados.
 6. [EXECUTIVE-AUDIT.md](EXECUTIVE-AUDIT.md) — assurance y riesgos.
-7. [TOOLING-AUDIT.md](TOOLING-AUDIT.md) — por qué el core sigue en USD 0.
+7. [TOOLING-AUDIT.md](TOOLING-AUDIT.md) — por qué el núcleo sigue en USD 0.
 8. [RELEASE-GATE.md](RELEASE-GATE.md) — qué falta objetivamente para llamar estable a v1.2.0.
 9. [ARENA-AUDIT-RESPONSE.md](ARENA-AUDIT-RESPONSE.md) — qué hallazgos externos fueron confirmados, corregidos o rechazados con evidencia.
-10. [GEMINI-AUDIT-RESPONSE.md](GEMINI-AUDIT-RESPONSE.md) — disposición independiente del segundo hostile audit y sus hardenings aceptados.
+10. [GEMINI-AUDIT-RESPONSE.md](GEMINI-AUDIT-RESPONSE.md) — disposición independiente del segunda auditoría hostil y sus correcciones aceptadas.
 
-## Demo de 5 minutos
+## Demo sugerida
 
 Escenario recomendado:
 
@@ -34,10 +34,10 @@ Escenario recomendado:
 La skill debería:
 1. clasificar el producto y verificar si es cuenta corriente/depósito;
 2. separar saldo, intereses, impuestos y cargos;
-3. no asumir que el pago cerró automáticamente el blocker;
+3. no asumir que el pago resolvió automáticamente el bloqueo;
 4. pedir causa exhaustiva y estado de la solicitud anterior;
 5. evitar repetir indefinidamente la misma baja;
-6. producir texto de reclamo y timeline;
+6. producir texto de reclamo y cronología;
 7. escalar con evidencia si corresponde.
 
 Esto muestra el valor diferencial: **diagnóstico + evidencia + próxima acción**, no automatización bancaria.
@@ -63,16 +63,16 @@ El proyecto separa tres capas:
 - `USD 0` de costo obligatorio.
 - sesiones bancarias autenticadas: prohibidas.
 - secretos/OTP/PIN/CVV: prohibidos.
-- 54 especificaciones adversariales; primer run real GLM-5.3: **53/54**, con S7 como único fallo.
+- 54 especificaciones adversariales con contrato de ejecución/verificación; el candidato actual todavía necesita su ejecución completa.
 - CI valida repositorio e instaladores.
-- source-integrity controla fuentes oficiales y provenance PyPI.
+- source-integrity controla fuentes oficiales y procedencia de artefactos PyPI.
 - jurisprudencia incorporada solo desde publicación judicial oficial.
 
 ## Qué está probado y qué no
 
-**Probado por CI:** estructura, JSON, links locales, provenance, parsers de instaladores, escenarios adversariales como especificaciones y batería real-Git del updater.
+**Probado por CI:** estructura, JSON, enlaces locales, procedencia, parsers de instaladores, escenarios adversariales como especificaciones y batería real-Git del updater.
 
-**No probado automáticamente:** que una norma siga jurídicamente vigente por el solo hecho de que la URL responda; que un banco cierre efectivamente el producto. **Behavioral:** GLM-5.3 ya ejecutó las 54 specs una vez y obtuvo 53/54; todavía no hay run 54/54 sobre el candidato corregido.
+**No probado automáticamente:** que una norma siga jurídicamente vigente por el solo hecho de que la URL responda; que un banco cierre efectivamente el producto. **Evaluación conductual:** el candidato actual todavía no tiene una ejecución completa S1–S54; el historial de runs se conserva en `evals/runs/`.
 
 ## Repo map
 
@@ -83,21 +83,21 @@ references/                 conocimiento operativo y jurídico
   decision-tree.md          ramas del caso
   jurisprudencia.md         cuándo usar fallos
 registry/
-  sources.json              fuentes/provenance
+  sources.json              fuentes/procedencia
   legal-watch.json          fingerprints + re-audit trigger
   case-state.schema.json    handoff A–G / FAST-LIVE-FORENSIC
   review-playbook.json       stage gates FORENSIC sin score legal
   case-law.json             jurisprudencia verificada
   release-gate.json         estado de salida estable
-  tooling.json              tooling opcional
+  tooling.json              herramientas opcionales
 assets/templates/           intake y guiones
 evals/                      especificaciones adversariales
 scripts/                    validación e integrity checks
-docs/                       auditoría, tooling, research y presentación
+docs/                       auditoría, herramientas, investigación y presentación
 install/                    instalación conservadora
 ```
 
-## Preguntas difíciles esperables
+## Preguntas clave
 
 **¿Por qué no automatiza el home banking?**  
 Porque añadir acceso autenticado no mejora la calidad jurídica del diagnóstico y aumenta riesgo, superficie de secretos y posibilidad de acciones irreversibles.
@@ -109,4 +109,4 @@ Porque discovery no es autoridad. El proyecto prefiere redundancia a nivel host 
 No. Los fallos funcionan como antecedentes contextuales en controversias; la skill no promete resultado, no representa al usuario y no sustituye análisis profesional.
 
 **¿Está listo para release?**  
-No todavía. Está en `1.2.0-dev`: ya hubo un run behavioral real (GLM-5.3, 53/54), pero S7 bloqueó el gate. Hay que rerunear los 54 sobre el commit corregido y recién con 54/54 crear tag/release inmutable.
+No todavía. Está en `1.2.0-dev`: el gate conductual del candidato actual está `NOT_RUN`. Hay que ejecutar S1–S54 completos contra el commit candidato exacto y recién con 54/54 crear tag/release inmutable.

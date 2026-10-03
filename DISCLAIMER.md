@@ -1,6 +1,6 @@
 # Aviso legal y de responsabilidad
 
-**Última revisión: 2026-10-02.**
+**Última revisión: 2026-10-03.**
 
 Este repositorio es un proyecto independiente de software/documentación de código abierto. Su finalidad es ayudar a una persona humana a **organizar información, investigar fuentes públicas y entender pasos posibles** para solicitar el cierre de una cuenta bancaria en Argentina.
 
@@ -64,6 +64,6 @@ No publiques ni incorpores al repositorio:
 - token;
 - claves API;
 - números completos de tarjetas/cuentas;
-- documentación personal o evidencia privada sin redacción.
+- documentación personal o evidencia privada sin anonimizar u ocultar los datos sensibles.
 
 Ver también [SECURITY.md](SECURITY.md) y [LICENSE](LICENSE).

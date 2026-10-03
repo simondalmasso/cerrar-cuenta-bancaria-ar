@@ -1,38 +1,39 @@
 # cerrar-cuenta-bancaria-ar
 
-Skill abierta, gratuita y vendor-neutral para que **cualquier agente de IA** guíe a una persona humana en el cierre de una cuenta bancaria en Argentina —banco público o privado— con normativa, evidencia, diagnóstico de bloqueos y escalamiento.
+Agent Skill abierta e independiente del proveedor para guiar a personas humanas en el cierre de cuentas bancarias en Argentina. Contrasta fuentes oficiales, diagnostica bloqueos, prepara mensajes y reclamos, y organiza evidencia; **la IA guía y la persona opera**.
 
-> **Aviso legal:** este proyecto es informativo y no constituye asesoramiento jurídico, financiero ni profesional. La IA guía; la persona decide y opera. Ver [DISCLAIMER.md](DISCLAIMER.md).
+> **Aviso legal:** proyecto informativo. No constituye asesoramiento jurídico, financiero ni profesional. Ver [DISCLAIMER.md](DISCLAIMER.md).
 
-## Estado ejecutivo
+## Resumen
 
 | Control | Estado |
 |---|---|
 | Jurisdicción | Argentina |
-| Scope principal | Personas humanas / usuarios de servicios financieros |
-| Core runtime dependencies | **0** |
+| Alcance | Personas humanas / usuarios de servicios financieros |
+| Dependencias obligatorias del núcleo | **0** |
 | Costo obligatorio | **USD 0** |
-| Home banking / sesión autenticada | **Prohibido** |
-| Operaciones de dinero | **Prohibidas** |
-| Fuentes core | BCRA + Argentina.gob.ar + fuente oficial del banco |
+| Operaciones bancarias/autenticadas por IA | **Prohibidas** |
+| Fuentes principales | BCRA + Argentina.gob.ar + sitio oficial del banco |
 | Integraciones externas | Opcionales y degradables |
-| Eval suite | 54 especificaciones adversariales; primer run real GLM-5.3 = 53/54 (S7 FAIL) |
-| Manifest | v1.2.0-dev (unreleased) |
+| Evaluaciones | 54 escenarios adversariales + contrato/verificador; ejecución completa del candidato actual pendiente |
+| Versión | **1.2.0-dev** — sin publicación estable todavía |
 
-### Ruta rápida
+### Ruta de revisión
 
-Si hubiera que presentar o revisar el proyecto en una hora, empezar por [docs/PRESENTATION.md](docs/PRESENTATION.md). Para investigación multi-motor y criterio de herramientas: [docs/RESEARCH-STACK.md](docs/RESEARCH-STACK.md).
+- [Guía de presentación y arquitectura](docs/PRESENTATION.md)
+- [Estado de publicación](docs/RELEASE-GATE.md)
+- [Política de investigación y herramientas](docs/RESEARCH-STACK.md)
 
-### Release readiness
+### Estado de publicación
 
-El estado machine-readable está en [registry/release-gate.json](registry/release-gate.json) y la explicación humana en [docs/RELEASE-GATE.md](docs/RELEASE-GATE.md). Ya existe un run real GLM-5.3: **53/54**, con S7 fallando; por eso `behavioral-evals = FAIL` y **no** corresponde llamar estable a `1.2.0`.
+El estado canónico está en [registry/release-gate.json](registry/release-gate.json). El candidato actual todavía requiere un run conductual completo S1–S54 sobre su commit exacto; hasta entonces no corresponde publicar `v1.2.0` como estable.
 
 ### Documentos de auditoría
 
-- [Executive audit](docs/EXECUTIVE-AUDIT.md)
-- [Arena hostile-audit response](docs/ARENA-AUDIT-RESPONSE.md)
-- [Gemini hostile-audit response](docs/GEMINI-AUDIT-RESPONSE.md)
-- [Tooling audit / zero-cost review](docs/TOOLING-AUDIT.md)
+- [Auditoría ejecutiva](docs/EXECUTIVE-AUDIT.md)
+- [Respuesta a auditoría Arena — histórico](docs/ARENA-AUDIT-RESPONSE.md)
+- [Respuesta a auditoría Gemini — histórico](docs/GEMINI-AUDIT-RESPONSE.md)
+- [Auditoría de herramientas / costo cero](docs/TOOLING-AUDIT.md)
 - [Aviso legal](DISCLAIMER.md)
 - [Modelo de seguridad](SECURITY.md)
 - [Arquitectura](references/architecture.md)
@@ -44,7 +45,7 @@ El estado machine-readable está en [registry/release-gate.json](registry/releas
 - detecta saldos, descubiertos, intereses, cheques y dependencias reales;
 - evita loops de "volvé a pedir la baja";
 - redacta frases para chat/llamada y reclamos;
-- arma timeline y paquete de evidencia;
+- arma una cronología y un paquete de evidencia;
 - escala banco → responsable de usuario → BCRA cuando corresponde;
 - usa jurisprudencia oficial verificada solo si la controversia lo necesita.
 
@@ -52,11 +53,11 @@ El estado machine-readable está en [registry/release-gate.json](registry/releas
 
 - **FAST**: respuesta operativa corta.
 - **LIVE**: frase inmediata para chat/llamada, antes de cualquier explicación.
-- **FORENSIC**: expediente, fuentes, timeline, hipótesis y gaps.
+- **FORENSIC**: expediente, fuentes, cronología, hipótesis y faltantes.
 
 El handoff mínimo entre agentes usa [registry/case-state.schema.json](registry/case-state.schema.json). Casos especiales y post-cierre están separados en referencias para no contaminar el flujo normal.
 
-## Review playbook
+## Checklist de revisión FORENSIC
 
 En modo **FORENSIC**, la skill puede aplicar un checklist estructurado por etapas antes de escalar, cerrar o hacer un handoff crítico. Usa `SATISFIED / OPEN / NOT_APPLICABLE`, sin porcentajes de “cumplimiento jurídico”. Ver [references/review-playbook.md](references/review-playbook.md) y [registry/review-playbook.json](registry/review-playbook.json).
 
@@ -70,14 +71,14 @@ La persona mantiene el control de cada acción externa.
 
 ## Arquitectura
 
-El core es un **Agent Skill**, no un bot, API ni MCP.
+El núcleo es una **Agent Skill**, no un bot, API ni MCP.
 
 ```
 Agente IA
   ├─ SKILL.md
   ├─ references/       normativa + decisión + evidencia
   ├─ assets/templates/ textos reutilizables
-  └─ MCP opcional      solo investigación jurídica read-only
+  └─ MCP opcional      solo investigación jurídica en lectura
 ```
 
 Esto evita atar el proyecto a OpenAI, Anthropic, Google u otra empresa.
@@ -109,22 +110,22 @@ Cargá `SKILL.md` como instrucción y permitile leer `references/`. La lógica n
 
 ## Conexión por agente
 
-Ver [references/client-setup.md](references/client-setup.md) para rutas comunes de instalación sin duplicar la skill por proveedor. El archivo opcional `agents/openai.yaml` agrega presentación nativa para OpenAI sin cambiar el core vendor-neutral.
+Ver [references/client-setup.md](references/client-setup.md) para rutas comunes de instalación sin duplicar la skill por proveedor. El archivo opcional `agents/openai.yaml` agrega presentación nativa para OpenAI sin cambiar el núcleo independiente del proveedor.
 
 ## MCP: opcional
 
-La skill funciona sin MCP. Para investigación jurídica puede usar paquetes PyPI opcionales y fijados por versión cuando estén disponibles:
+La skill funciona sin MCP. Para investigación jurídica puede usar paquetes PyPI opcionales, fijados por versión y con procedencia limitada documentada:
 
-- `saij-mcp`
-- `csjn-mcp`
-- `juba-mcp`
-- `juscaba-mcp`
+- [`saij-mcp`](https://pypi.org/project/saij-mcp/0.3.0/)
+- [`csjn-mcp`](https://pypi.org/project/csjn-mcp/0.3.0/)
+- [`juba-mcp`](https://pypi.org/project/juba-mcp/0.3.0/)
+- [`juscaba-mcp`](https://pypi.org/project/juscaba-mcp/0.3.1/)
 
-Las releases de nivel superior fijadas declaran MIT en PyPI, pero sus repositorios fuente canónicos devolvieron 404 durante la auditoría del 2026-10-02. Por eso se clasifican como **OPTIONAL_PYPI / provenance_limited**, no como source auditado. Los SHA-256 del paquete de nivel superior están registrados; las dependencias transitivas siguen resolviéndose por rango salvo lock externo. Son aceleradores de investigación, **no fuentes bancarias ni actuadores**.
+Las releases de nivel superior fijadas declaran MIT en PyPI, pero sus repositorios fuente canónicos devolvieron 404 durante la auditoría del 2026-10-02. Por eso se clasifican como **OPTIONAL_PYPI / provenance_limited**, no como código fuente auditado. Los SHA-256 del paquete de nivel superior están registrados; las dependencias transitivas siguen resolviéndose por rango salvo lock externo. Son aceleradores de investigación, **no fuentes bancarias ni actuadores**.
 
 Ver [references/integrations.md](references/integrations.md). Hay un ejemplo combinado en [integrations/mcp-stdio.example.json](integrations/mcp-stdio.example.json).
 
-**OpenArg / Vigía** quedan como discovery opcional: OpenArg para datasets públicos y Vigía para radar normativo. Ninguno reemplaza la fuente oficial ni es dependencia core.
+**OpenArg / Vigía** quedan como descubrimiento opcional: OpenArg para datos públicos y Vigía para radar normativo. Ninguno reemplaza la fuente oficial ni es dependencia del núcleo.
 
 ## Web pública opcional
 
@@ -132,7 +133,7 @@ Para páginas oficiales difíciles de extraer, el repo acepta como adaptadores l
 
 Ver [references/public-web-research.md](references/public-web-research.md).
 
-## Fuentes core
+## Fuentes principales
 
 - BCRA — Protección de usuarios
 - BCRA — Depósitos de ahorro/cuenta sueldo/especiales
@@ -144,7 +145,7 @@ Ver [references/sources-ar.md](references/sources-ar.md). Para controversias, [r
 
 ## Ejemplo y perfiles opcionales
 
-El único ejemplo incluido es [examples/case-synthetic/](examples/case-synthetic/): completamente ficticio y sin datos de usuarios. El core no hardcodea bancos; [banks/profile.schema.json](banks/profile.schema.json) define cómo podrían agregarse perfiles públicos opcionales sin convertirlos en protagonistas.
+El único ejemplo incluido es [examples/case-synthetic/](examples/case-synthetic/): completamente ficticio y sin datos de usuarios. El núcleo no fija bancos concretos; [banks/profile.schema.json](banks/profile.schema.json) define cómo podrían agregarse perfiles públicos opcionales sin convertirlos en protagonistas.
 
 ## Instalación rápida
 
@@ -163,13 +164,13 @@ Ver [references/client-setup.md](references/client-setup.md).
 
 ## Seguridad del repositorio
 
-Además de la seguridad bancaria, el repo aplica controles de supply chain: Dependabot para GitHub Actions, CodeQL para Python y validación de que toda Action esté fijada a un SHA inmutable. Ver [docs/SECURITY-HARDENING.md](docs/SECURITY-HARDENING.md).
+Además de la seguridad bancaria, el repo aplica controles de cadena de suministro: Dependabot para GitHub Actions, CodeQL para Python y validación de que toda Action esté fijada a un SHA inmutable. Ver [docs/SECURITY-HARDENING.md](docs/SECURITY-HARDENING.md).
 
 `gh-secure` queda como herramienta opcional del mantenedor para revisar settings de GitHub. Strix queda como assurance externo opcional; sus scans no son dependencia core y requieren autorización explícita.
 
 ## Calidad
 
-`python scripts/validate_repo.py` valida estructura, referencias locales, JSON, provenance registry, handoff A–G, review playbook, legal-watch, ejemplos sintéticos, consistencia de versión, 54 especificaciones adversariales y secretos accidentales. **No ejecuta un modelo ni certifica conducta.** El mismo chequeo corre en GitHub Actions. Un workflow separado verifica disponibilidad/integridad de fuentes y artefactos fijados; no certifica vigencia jurídica.
+`python scripts/validate_repo.py` valida estructura, referencias locales, JSON, registro de procedencia, handoff A–G, review playbook, legal-watch, ejemplos sintéticos, consistencia de versión, 54 escenarios adversariales y secretos accidentales. **No ejecuta un modelo ni certifica conducta.** El mismo chequeo corre en GitHub Actions. Un workflow separado verifica disponibilidad/integridad de fuentes y artefactos fijados; no certifica vigencia jurídica.
 
 ## Diseño de seguridad
 
@@ -181,6 +182,6 @@ Eso permite usar la skill incluso en escenarios financieros sensibles sin delega
 
 ## Estado
 
-v1.2.0-dev — hardening posterior a auditoría adversarial; todavía **sin tag/release**. La próxima release debe fijar un tag inmutable sobre el commit aprobado.
+**1.2.0-dev** — candidato en validación. No existe todavía un tag/release estable; `v1.2.0` solo se publica cuando todos los gates del candidato exacto estén en PASS.
 
 Antes de usar una regla jurídica material, el agente debe volver a verificar la fuente oficial si dispone de acceso actualizado.

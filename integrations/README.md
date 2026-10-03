@@ -1,18 +1,18 @@
-# Optional integrations
+# Integraciones opcionales
 
-The skill has **zero required connectors**.
+La skill tiene **cero conectores obligatorios**.
 
-Default free research bundle:
+Los siguientes paquetes PyPI son ejemplos opcionales de investigación jurídica y están clasificados como **provenance-limited**; no forman parte del core ni deben presentarse como bundle por defecto:
 
-- `saij-mcp`
-- `csjn-mcp`
-- `juba-mcp`
-- `juscaba-mcp`
+- [`saij-mcp`](https://pypi.org/project/saij-mcp/0.3.0/)
+- [`csjn-mcp`](https://pypi.org/project/csjn-mcp/0.3.0/)
+- [`juba-mcp`](https://pypi.org/project/juba-mcp/0.3.0/)
+- [`juscaba-mcp`](https://pypi.org/project/juscaba-mcp/0.3.1/)
 
-See `mcp-stdio.example.json`.
+Antes de usarlos o cambiar versiones, revisar:
 
-Before adding a hosted/free-tier service, read:
-- `../references/integrations.md`
-- `../registry/sources.json`
+- [política de integraciones](../references/integrations.md)
+- [registro de fuentes y provenance](../registry/sources.json)
+- [ejemplo de configuración fijada](mcp-stdio.example.json)
 
-Do not put API keys or bank credentials in this repository.
+Nunca colocar API keys, credenciales bancarias ni evidencia privada en este repositorio.
