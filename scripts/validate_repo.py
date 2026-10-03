@@ -192,8 +192,8 @@ except Exception as exc:
 try:
     ev=json.loads((ROOT/"evals/scenarios.json").read_text(encoding="utf-8"))
     families=ev.get("families",[])
-    if len(families)<31:
-        fail(f"expected >=31 adversarial eval specifications, got {len(families)}")
+    if len(families)<33:
+        fail(f"expected >=33 adversarial eval specifications, got {len(families)}")
     if ev.get("version") != manifest_version:
         fail(f"eval version {ev.get('version')!r} != manifest version {manifest_version!r}")
     legal_baseline=ev.get("legal_baseline") or {}
