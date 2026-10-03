@@ -74,7 +74,7 @@ required = [
     "references/decision-tree.md","references/evidence-protocol.md","references/escalation-playbook.md","references/special-cases.md","references/post-close.md","references/review-playbook.md",
     "references/jurisprudencia.md","references/integrations.md","references/client-setup.md",
     "references/public-web-research.md","references/source-integrity.md","registry/sources.json","registry/tooling.json","registry/case-law.json","registry/legal-watch.json","registry/case-state.schema.json","registry/review-playbook.json","registry/release-gate.json",
-    "evals/scenarios.json","evals/README.md","evals/behavioral-run.schema.json","evals/runs/README.md","banks/README.md","banks/profile.schema.json","examples/case-synthetic/README.md","examples/case-synthetic/handoff.json","examples/case-synthetic/timeline.md",".github/dependabot.yml",".github/workflows/security-codeql.yml",
+    "evals/scenarios.json","evals/README.md","evals/behavioral-run.schema.json","evals/runs/README.md","banks/README.md","banks/profile.schema.json","examples/case-synthetic/README.md","examples/case-synthetic/handoff.json","examples/case-synthetic/timeline.md","scripts/integrity_utils.py","scripts/test_source_integrity.py",".github/dependabot.yml",".github/workflows/security-codeql.yml",
 ]
 for path in required:
     read(path)
@@ -208,10 +208,19 @@ try:
                 fail(f"verified case-law {cid} requires https verification_urls")
             if not isinstance(hosts,list) or not hosts or not all(isinstance(x,str) and x.strip() for x in hosts):
                 fail(f"verified case-law {cid} requires verification_allowed_hosts")
-            if item.get("verification_pdf_presence_ok") is not True and (
-                not isinstance(markers,list) or not markers or not all(isinstance(x,str) and x.strip() for x in markers)
-            ):
-                fail(f"verified case-law {cid} requires identity markers unless official PDF presence is accepted")
+            if "verification_pdf_presence_ok" in item:
+                fail(f"verified case-law {cid} must not use verification_pdf_presence_ok")
+            if not isinstance(markers,list) or not markers or not all(isinstance(x,str) and x.strip() for x in markers):
+                fail(f"verified case-law {cid} requires non-empty identity markers")
+            pdf_hashes=item.get("verification_sha256_by_url",{})
+            if not isinstance(pdf_hashes,dict):
+                fail(f"verified case-law {cid} verification_sha256_by_url must be an object")
+            else:
+                for url,digest in pdf_hashes.items():
+                    if url not in urls:
+                        fail(f"verified case-law {cid} pins hash for URL outside verification_urls: {url}")
+                    if not re.fullmatch(r"[0-9a-f]{64}",str(digest)):
+                        fail(f"verified case-law {cid} has invalid pinned PDF SHA-256 for {url}")
         for key in ("topics","use_when"):
             value=item.get(key)
             if not isinstance(value,list) or not value or not all(isinstance(x,str) and x.strip() for x in value):
@@ -273,6 +282,14 @@ try:
     evidence_enum=props.get("evidence_classes_present",{}).get("items",{}).get("enum")
     if evidence_enum != ["FACT","BANK_CLAIM","USER_CLAIM","INFERENCE","OPEN_GAP"]:
         fail("case-state schema evidence classes drifted")
+    required_state=set(state_schema.get("required",[]))
+    if not {"target_product_ref","related_products"}.issubset(required_state):
+        fail("case-state schema must require target_product_ref and related_products")
+    if props.get("target_product_ref",{}).get("pattern") != "^P-[0-9]{3,}$":
+        fail("case-state target_product_ref must be a privacy-safe local P-### reference")
+    related=props.get("related_products",{})
+    if related.get("type") != "array":
+        fail("case-state related_products must be an array")
 except Exception as exc:
     fail(f"case-state schema validation failed: {exc}")
 
@@ -341,8 +358,8 @@ except Exception as exc:
 try:
     ev=json.loads((ROOT/"evals/scenarios.json").read_text(encoding="utf-8"))
     families=ev.get("families",[])
-    if len(families)<52:
-        fail(f"expected >=52 adversarial eval specifications, got {len(families)}")
+    if len(families)<54:
+        fail(f"expected >=54 adversarial eval specifications, got {len(families)}")
     if ev.get("version") != manifest_version:
         fail(f"eval version {ev.get('version')!r} != manifest version {manifest_version!r}")
     legal_baseline=ev.get("legal_baseline") or {}
@@ -491,30 +508,41 @@ except Exception as exc:
     fail(f"agents/openai.yaml strict subset validation failed: {exc}")
 
 # Repository content policy: keep tracked source text-only.
-# Binary user evidence or executable payloads do not belong in source control.
+# Binary user evidence, symlinks and gitlinks do not belong in source control.
 allowed_suffixes={".md",".json",".py",".yml",".yaml",".sh",".ps1"}
 allowed_extensionless={"LICENSE"}
+content_entries=[]
 try:
     proc=subprocess.run(
-        ["git","-C",str(ROOT),"ls-files","-z"],
+        ["git","-C",str(ROOT),"ls-files","--stage","-z"],
         check=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.DEVNULL,
     )
-    content_paths=[ROOT / raw.decode("utf-8") for raw in proc.stdout.split(b"\0") if raw]
+    for raw_entry in proc.stdout.split(b"\0"):
+        if not raw_entry:
+            continue
+        meta,raw_path=raw_entry.split(b"\t",1)
+        mode=meta.split(b" ",1)[0].decode("ascii")
+        path_text=raw_path.decode("utf-8")
+        content_entries.append((mode,ROOT/path_text))
 except Exception:
-    content_paths=[
-        p for p in ROOT.rglob("*")
+    content_entries=[
+        ("100644",p) for p in ROOT.rglob("*")
         if p.is_file()
         and ".git" not in p.parts
         and "__pycache__" not in p.parts
         and ".pytest_cache" not in p.parts
     ]
 
-for p in content_paths:
-    if not p.is_file():
-        continue
+for mode,p in content_entries:
     rel=p.relative_to(ROOT)
+    if mode not in {"100644","100755"}:
+        fail(f"unsupported tracked git mode {mode}; symlinks/gitlinks are forbidden: {rel}")
+        continue
+    if not p.is_file():
+        fail(f"tracked path is not a regular file: {rel}")
+        continue
     if p.suffix.lower() not in allowed_suffixes and p.name not in allowed_extensionless:
         fail(f"binary/unknown tracked file type is not allowed in repository: {rel}")
         continue
@@ -525,6 +553,15 @@ for p in content_paths:
         continue
     if b"\x00" in raw:
         fail(f"NUL byte detected; binary tracked content is not allowed: {rel}")
+        continue
+    try:
+        decoded=raw.decode("utf-8")
+    except UnicodeDecodeError as exc:
+        fail(f"tracked text file is not strict UTF-8: {rel}: {exc}")
+        continue
+    bad_controls=[ch for ch in decoded if (ord(ch)<32 and ch not in "\n\r\t") or ord(ch)==127]
+    if bad_controls:
+        fail(f"tracked text file contains forbidden control characters: {rel}")
 
 secret_patterns=[
     re.compile(r"sk-[A-Za-z0-9_-]{20,}"),
@@ -557,13 +594,13 @@ gate_now=json.loads((ROOT/"registry/release-gate.json").read_text(encoding="utf-
 behavioral_status={x.get("id"):x.get("status") for x in gate_now.get("gates",[])}.get("behavioral-evals","UNKNOWN")
 print(f"- behavioral agent eval execution: {behavioral_status}")
 print("- registry/provenance invariants: pass")
-print("- verified case-law registry + live-verification metadata: pass")
+print("- verified case-law registry + cryptographic PDF identity metadata: pass")
 print("- case-state schema + special/post-close scaffolding: pass")
 print("- deterministic case-review playbook: pass")
 print("- legal-watch registry: structure pass")
 print("- synthetic-example privacy lint: pass")
 print("- zero-cost tooling policy: pass")
 print("- GitHub Actions immutable-pin + least-write-permission + Dependabot + CodeQL baseline: pass")
-print("- repository text-only / binary-artifact ban: pass")
+print("- repository strict-UTF8 text-only / symlink-gitlink-binary ban: pass")
 print("- OpenAI metadata strict-subset parse: pass")
 print("- secret scan: pass")
