@@ -200,6 +200,7 @@ for case in CASE_LAW.get("cases", []):
             raise RuntimeError("no verification URL")
         matched = False
         observations: list[str] = []
+        allowed_hosts = {h.lower() for h in case.get("verification_allowed_hosts", [])}
         for url in urls:
             if not url:
                 continue
@@ -208,9 +209,14 @@ for case in CASE_LAW.get("cases", []):
             observations.append(f"{status} {final_url}")
             if not 200 <= status < 300:
                 continue
+            final_host = (urllib.parse.urlparse(final_url).hostname or "").lower()
+            if allowed_hosts and final_host not in allowed_hosts:
+                continue
+            is_pdf = body.startswith(b"%PDF") or ctype == "application/pdf"
+            if is_pdf and case.get("verification_pdf_presence_ok") is True:
+                matched = True
+                break
             text_body = body.decode("utf-8", errors="ignore").lower()
-            if body.startswith(b"%PDF"):
-                text_body = "%pdf\n" + text_body
             if not markers or any(m in text_body for m in markers):
                 matched = True
                 break
