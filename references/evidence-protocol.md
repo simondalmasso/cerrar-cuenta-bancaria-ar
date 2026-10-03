@@ -18,6 +18,8 @@ Convertir chats, llamadas, mails, capturas y movimientos en un expediente breve 
 | Canal | home banking, app, chat, teléfono, mail, sucursal |
 | Actor | usuario / banco / asesor identificado |
 | Tipo | FACT / BANK_CLAIM / USER_CLAIM / INFERENCE / OPEN_GAP |
+| Captura | direct / user_recollection / system_record / none |
+| Actor reportado | usuario / banco / tercero / sistema |
 | Hecho | una oración |
 | Gestión | número si existe |
 | Importe | solo si relevante |
@@ -31,7 +33,9 @@ Convertir chats, llamadas, mails, capturas y movimientos en un expediente breve 
 - No mezclar "el banco dijo" con "la norma exige".
 - No interpretar una captura sin describir primero lo visible.
 - Si un saldo muestra componentes compensados, registrar cada componente y el neto.
-- Si una llamada no quedó grabada, usar BANK_CLAIM salvo que exista confirmación escrita posterior.
+- Si una llamada no quedó grabada y solo contamos con el recuerdo del usuario sobre lo dicho por el banco, usar `USER_CLAIM` + `reported_actor=bank` + `capture=user_recollection`.
+- Usar `BANK_CLAIM` cuando la afirmación del banco está capturada directamente en chat, mail, grabación/transcripción o documento, aunque su contenido todavía no haya sido verificado independientemente.
+- Puede coexistir un `FACT` (“existe un mail del banco del día X”) con un `BANK_CLAIM` (“el mail afirma Y”). No colapsar ambos niveles.
 - Conservar los números de gestión aunque hayan sido rechazados.
 
 ## Minimización y ocultamiento seguro
@@ -66,6 +70,10 @@ Para cada afirmación importante:
 | "El saldo deudor bloqueó la baja" | chat asesor + saldo | régimen cuenta corriente | alta | confirmar si era causa única |
 | "No corresponde comisión posterior" | fecha solicitud | BCRA actual | alta | distinguir interés/impuesto de comisión |
 | "Producto X bloquea" | solo inferencia | ninguna | baja | pedir confirmación banco |
+
+## Handoff machine-readable
+
+Cuando otro agente deba continuar el caso, exportar solo estado, modo, gaps, próxima acción, flags especiales y estado post-cierre conforme a [../registry/case-state.schema.json](../registry/case-state.schema.json). No serializar secretos ni identificadores completos.
 
 ## Cierre probatorio
 
