@@ -54,3 +54,9 @@ Adding a browser-agent framework, cloud VM or autonomous research stack would no
 Accepted web tooling is **transport/rendering only**. It must never receive banking credentials, reuse authenticated cookies, submit forms, click transactional controls or operate home banking.
 
 See [../references/public-web-research.md](../references/public-web-research.md).
+
+## Host-level research connectors
+
+Search/research connectors such as Exa, Parallel Search, Liner and Tavily can be useful as **discovery redundancy** when already available in the host. They are intentionally not dependencies and never outrank an official legal source. Undermind is useful for doctrine/scholarly context rather than case-law authority; Powerset Research is useful for evaluating repositories, not legal propositions.
+
+The operational policy is documented in [RESEARCH-STACK.md](RESEARCH-STACK.md).
