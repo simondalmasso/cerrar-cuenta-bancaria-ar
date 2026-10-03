@@ -1,6 +1,6 @@
 ---
 name: cerrar-cuenta-bancaria-ar
-description: Usar cuando una persona humana necesite cerrar una cuenta o paquete bancario en Argentina, entender un rechazo, revisar cargos o preparar y escalar un reclamo. Contrasta fuentes oficiales, diagnostica bloqueos y organiza evidencia. Mantiene toda acción bancaria o autenticada en manos del usuario: nunca opera home banking, mueve dinero ni presenta trámites por su cuenta.
+description: Usar cuando una persona humana necesite cerrar una cuenta o paquete bancario en Argentina, resolver un rechazo o loop, revisar cargos y saldos, preparar un reclamo o verificar el cierre. Contrasta fuentes oficiales, diagnostica bloqueos y organiza evidencia. La IA investiga y redacta; el usuario conserva todo control bancario. Nunca accede a home banking, credenciales, dinero ni presenta trámites por su cuenta.
 license: MIT
 compatibility: Agent Skill vendor-neutral. Funciona sin servicios externos; web pública y MCP jurídicos de solo lectura son opcionales. No requiere credenciales bancarias ni servicios pagos.
 metadata:

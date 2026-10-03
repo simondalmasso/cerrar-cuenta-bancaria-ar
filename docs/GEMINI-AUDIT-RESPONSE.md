@@ -30,10 +30,6 @@ The review was useful, but findings were rechecked before implementation. Severi
 
 ## Release status at audit time
 
-At the time of this audit, the remaining material gates were:
-
-- repository-security administrator review: pending;
-- behavioral evals: NOT_RUN;
-- immutable `v1.2.0` tag/release: pending.
+At the time of this audit, repository-security review, behavioral execution and the immutable release were still incomplete. This is historical context only; current status is intentionally not duplicated here.
 
 > Current status is maintained only in [registry/release-gate.json](../registry/release-gate.json); the values above are historical.
