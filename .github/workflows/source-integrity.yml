@@ -7,8 +7,10 @@ on:
   push:
     paths:
       - "registry/sources.json"
+      - "registry/legal-watch.json"
       - "scripts/check_source_integrity.py"
       - "references/source-integrity.md"
+      - "references/sources-ar.md"
       - "references/integrations.md"
       - "references/public-web-research.md"
       - ".github/workflows/source-integrity.yml"
@@ -26,5 +28,5 @@ jobs:
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
         with:
           python-version: "3.12"
-      - name: Check public source integrity and pinned provenance
+      - name: Check source integrity, legal drift and pinned provenance
         run: python scripts/check_source_integrity.py
