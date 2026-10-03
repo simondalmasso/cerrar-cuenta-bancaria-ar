@@ -8,9 +8,11 @@ on:
     paths:
       - "registry/sources.json"
       - "registry/legal-watch.json"
+      - "registry/case-law.json"
       - "scripts/check_source_integrity.py"
       - "references/source-integrity.md"
       - "references/sources-ar.md"
+      - "references/jurisprudencia.md"
       - "references/integrations.md"
       - "references/public-web-research.md"
       - ".github/workflows/source-integrity.yml"
