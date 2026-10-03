@@ -22,6 +22,12 @@ Puede pasar a **G** cuando existe evidencia suficiente de que el producto correc
 
 `G` no significa “nunca puede aparecer otra controversia”. Significa que, con la evidencia disponible, el cierre está verificado.
 
+## Alcance de G
+
+`G — Cierre verificado` se refiere **al producto objetivo identificado**, no a la extinción automática de todo vínculo con el banco. Una tarjeta, préstamo, seguro u otro contrato vinculado puede seguir abierto si quedó expresamente separado y documentado.
+
+Antes de G, verificar que los vinculados relevantes fueron: **cerrados**, **confirmados como aún abiertos por decisión/contrato independiente**, o **separados como tema residual**. No exigir cerrar un producto distinto solo por estar vinculado.
+
 ## Monitoreo posterior
 
 Registrar `post_close_status`:
