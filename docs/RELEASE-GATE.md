@@ -7,14 +7,17 @@ Estado actual: **BLOCKED**. El proyecto sigue en `1.2.0-dev`.
 | Gate | Estado | Qué falta |
 |---|---|---|
 | Repository CI | PASS | mantener verde sobre el HEAD candidato |
-| Repository security baseline | PENDING/PASS | CodeQL candidate run + admin review of GitHub security settings |
+| Repository security baseline | PASS | ruleset `Protect main`, secret scanning, push protection, private vulnerability reporting, Dependabot security updates y CodeQL verificados |
 | Source integrity / legal watch | PASS cuando no haya `LEGAL_REAUDIT_REQUIRED` | revisar cualquier drift antes del tag |
-| Behavioral evals | **NOT RUN** | ejecutar los 54 escenarios en un host/modelo real y guardar evidencia verificable |
+| Behavioral evals | **FAIL (53/54)** | corregir S7 offline-freshness contract y ejecutar nuevamente los 54 escenarios sobre el nuevo commit |
 | Privacy / synthetic examples | PASS | no incorporar datos reales |
 | Vendor-neutral core | PASS | perfiles bancarios solo opcionales |
 | Immutable release | PENDING | crear tag `v1.2.0` y GitHub Release solo después de todos los gates |
 
 ## Behavioral gate
+
+Primer run real: GLM-5.3 sobre `e1fd5749442ab73c0c6f7c55992a5f356241ab4f`, 54/54 ejecutados, **53 PASS / 1 FAIL (S7)**, 705 tool calls registrados. El recibo/fingerprint está en `evals/runs/glm53-e1fd574-fail.receipt.json`. El run demostró una ambigüedad del contrato S7: el prompt decía “No tenés Internet” pero el host sí exponía web; el modelo verificó en vivo en lugar de ejecutar el fallback offline. El escenario corregido ahora prohíbe explícitamente Internet/web/MCP durante ese turno.
+
 
 No aceptar como evidencia:
 - una lectura manual de `must`/`must_not` sin ejecutar el modelo;
