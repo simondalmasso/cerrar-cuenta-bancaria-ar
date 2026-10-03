@@ -50,5 +50,14 @@
       "reported_actor": "system",
       "summary": "Segundo intento sintético rechazado sin causa visible."
     }
+  ],
+  "target_product_ref": "P-001",
+  "related_products": [
+    {
+      "ref": "P-002",
+      "type": "credit_card",
+      "status": "retained_active",
+      "note": "Contrato sintético independiente; no es el producto objetivo."
+    }
   ]
 }
