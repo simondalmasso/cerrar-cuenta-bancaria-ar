@@ -64,6 +64,6 @@ No publiques ni incorpores al repositorio:
 - token;
 - claves API;
 - números completos de tarjetas/cuentas;
-- documentación personal o evidencia privada sin redacción.
+- documentación personal o evidencia privada sin anonimizar u ocultar los datos sensibles.
 
 Ver también [SECURITY.md](SECURITY.md) y [LICENSE](LICENSE).
