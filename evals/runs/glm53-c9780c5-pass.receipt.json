@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "type": "behavioral_run_receipt",
+  "status": "PASS",
+  "scope": "historical_commit_only",
+  "source_artifact": {
+    "filename": "glm53-behavioral-run-c9780c5.json",
+    "sha256": "b4b294f73cf65afc1118f86871a471400a59ad5d994b3c6069647b520e33ec83",
+    "storage": "external_runner_artifact_not_committed"
+  },
+  "skill_version": "1.2.0-dev",
+  "skill_commit": "c9780c58213e8a98e00cacc8b61d3c7f77655836",
+  "host": "zai-web / Super Z CLI harness (runner-reported)",
+  "model": "GLM-5.3",
+  "judge": {
+    "type": "model",
+    "identity": "runner-reported judging pass"
+  },
+  "summary": {
+    "total_cases": 54,
+    "pass": 54,
+    "fail": 0,
+    "failed_cases": [],
+    "total_tool_calls": 173,
+    "verifier": "runner-reported: BEHAVIORAL EVAL RUN VERIFIED (exit 0)",
+    "release_gate_for_that_commit": "PASS"
+  },
+  "verification_scope": "The full JSON artifact was produced and verified by the external runner, but is not stored in this repository. This receipt records the runner-reported digest and summary only.",
+  "current_candidate_note": "Do not inherit this PASS to another commit. The current release gate remains commit-scoped and requires its own complete run."
+}
