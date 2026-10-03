@@ -352,6 +352,26 @@ try:
         fail("synthetic example contains an 8+ digit numeric sequence; keep examples obviously synthetic")
     if "Banco Ejemplo" not in joined or "ficticio" not in joined.lower():
         fail("synthetic example must be explicitly marked fictitious")
+
+    handoff=json.loads((synthetic/"handoff.json").read_text(encoding="utf-8"))
+    if not re.fullmatch(r"P-[0-9]{3,}",str(handoff.get("target_product_ref",""))):
+        fail("synthetic handoff must use a privacy-safe target_product_ref")
+    related=handoff.get("related_products")
+    if not isinstance(related,list):
+        fail("synthetic handoff related_products must be a list")
+    else:
+        for item in related:
+            if not isinstance(item,dict):
+                fail("synthetic related product must be an object")
+                continue
+            if not re.fullmatch(r"P-[0-9]{3,}",str(item.get("ref",""))):
+                fail("synthetic related product must use a P-### ref")
+            if item.get("status") not in {"closed","retained_active","residual_issue","unknown"}:
+                fail("synthetic related product has invalid status")
+        if handoff.get("case_state")=="G" and any(
+            isinstance(item,dict) and item.get("status")=="unknown" for item in related
+        ):
+            fail("G handoff cannot leave related_products status unknown")
 except Exception as exc:
     fail(f"synthetic-example validation failed: {exc}")
 
