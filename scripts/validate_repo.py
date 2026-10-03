@@ -125,9 +125,11 @@ try:
 
     sha_re=re.compile(r"^[0-9a-f]{64}$")
     for item in reg.get("optional_mcp", []):
-        for key in ("pinned_version","license_expression","requires_python","source_repo_url","source_repo_status","source_repo_verified_at"):
+        for key in ("pinned_version","license_expression","requires_python","package_url","source_repo_url","source_repo_status","source_repo_verified_at"):
             if not item.get(key):
                 fail(f"optional MCP {item.get('id')} missing {key}")
+        if not str(item.get("package_url","")).startswith("https://"):
+            fail(f"optional MCP {item.get('id')} package_url must use https")
         requires_dist=item.get("requires_dist")
         if not isinstance(requires_dist,list) or not all(isinstance(x,str) and x.strip() for x in requires_dist):
             fail(f"optional MCP {item.get('id')} requires_dist must be a string list")
@@ -274,6 +276,8 @@ except Exception as exc:
 
 try:
     state_schema=json.loads((ROOT/"registry/case-state.schema.json").read_text(encoding="utf-8"))
+    if state_schema.get("$id") != "https://raw.githubusercontent.com/simondalmasso/cerrar-cuenta-bancaria-ar/main/registry/case-state.schema.json":
+        fail("case-state schema $id must use the canonical raw GitHub URL")
     props=state_schema.get("properties",{})
     if props.get("case_state",{}).get("enum") != list("ABCDEFG"):
         fail("case-state schema must preserve A-G exactly")
