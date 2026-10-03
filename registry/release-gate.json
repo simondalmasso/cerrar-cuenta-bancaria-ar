@@ -7,17 +7,17 @@
     {
       "id": "repository-ci",
       "status": "PASS",
-      "evidence": "validate-skill run 37144660951 passed on audit/gemini-corrections; includes Python compile, repository validator, source-integrity unit regressions, Bash/PowerShell installer parse and adversarial installer regression battery."
+      "evidence": "validate-skill run 37145167728 passed on main commit 27a0e554e411230c73fb0e40807c0bc237e0c908; includes Python compile, repository validator, source-integrity unit regressions, Bash/PowerShell installer parse and adversarial installer regression battery."
     },
     {
       "id": "repository-security",
       "status": "PENDING",
-      "evidence": "Dependabot + CodeQL + immutable Action pins are in-tree; GitHub settings (rulesets/branch protection, secret scanning/push protection, private vulnerability reporting) still require administrator review."
+      "evidence": "CodeQL run 37145167708 passed on main commit 27a0e554e411230c73fb0e40807c0bc237e0c908; Dependabot + immutable Action pins are in-tree. GitHub settings (rulesets/branch protection, secret scanning/push protection, private vulnerability reporting) still require administrator review."
     },
     {
       "id": "source-integrity",
       "status": "PASS",
-      "evidence": "source-integrity run 37144600385 passed on audit/gemini-corrections; legal-watch baseline matched, no LEGAL_REAUDIT_REQUIRED, and all 5 VERIFIED_OFFICIAL case-law entries passed official-source identity verification including pinned SHA-256 where PDF."
+      "evidence": "source-integrity run 37145167733 passed on main commit 27a0e554e411230c73fb0e40807c0bc237e0c908; legal-watch baseline matched, no LEGAL_REAUDIT_REQUIRED, all 5 VERIFIED_OFFICIAL case-law entries passed official-source identity verification, and transient transport failures now retry with bounded backoff before a final blocking failure."
     },
     {
       "id": "behavioral-evals",
