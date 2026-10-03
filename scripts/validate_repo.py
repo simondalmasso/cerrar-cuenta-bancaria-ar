@@ -9,6 +9,7 @@ from __future__ import annotations
 import hashlib
 import json
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -489,16 +490,33 @@ try:
 except Exception as exc:
     fail(f"agents/openai.yaml strict subset validation failed: {exc}")
 
-# Repository content policy: keep this skill text-only.
+# Repository content policy: keep tracked source text-only.
 # Binary user evidence or executable payloads do not belong in source control.
 allowed_suffixes={".md",".json",".py",".yml",".yaml",".sh",".ps1"}
 allowed_extensionless={"LICENSE"}
-for p in ROOT.rglob("*"):
-    if not p.is_file() or ".git" in p.parts:
+try:
+    proc=subprocess.run(
+        ["git","-C",str(ROOT),"ls-files","-z"],
+        check=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.DEVNULL,
+    )
+    content_paths=[ROOT / raw.decode("utf-8") for raw in proc.stdout.split(b"\0") if raw]
+except Exception:
+    content_paths=[
+        p for p in ROOT.rglob("*")
+        if p.is_file()
+        and ".git" not in p.parts
+        and "__pycache__" not in p.parts
+        and ".pytest_cache" not in p.parts
+    ]
+
+for p in content_paths:
+    if not p.is_file():
         continue
     rel=p.relative_to(ROOT)
     if p.suffix.lower() not in allowed_suffixes and p.name not in allowed_extensionless:
-        fail(f"binary/unknown file type is not allowed in repository: {rel}")
+        fail(f"binary/unknown tracked file type is not allowed in repository: {rel}")
         continue
     try:
         raw=p.read_bytes()
@@ -506,7 +524,7 @@ for p in ROOT.rglob("*"):
         fail(f"cannot read repository file {rel}: {exc}")
         continue
     if b"\x00" in raw:
-        fail(f"NUL byte detected; binary content is not allowed: {rel}")
+        fail(f"NUL byte detected; binary tracked content is not allowed: {rel}")
 
 secret_patterns=[
     re.compile(r"sk-[A-Za-z0-9_-]{20,}"),
