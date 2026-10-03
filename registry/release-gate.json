@@ -7,7 +7,7 @@
     {
       "id": "repository-ci",
       "status": "PASS",
-      "evidence": "validate-skill run 37090891455 passed on candidate branch; CI also runs on PR/merge head"
+      "evidence": "validate-skill run 37141329799 passed on audit/arena-corrections; includes Python compile, repository validator, Bash/PowerShell installer parse and adversarial installer regression battery."
     },
     {
       "id": "repository-security",
@@ -17,7 +17,7 @@
     {
       "id": "source-integrity",
       "status": "PASS",
-      "evidence": "source-integrity run 37090785087 matched legal baselines with no LEGAL_REAUDIT_REQUIRED trigger"
+      "evidence": "source-integrity run 37141282639 passed; legal-watch baseline matched with no LEGAL_REAUDIT_REQUIRED and all 5 VERIFIED_OFFICIAL case-law endpoints matched official-source identity checks."
     },
     {
       "id": "behavioral-evals",
