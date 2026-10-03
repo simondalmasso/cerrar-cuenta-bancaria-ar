@@ -6,6 +6,7 @@ This does NOT execute an AI model and does NOT certify behavioral compliance.
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 import sys
@@ -67,7 +68,7 @@ if skill:
 
 required = [
     "README.md","LICENSE","DISCLAIMER.md","SECURITY.md","CONTRIBUTING.md","agents/openai.yaml",
-    "docs/EXECUTIVE-AUDIT.md","docs/TOOLING-AUDIT.md","docs/PRESENTATION.md","docs/RESEARCH-STACK.md",
+    "docs/EXECUTIVE-AUDIT.md","docs/TOOLING-AUDIT.md","docs/PRESENTATION.md","docs/RESEARCH-STACK.md","docs/RELEASE-GATE.md",
     "references/sources-ar.md","references/bank-discovery.md","references/money-and-blockers.md",
     "references/decision-tree.md","references/evidence-protocol.md","references/escalation-playbook.md","references/special-cases.md","references/post-close.md",
     "references/jurisprudencia.md","references/integrations.md","references/client-setup.md",
@@ -213,23 +214,42 @@ try:
         for key in ("relevant_section","local_claim"):
             if not isinstance(item.get(key),str) or not item.get(key).strip():
                 fail(f"legal-watch {item.get('source_id')} missing {key}")
-        if not sha_re_local.fullmatch(str(item.get("local_claim_sha256",""))):
+        local_hash=str(item.get("local_claim_sha256",""))
+        if not sha_re_local.fullmatch(local_hash):
             fail(f"legal-watch {item.get('source_id')} invalid local_claim_sha256")
-        remote=item.get("expected_remote_sha256")
-        if remote is not None and not sha_re_local.fullmatch(str(remote)):
-            fail(f"legal-watch {item.get('source_id')} invalid expected_remote_sha256")
+        elif hashlib.sha256(item["local_claim"].encode("utf-8")).hexdigest() != local_hash:
+            fail(f"legal-watch {item.get('source_id')} local_claim fingerprint mismatch")
+        strategy=item.get("strategy")
+        if strategy not in {"full_content","semantic_text_windows","availability_only"}:
+            fail(f"legal-watch {item.get('source_id')} invalid strategy {strategy!r}")
+        if strategy=="full_content":
+            remote=item.get("expected_remote_sha256")
+            if not sha_re_local.fullmatch(str(remote or "")):
+                fail(f"legal-watch {item.get('source_id')} full_content baseline missing/invalid")
+        elif strategy=="semantic_text_windows":
+            needles=item.get("semantic_needles")
+            if not isinstance(needles,list) or not needles or not all(isinstance(x,str) and x.strip() for x in needles):
+                fail(f"legal-watch {item.get('source_id')} semantic_needles missing")
+            if not sha_re_local.fullmatch(str(item.get("expected_semantic_sha256") or "")):
+                fail(f"legal-watch {item.get('source_id')} semantic baseline missing/invalid")
 except Exception as exc:
     fail(f"legal-watch registry validation failed: {exc}")
 
 try:
     gate=json.loads((ROOT/"registry/release-gate.json").read_text(encoding="utf-8"))
     gates={item.get("id"):item.get("status") for item in gate.get("gates",[])}
+    if gates.get("repository-ci") not in {"PASS","PENDING"}:
+        fail("release gate repository-ci status invalid")
+    if gates.get("source-integrity") not in {"PASS","PENDING","PASS_WITH_LEGAL_WATCH_BASELINE_PENDING"}:
+        fail("release gate source-integrity status invalid")
     if gates.get("behavioral-evals") not in {"NOT_RUN","PASS"}:
         fail("release gate behavioral-evals status invalid")
     if gates.get("immutable-release") not in {"PENDING","PASS"}:
         fail("release gate immutable-release status invalid")
-    if gate.get("status")=="READY" and (gates.get("behavioral-evals")!="PASS" or gates.get("immutable-release")!="PASS"):
-        fail("release gate cannot be READY before behavioral evals and immutable release are PASS")
+    if gates.get("behavioral-evals")!="PASS" and gate.get("status")!="BLOCKED":
+        fail("release gate must remain BLOCKED until behavioral evals PASS")
+    if gate.get("status")=="READY" and any(gates.get(k)!="PASS" for k in ("repository-ci","source-integrity","behavioral-evals","immutable-release")):
+        fail("release gate cannot be READY before all release-critical gates PASS")
 except Exception as exc:
     fail(f"release-gate validation failed: {exc}")
 
