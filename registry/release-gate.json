@@ -7,12 +7,12 @@
     {
       "id": "repository-ci",
       "status": "PASS",
-      "evidence": "validate-skill on main before this readiness branch"
+      "evidence": "validate-skill run 37090891455 passed on candidate branch; CI also runs on PR/merge head"
     },
     {
       "id": "source-integrity",
-      "status": "PASS_WITH_LEGAL_WATCH_BASELINE_PENDING",
-      "evidence": "registry/legal-watch.json will be baselined on this branch"
+      "status": "PASS",
+      "evidence": "source-integrity run 37090785087 matched legal baselines with no LEGAL_REAUDIT_REQUIRED trigger"
     },
     {
       "id": "behavioral-evals",
