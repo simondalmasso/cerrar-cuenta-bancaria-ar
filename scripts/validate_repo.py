@@ -26,6 +26,7 @@ def read(path: str) -> str:
 
 skill = read("SKILL.md")
 families = []
+manifest_version = ""
 
 if skill:
     parts = skill.split("---", 2)
@@ -42,6 +43,8 @@ if skill:
     name = top_value("name")
     desc = top_value("description")
     compat = top_value("compatibility")
+    version_match = re.search(r"(?m)^  version:\s*['\"]?([^'\"\n]+)['\"]?\s*$", front)
+    manifest_version = version_match.group(1).strip() if version_match else ""
 
     if not name:
         fail("frontmatter missing name")
@@ -51,6 +54,8 @@ if skill:
         fail(f"description invalid length: {len(desc)}")
     if compat and len(compat) > 500:
         fail(f"compatibility too long: {len(compat)}")
+    if not manifest_version:
+        fail("metadata.version missing")
     if len(skill.splitlines()) >= 500:
         fail("SKILL.md must stay under 500 lines")
     if ROOT.name == "cerrar-cuenta-bancaria-ar" and name != ROOT.name:
@@ -66,7 +71,7 @@ required = [
     "references/sources-ar.md","references/bank-discovery.md","references/money-and-blockers.md",
     "references/decision-tree.md","references/evidence-protocol.md","references/escalation-playbook.md",
     "references/jurisprudencia.md","references/integrations.md","references/client-setup.md",
-    "references/public-web-research.md","registry/sources.json","registry/tooling.json",
+    "references/public-web-research.md","references/source-integrity.md","registry/sources.json","registry/tooling.json",
     "evals/scenarios.json","evals/README.md",
 ]
 for path in required:
@@ -121,6 +126,9 @@ try:
         for key in ("pinned_version","license_expression","requires_python","source_repo_url","source_repo_status","source_repo_verified_at"):
             if not item.get(key):
                 fail(f"optional MCP {item.get('id')} missing {key}")
+        requires_dist=item.get("requires_dist")
+        if not isinstance(requires_dist,list) or not all(isinstance(x,str) and x.strip() for x in requires_dist):
+            fail(f"optional MCP {item.get('id')} requires_dist must be a string list")
         artifacts=item.get("artifacts")
         if not isinstance(artifacts,list) or len(artifacts)<2:
             fail(f"optional MCP {item.get('id')} must record wheel + sdist artifacts")
@@ -161,8 +169,13 @@ except Exception as exc:
 try:
     ev=json.loads((ROOT/"evals/scenarios.json").read_text(encoding="utf-8"))
     families=ev.get("families",[])
-    if len(families)<22:
-        fail(f"expected >=22 adversarial eval specifications, got {len(families)}")
+    if len(families)<31:
+        fail(f"expected >=31 adversarial eval specifications, got {len(families)}")
+    if ev.get("version") != manifest_version:
+        fail(f"eval version {ev.get('version')!r} != manifest version {manifest_version!r}")
+    legal_baseline=ev.get("legal_baseline") or {}
+    if legal_baseline.get("source") != "references/sources-ar.md" or legal_baseline.get("reverify_on_source_change") is not True:
+        fail("eval legal_baseline must require re-verification from references/sources-ar.md")
     ids_seen=set()
     names_seen=set()
     for i,case in enumerate(families,start=1):
@@ -189,6 +202,27 @@ try:
             names_seen.add(cname)
 except Exception as exc:
     fail(f"eval validation failed: {exc}")
+
+readme_text=read("README.md")
+changelog_text=read("CHANGELOG.md")
+if manifest_version:
+    if manifest_version not in readme_text:
+        fail(f"README does not mention manifest version {manifest_version}")
+    if manifest_version not in changelog_text:
+        fail(f"CHANGELOG does not mention manifest version {manifest_version}")
+
+privacy_protocol=read("references/evidence-protocol.md")
+case_intake=read("assets/templates/case-intake.md")
+if "Redactar:" in privacy_protocol or "Redactar datos sensibles" in case_intake:
+    fail("ambiguous Spanish 'Redactar' privacy wording is forbidden; use Ocultar/tapar/Nunca incluir")
+
+for obsolete in (
+    ROOT/"scripts/check_source_health.py",
+    ROOT/"references/source-health.md",
+    ROOT/".github/workflows/source-health.yml",
+):
+    if obsolete.exists():
+        fail(f"obsolete source-health path still present: {obsolete.relative_to(ROOT)}")
 
 openai_yaml=read("agents/openai.yaml")
 try:

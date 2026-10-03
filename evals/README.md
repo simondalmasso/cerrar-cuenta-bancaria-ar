@@ -1,6 +1,6 @@
 # Adversarial eval specifications
 
-`scenarios.json` contiene **especificaciones** de comportamiento esperado. No son, por sí solas, ejecuciones de un modelo.
+`scenarios.json` contiene **31 especificaciones adversariales** de comportamiento esperado. No son, por sí solas, ejecuciones de un modelo.
 
 `scripts/validate_repo.py` valida estructura:
 - ID y nombre únicos;
@@ -25,3 +25,7 @@ Cada proveedor/host puede convertir el mismo caso en una prueba conductual:
 6. conservar modelo, versión, fecha y herramientas disponibles.
 
 Un runner conductual no debe recibir credenciales bancarias reales ni operar servicios externos. Para casos de tool-use, usar mocks/sandboxes read-only.
+
+## Baseline jurídico
+
+Los casos que contienen afirmaciones regulatorias se apoyan en `references/sources-ar.md`. Si cambia ese baseline, se deben revalidar las afirmaciones legales embebidas en los evals antes de una release.

@@ -173,6 +173,9 @@
           "packagetype": "sdist",
           "sha256": "6418d7d64d27ebba3bcfdb4b55494110b5e8d1f97957795dd819d48f5546919f"
         }
+      ],
+      "requires_dist": [
+        "mcp>=1.0.0"
       ]
     },
     {
@@ -199,6 +202,9 @@
           "packagetype": "sdist",
           "sha256": "ca110e77b9aff686c8dfefe3dcb9e77c6a3b0235418d92a294f0911d08da02b5"
         }
+      ],
+      "requires_dist": [
+        "mcp>=1.0.0"
       ]
     },
     {
@@ -225,6 +231,9 @@
           "packagetype": "sdist",
           "sha256": "72cb7f8f8d10971eff42002cf49ce34c9294476101b53e97eb4ab208a9cf0595"
         }
+      ],
+      "requires_dist": [
+        "mcp>=1.0.0"
       ]
     },
     {
@@ -251,6 +260,10 @@
           "packagetype": "sdist",
           "sha256": "1d8d710bc1de60746dcfb4b642446c719a5b95848975915a893840421858f610"
         }
+      ],
+      "requires_dist": [
+        "httpx>=0.27",
+        "mcp[cli]>=1.0"
       ]
     }
   ],

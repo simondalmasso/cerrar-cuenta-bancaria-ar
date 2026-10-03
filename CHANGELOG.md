@@ -1,6 +1,20 @@
 # Changelog
 
-## Unreleased — external audit preparation
+## 1.2.0-dev — Unreleased
+
+- hardened both installers against dirty trees, detached/non-main checkouts and local-ahead/diverged commits before validator execution;
+- added real-Git adversarial installer regression tests, including dirty-tree and trojan-commit cases plus legitimate stale fast-forward;
+- renamed the source-health file family consistently to source-integrity;
+- added PyPI yanked detection and requires_dist provenance checks;
+- documented that uvx top-level pins do not hash-pin transitive dependencies;
+- fixed privacy wording so full DNI/CBU/account/card identifiers are explicitly hidden, not ambiguously “redacted”;
+- expanded adversarial specifications from 22 to 31, covering the nine PARTIAL scenarios from the hostile audit;
+- added currency/multi-currency intake and compensated-balance handling;
+- tightened Agent Skill activation metadata and restored the BCRA single-act wording in the always-loaded summary;
+- centralized the BCRA second-instance wait period in references/sources-ar.md;
+- marked the manifest as unreleased development state; no tag/release is created by this hardening branch.
+
+## Earlier unreleased external-audit preparation
 
 - added prominent legal/disclaimer layer without attempting to waive non-waivable rights;
 - added executive audit and zero-cost tooling review;

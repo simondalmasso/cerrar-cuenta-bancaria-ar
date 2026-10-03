@@ -35,6 +35,8 @@ El cierre del paquete no prueba el cierre de cada contrato y viceversa.
 
 ## Paso 2 — Estado del saldo
 
+Registrar primero la **moneda**. Si existen saldos en más de una moneda o componentes compensados, separar cada componente y su neto; no convertir un neto global en “cero” sin analizar la exposición de cada cuenta/moneda.
+
 ### Positivo
 Objetivo: determinar qué requiere el canal para disponer del saldo. No mover dinero por el usuario.
 

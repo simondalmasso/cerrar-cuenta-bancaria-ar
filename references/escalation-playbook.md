@@ -47,15 +47,16 @@ Enviar expediente corto:
 Página actual:
 https://www.bcra.gob.ar/reclamo-productos-servicios-financieros/
 
-A fecha del snapshot, requiere:
+Antes de presentar, leer el baseline y el plazo mínimo vigente en [sources-ar.md](sources-ar.md), que es la fuente interna única para ese dato.
+
+Además conservar:
 - reclamo formal previo ante la entidad;
 - número de reclamo;
-- al menos 10 días hábiles desde su presentación;
 - ausencia de solución o respuesta no satisfactoria;
 - identificación del producto y hechos;
 - documentación.
 
-Antes de presentar, volver a verificar requisitos vigentes.
+Volver a verificar los requisitos oficiales vigentes antes de presentar.
 
 La IA prepara el borrador. **El usuario presenta el formulario.**
 
