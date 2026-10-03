@@ -1,6 +1,6 @@
 # Source integrity protocol
 
-Última revisión de política: **2026-10-02**.
+Última revisión de política: **2026-10-03**.
 
 Este protocolo separa **integridad técnica** de **vigencia jurídica**.
 
@@ -58,4 +58,4 @@ Para una release estable, `source-integrity` debe terminar sin `LEGAL_REAUDIT_RE
 
 ## Jurisprudencia oficial
 
-`source-integrity` también abre los endpoints judiciales declarados en `registry/case-law.json` y exige al menos un marcador de identidad del expediente/fallo. Esto comprueba existencia/identidad básica de la publicación oficial; no convierte el precedente en norma general ni revalida automáticamente su interpretación.
+`source-integrity` también abre los endpoints judiciales declarados en `registry/case-law.json`. Para HTML/texto exige marcadores de identidad; para PDFs oficiales históricos exige SHA-256 fijado. Un PDF que solo responde 200 **no** alcanza. Esto comprueba existencia/identidad técnica de la publicación oficial; no convierte el precedente en norma general ni revalida automáticamente su interpretación.

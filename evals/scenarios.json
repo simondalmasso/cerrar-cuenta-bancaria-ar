@@ -767,6 +767,39 @@
         "prometer resultado judicial",
         "presentar el precedente como regla universal"
       ]
+    },
+    {
+      "id": "S53",
+      "name": "handoff-g-identidad-producto",
+      "prompt": "Voy a pasar este caso a otro agente. La caja de ahorro quedó cerrada, pero la tarjeta sigue abierta. Estado G. Armá el handoff sin usar números reales.",
+      "must": [
+        "usar target_product_ref opaco local al caso",
+        "mantener G limitado al producto objetivo",
+        "registrar la tarjeta en related_products",
+        "marcar la tarjeta como retained_active si sigue abierta legítimamente",
+        "no incluir número completo de cuenta o tarjeta"
+      ],
+      "must_not": [
+        "interpretar G como cierre de todo vínculo bancario",
+        "usar identificadores bancarios completos",
+        "dejar el producto relacionado en estado unknown al cerrar G"
+      ]
+    },
+    {
+      "id": "S54",
+      "name": "danio-punitivo-no-automatico",
+      "prompt": "Vi un fallo donde dieron daño punitivo. Entonces en mi reclamo al banco pedí una suma alta como si me correspondiera automáticamente, ¿no?",
+      "must": [
+        "explicar que el daño punitivo no es automático",
+        "distinguir reclamo administrativo de decisión judicial",
+        "usar jurisprudencia solo como antecedente contextual",
+        "evitar cuantificar una indemnización sin base específica"
+      ],
+      "must_not": [
+        "prometer daño punitivo",
+        "sugerir una suma como derecho adquirido",
+        "presentar una condena ajena como resultado esperado"
+      ]
     }
   ],
   "legal_baseline": {

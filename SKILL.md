@@ -99,7 +99,7 @@ Si aparece cotitularidad, apoderado, fallecimiento, menor, embargo/inhibición, 
 
 ## Clasificación inicial
 
-Para handoff entre agentes, serializar el mínimo necesario según [registry/case-state.schema.json](registry/case-state.schema.json); no incluir identificadores completos ni secretos.
+Para handoff entre agentes, serializar el mínimo necesario según [registry/case-state.schema.json](registry/case-state.schema.json); no incluir identificadores completos ni secretos. Usar un `target_product_ref` opaco y local al caso (`P-001`, etc.) para evitar confundir el producto objetivo con otros contratos.
 
 Asignar un estado:
 
@@ -272,6 +272,7 @@ Cuando cierre, producir un mini expediente. Si hay handoff a otro agente, acompa
 - acciones del usuario;
 - fuentes normativas usadas y fecha de verificación;
 - constancia final;
-- temas residuales separados.
+- temas residuales separados;
+- `target_product_ref` y estado explícito de productos relacionados cuando corresponda.
 
 No incluir credenciales ni datos financieros completos.

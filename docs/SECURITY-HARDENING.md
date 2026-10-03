@@ -80,3 +80,18 @@ A stable release should require:
 - no known committed secret;
 - repository security settings reviewed by an administrator;
 - behavioral eval gate completed separately.
+
+
+## External audit evidence policy
+
+The project also reviewed Cloudflare's `security-audit-skill` methodology. It is not installed or required.
+
+For future hostile audits, use this lightweight verdict discipline:
+
+- **CONFIRMED** — reproduced or directly established from current source/evidence;
+- **NEEDS_VALIDATION** — source-grounded concern with one decisive unresolved fact;
+- **REJECTED** — disproved by current source, test, or authoritative evidence.
+
+A severity label from an external model is not evidence. Findings should be independently re-read and, when safe, reproduced before becoming release blockers. Defense-in-depth wishes that do not cross a real trust boundary remain hardening notes, not vulnerabilities.
+
+This policy is intentionally smaller than Cloudflare's full multi-agent workflow: no Node validator, no mandatory sub-agents, and no sandboxed target execution are added to the bank skill.

@@ -7,7 +7,7 @@
     {
       "id": "repository-ci",
       "status": "PASS",
-      "evidence": "validate-skill run 37141329799 passed on audit/arena-corrections; includes Python compile, repository validator, Bash/PowerShell installer parse and adversarial installer regression battery."
+      "evidence": "validate-skill run 37144660951 passed on audit/gemini-corrections; includes Python compile, repository validator, source-integrity unit regressions, Bash/PowerShell installer parse and adversarial installer regression battery."
     },
     {
       "id": "repository-security",
@@ -17,12 +17,12 @@
     {
       "id": "source-integrity",
       "status": "PASS",
-      "evidence": "source-integrity run 37141282639 passed; legal-watch baseline matched with no LEGAL_REAUDIT_REQUIRED and all 5 VERIFIED_OFFICIAL case-law endpoints matched official-source identity checks."
+      "evidence": "source-integrity run 37144600385 passed on audit/gemini-corrections; legal-watch baseline matched, no LEGAL_REAUDIT_REQUIRED, and all 5 VERIFIED_OFFICIAL case-law entries passed official-source identity verification including pinned SHA-256 where PDF."
     },
     {
       "id": "behavioral-evals",
       "status": "NOT_RUN",
-      "evidence": "No real host/model run artifact committed yet"
+      "evidence": "No real host/model run artifact committed yet; 54 adversarial specifications remain structural until executed."
     },
     {
       "id": "immutable-release",

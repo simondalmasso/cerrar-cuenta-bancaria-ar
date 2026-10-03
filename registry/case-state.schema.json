@@ -8,6 +8,8 @@
     "schema_version",
     "case_state",
     "response_mode",
+    "related_products",
+    "target_product_ref",
     "open_gaps",
     "next_action",
     "post_close_status"
@@ -173,6 +175,56 @@
           }
         }
       }
+    },
+    "target_product_ref": {
+      "type": "string",
+      "pattern": "^P-[0-9]{3,}$",
+      "description": "Opaque case-local product reference only; never a full account/card identifier."
+    },
+    "related_products": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "ref",
+          "type",
+          "status"
+        ],
+        "properties": {
+          "ref": {
+            "type": "string",
+            "pattern": "^P-[0-9]{3,}$",
+            "description": "Opaque case-local related-product reference."
+          },
+          "type": {
+            "enum": [
+              "deposit_account",
+              "current_account",
+              "salary_account",
+              "credit_card",
+              "loan",
+              "investment",
+              "insurance",
+              "safe_deposit_box",
+              "other",
+              "unknown"
+            ]
+          },
+          "status": {
+            "enum": [
+              "closed",
+              "retained_active",
+              "residual_issue",
+              "unknown"
+            ]
+          },
+          "note": {
+            "type": "string",
+            "maxLength": 240
+          }
+        }
+      }
     }
   },
   "x-state-labels": {
@@ -183,5 +235,38 @@
     "E": "Controversia económica",
     "F": "Cierre informado",
     "G": "Cierre verificado"
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "case_state": {
+            "const": "G"
+          }
+        },
+        "required": [
+          "case_state"
+        ]
+      },
+      "then": {
+        "properties": {
+          "related_products": {
+            "not": {
+              "contains": {
+                "type": "object",
+                "required": [
+                  "status"
+                ],
+                "properties": {
+                  "status": {
+                    "const": "unknown"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
 }

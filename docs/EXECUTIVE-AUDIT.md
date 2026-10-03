@@ -33,15 +33,18 @@ The project is designed to remain useful with only `SKILL.md`, its local referen
 - GitHub Actions pinned by immutable SHA;
 - GitHub Actions immutable SHA enforcement in local validation;
 - Dependabot monitoring for Actions plus CodeQL Python scanning;
-- 52 adversarial scenario specifications separated from behavioral execution;
+- 54 adversarial scenario specifications separated from behavioral execution;
 - verified case-law registry limited to official judiciary publications, with explicit relevance and limits per precedent;
 - presentation/research navigation that separates authority from discovery tooling;
 - machine-readable A–G handoff plus FAST/LIVE/FORENSIC response modes;
 - special-case routing and post-close monitoring kept outside the normal tree;
 - legal source drift monitoring with explicit blocking `LEGAL_REAUDIT_REQUIRED` triggers;
-- live identity checks for verified official case-law endpoints;
+- live identity checks for verified official case-law endpoints, including cryptographic SHA-256 identity for official case-law PDFs;
 - synthetic-only examples and optional bank-profile schema without hardcoded bank protagonists;
-- deterministic stage-gate review playbook for FORENSIC readiness, with no legal/compliance score.
+- strict UTF-8 regular tracked-content policy that rejects symlinks, gitlinks, NUL/binary payloads and unknown tracked formats;
+- product-scoped handoff identity via opaque local refs, so G cannot silently absorb unrelated contracts;
+- deterministic stage-gate review playbook for FORENSIC readiness, with no legal/compliance score;
+- independent external-audit verdict discipline inspired by Cloudflare's security-audit methodology, adopted concept-only with no runtime dependency.
 
 ## What is deliberately not claimed
 

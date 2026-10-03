@@ -42,7 +42,9 @@
       "verification_allowed_hosts": [
         "sjservicios.csjn.gov.ar"
       ],
-      "verification_pdf_presence_ok": true
+      "verification_sha256_by_url": {
+        "https://sjservicios.csjn.gov.ar/sj/verTomo?tomoId=428": "4daf114ef8eccb0a70e0494407935d11007868d0d70f92225ab1d007f3012d38"
+      }
     },
     {
       "id": "caba-schvind-cfa-2024",
@@ -81,7 +83,10 @@
       ],
       "verification_allowed_hosts": [
         "juristeca.jusbaires.gob.ar"
-      ]
+      ],
+      "verification_sha256_by_url": {
+        "https://juristeca.jusbaires.gob.ar/fallos/55539.pdf": "285d96f953a885d1cfbd5b20652203725fd256ddb0913f0e917f322599ba4e15"
+      }
     },
     {
       "id": "pba-francoz-itau-2025",
@@ -159,7 +164,9 @@
       "verification_allowed_hosts": [
         "www.justiciacordoba.gob.ar"
       ],
-      "verification_pdf_presence_ok": true
+      "verification_sha256_by_url": {
+        "https://www.justiciacordoba.gob.ar/Estatico/justiciaCordoba/files/TSJ/boletin_judicial/CIVIL%20DA%C3%91O%20PUNITIVO%20DESTACADO%20DEFINITIVO.pdf": "5c2c663fd946a0675b889d2e6c0824c2deccc0a799e1badea52d20ec6323f704"
+      }
     },
     {
       "id": "caba-ciferri-santander-2025",
@@ -196,7 +203,10 @@
       ],
       "verification_allowed_hosts": [
         "juristeca.jusbaires.gob.ar"
-      ]
+      ],
+      "verification_sha256_by_url": {
+        "https://juristeca.jusbaires.gob.ar/fallos/61508.pdf": "5faa2b0a39dd29a54205904bda41de9fc417c71872e56d48ca535804b67753bc"
+      }
     }
   ]
 }
