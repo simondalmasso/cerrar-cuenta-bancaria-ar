@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "type": "behavioral_run_receipt",
+  "status": "PASS",
+  "scope": "historical_commit_only",
+  "source_artifact": {
+    "filename": "glm53-behavioral-run-e746a2d.json",
+    "sha256": "201b4ab709592416cf0b1d909fb12f1f76e1f56af807db52eef8408ce38d2fe3",
+    "bytes": 242522,
+    "storage": "external_runner_artifact_not_committed"
+  },
+  "skill_version": "1.2.0-dev",
+  "skill_commit": "e746a2deff58443d63de322c086fd4db632e89c1",
+  "host": "zai-web / Super Z harness (runner-reported)",
+  "model": "GLM-5.3",
+  "judge": {
+    "type": "model",
+    "identity": "strict-literal judging pass against evals/scenarios.json"
+  },
+  "summary": {
+    "total_cases": 54,
+    "pass": 54,
+    "fail": 0,
+    "failed_cases": [],
+    "total_tool_calls": 151,
+    "verifier": "runner-reported: BEHAVIORAL EVAL RUN VERIFIED; cases 54/54 pass; release gate PASS; exit 0",
+    "release_gate_for_that_commit": "PASS"
+  },
+  "verification_scope": "The full JSON artifact was independently checked for byte size and SHA-256 before this receipt was recorded. This receipt is regression evidence only.",
+  "current_candidate_note": "Do not inherit this PASS to the post-version-bump final candidate. A fresh complete S1-S54 run is required on the exact final release commit."
+}
