@@ -6,7 +6,7 @@ compatibility: Agent Skill vendor-neutral. Funciona sin servicios externos; web 
 metadata:
   author: simondalmasso
   jurisdiction: argentina
-  version: "1.2.0-dev"
+  version: "1.2.0"
 ---
 
 # Cerrar una cuenta bancaria en Argentina

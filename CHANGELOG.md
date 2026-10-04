@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.2.0-dev — Unreleased
+## 1.2.0 — 2026-10-04
 
 - hardened both installers against dirty trees, detached/non-main checkouts and local-ahead/diverged commits before validator execution;
 - added real-Git adversarial installer regression tests, including dirty-tree and trojan-commit cases plus legitimate stale fast-forward;

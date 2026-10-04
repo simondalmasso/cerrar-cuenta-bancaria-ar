@@ -16,7 +16,7 @@ Agent Skill abierta e independiente del proveedor para guiar a personas humanas 
 | Fuentes principales | BCRA + Argentina.gob.ar + sitio oficial del banco |
 | Integraciones externas | Opcionales y degradables |
 | Evaluaciones | 54 escenarios adversariales + contrato/verificador; ejecución completa del candidato actual pendiente |
-| Versión | **1.2.0-dev** — sin publicación estable todavía |
+| Versión | **1.2.0** — candidato final, sin tag/release estable todavía |
 
 ### Ruta de revisión
 
@@ -26,7 +26,7 @@ Agent Skill abierta e independiente del proveedor para guiar a personas humanas 
 
 ### Estado de publicación
 
-El estado canónico está en [registry/release-gate.json](registry/release-gate.json). El candidato actual todavía requiere un run conductual completo S1–S54 sobre su commit exacto; hasta entonces no corresponde publicar `v1.2.0` como estable.
+El estado canónico está en [registry/release-gate.json](registry/release-gate.json). El candidato final requiere un run conductual completo S1–S54 sobre su commit exacto; hasta entonces no corresponde crear el tag/release `v1.2.0`.
 
 ### Documentos de auditoría
 
@@ -182,6 +182,6 @@ Eso permite usar la skill incluso en escenarios financieros sensibles sin delega
 
 ## Estado
 
-**1.2.0-dev** — candidato en validación. No existe todavía un tag/release estable; `v1.2.0` solo se publica cuando todos los gates del candidato exacto estén en PASS.
+**1.2.0** — candidato final en validación. No existe todavía un tag/release estable; `v1.2.0` solo se publica cuando todos los gates del candidato exacto estén en PASS.
 
 Antes de usar una regla jurídica material, el agente debe volver a verificar la fuente oficial si dispone de acceso actualizado.
