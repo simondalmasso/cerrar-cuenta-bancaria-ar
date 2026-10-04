@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "target_version": "1.2.0",
   "status": "BLOCKED",
-  "checked_at": "2026-10-03",
+  "checked_at": "2026-10-04",
   "gates": [
     {
       "id": "repository-ci",
@@ -22,12 +22,12 @@
     {
       "id": "behavioral-evals",
       "status": "NOT_RUN",
-      "evidence": "No complete behavioral run exists for the current fix candidate commit. Historical evidence is commit-scoped: GLM-5.3 scored 53/54 on e1fd5749442ab73c0c6f7c55992a5f356241ab4f, 54/54 PASS on c9780c58213e8a98e00cacc8b61d3c7f77655836, and 52/54 FAIL on e5e58a1b51e7110bb5007da7e97acdbcf6ea8575 (S23/S30: missing explicit currency dimension; artifact SHA-256 d90ed479dc0e97c7b37b836368880147a72e4580b5d4a2e9768e6cecacc9ca2f). None of those runs is inherited by a later commit. A fresh complete S1-S54 run is required on the exact final candidate SHA."
+      "evidence": "Final 1.2.0 candidate has not yet been behaviorally evaluated on its exact post-version-bump commit. Commit-scoped history: 53/54 on e1fd5749442ab73c0c6f7c55992a5f356241ab4f; 54/54 PASS on c9780c58213e8a98e00cacc8b61d3c7f77655836; 52/54 FAIL on e5e58a1b51e7110bb5007da7e97acdbcf6ea8575 (S23/S30 currency dimension); 54/54 PASS on e746a2deff58443d63de322c086fd4db632e89c1, verifier exit 0, artifact SHA-256 201b4ab709592416cf0b1d909fb12f1f76e1f56af807db52eef8408ce38d2fe3. None of these historical runs is inherited by the final post-bump commit; a fresh complete S1-S54 run is required."
     },
     {
       "id": "immutable-release",
       "status": "PENDING",
-      "evidence": "No v1.2.0 tag or GitHub Release until all gates pass"
+      "evidence": "No v1.2.0 tag or GitHub Release until final candidate CI/source-integrity/security and behavioral-evals all pass on the exact same commit."
     },
     {
       "id": "privacy-synthetic-examples",
