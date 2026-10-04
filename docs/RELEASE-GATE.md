@@ -1,6 +1,6 @@
 # Criterios de publicación — v1.2.0
 
-Estado actual: **BLOCKED**. El proyecto sigue en `1.2.0-dev`.
+Estado actual: **BLOCKED**. El contenido ya declara `1.2.0`, pero todavía no existe tag/release: falta el run conductual final sobre el SHA exacto de este candidato.
 
 ## Controles
 
@@ -50,9 +50,9 @@ Un cambio produce `LEGAL_REAUDIT_REQUIRED` y bloquea `source-integrity` con exit
 ## Publicación
 
 Cuando todos los gates estén en PASS:
-1. cambiar `1.2.0-dev` → `1.2.0` en manifest/evals/docs;
-2. ejecutar CI y source-integrity sobre ese commit exacto;
-3. registrar run behavioral aprobado para ese commit;
+1. ejecutar CI, CodeQL y source-integrity sobre el commit final exacto;
+2. registrar run behavioral S1–S54 aprobado para ese mismo commit;
+3. actualizar el gate/receipt sin cambiar la lógica de la skill;
 4. crear tag inmutable `v1.2.0`;
 5. crear GitHub Release vinculada a ese SHA.
 
