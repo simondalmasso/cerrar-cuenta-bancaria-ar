@@ -17,6 +17,7 @@ on:
       - "references/integrations.md"
       - "references/public-web-research.md"
       - ".github/workflows/source-integrity.yml"
+      - ".github/workflows/security-codeql.yml"
 
 permissions:
   contents: read
