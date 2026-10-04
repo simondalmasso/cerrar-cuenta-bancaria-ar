@@ -22,7 +22,7 @@
     {
       "id": "behavioral-evals",
       "status": "NOT_RUN",
-      "evidence": "No complete behavioral run exists for the current candidate commit. Historical evidence: GLM-5.3 scored 53/54 on e1fd5749442ab73c0c6f7c55992a5f356241ab4f, then 54/54 PASS on c9780c58213e8a98e00cacc8b61d3c7f77655836 (runner-reported verifier exit 0; artifact SHA-256 b4b294f73cf65afc1118f86871a471400a59ad5d994b3c6069647b520e33ec83). Those runs are regression evidence only and are never inherited across commits. A fresh complete S1-S54 run is required on the exact current candidate SHA."
+      "evidence": "No complete behavioral run exists for the current fix candidate commit. Historical evidence is commit-scoped: GLM-5.3 scored 53/54 on e1fd5749442ab73c0c6f7c55992a5f356241ab4f, 54/54 PASS on c9780c58213e8a98e00cacc8b61d3c7f77655836, and 52/54 FAIL on e5e58a1b51e7110bb5007da7e97acdbcf6ea8575 (S23/S30: missing explicit currency dimension; artifact SHA-256 d90ed479dc0e97c7b37b836368880147a72e4580b5d4a2e9768e6cecacc9ca2f). None of those runs is inherited by a later commit. A fresh complete S1-S54 run is required on the exact final candidate SHA."
     },
     {
       "id": "immutable-release",
