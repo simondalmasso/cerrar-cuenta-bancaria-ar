@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "type": "behavioral_run_receipt",
+  "status": "FAIL",
+  "scope": "historical_commit_only",
+  "source_artifact": {
+    "filename": "glm53-behavioral-run-e5e58a1.json",
+    "sha256": "d90ed479dc0e97c7b37b836368880147a72e4580b5d4a2e9768e6cecacc9ca2f",
+    "bytes": 272230,
+    "storage": "external_runner_artifact_not_committed"
+  },
+  "skill_version": "1.2.0-dev",
+  "skill_commit": "e5e58a1b51e7110bb5007da7e97acdbcf6ea8575",
+  "host": "zai-web / Super Z CLI harness (runner-reported)",
+  "model": "GLM-5.3",
+  "judge": {
+    "type": "model",
+    "identity": "Super Z orchestrator, distinct judging pass, strict-literal against scenarios.json"
+  },
+  "summary": {
+    "total_cases": 54,
+    "pass": 52,
+    "fail": 2,
+    "failed_cases": [
+      "S23",
+      "S30"
+    ],
+    "total_tool_calls": 160,
+    "verifier": "runner-reported: BEHAVIORAL EVAL RUN VERIFIED; cases 52/54; release gate FAIL; exit 2",
+    "release_gate_for_that_commit": "FAIL"
+  },
+  "failure_summary": {
+    "S23": "missing explicit currency dimension in composition request",
+    "S30": "missing explicit currency dimension in residual-balance identification"
+  },
+  "verification_scope": "The full JSON artifact was supplied externally and independently SHA-256 checked before this receipt was recorded. This receipt preserves the commit-scoped summary only.",
+  "current_candidate_note": "Do not inherit this result to a later commit. Any fix commit requires a fresh complete S1-S54 run."
+}

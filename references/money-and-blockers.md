@@ -6,6 +6,8 @@ Un "saldo total cero" no siempre describe todos los componentes contables, y un 
 
 Separar siempre **matemática**, **naturaleza del concepto** y **legitimidad jurídica**.
 
+Para cualquier saldo, descubierto o residual que involucre más de un producto/componente, registrar de forma explícita: **producto, moneda, importe y concepto**. Un total neto no reemplaza ese desglose.
+
 ## Matriz económica
 
 ### Saldo positivo
@@ -16,6 +18,8 @@ Separar siempre **matemática**, **naturaleza del concepto** y **legitimidad jur
 
 ### Saldo deudor / descubierto
 Obtener:
+- producto;
+- moneda;
 - capital/base;
 - tasa aplicada;
 - período de devengamiento;
@@ -68,6 +72,7 @@ Después de resolver un blocker:
 ## Pago para destrabar
 
 Si el usuario decide pagar un importe:
+- confirmar producto y moneda;
 - confirmar monto total;
 - preguntar si deja saldo deudor en cero;
 - preguntar por residual;

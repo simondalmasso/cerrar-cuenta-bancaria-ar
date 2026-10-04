@@ -41,6 +41,8 @@ El cierre del paquete no prueba el cierre de cada contrato y viceversa.
 
 Registrar primero la **moneda**. Si existen saldos en más de una moneda o componentes compensados, separar cada componente y su neto; no convertir un neto global en “cero” sin analizar la exposición de cada cuenta/moneda.
 
+Cuando se pida un desglose, registrar cada componente con una fila o bloque mínimo: **producto, moneda, importe y concepto/estado**. En casos multiproducto o con residuales, no aceptar un desglose que identifique solo el producto y omita la moneda.
+
 ### Positivo
 Objetivo: determinar qué requiere el canal para disponer del saldo. No mover dinero por el usuario.
 
@@ -54,6 +56,8 @@ No seguir buscando "saldo oculto" sin señal concreta. Pasar a bloqueos operativ
 
 ### Negativo / descubierto
 Separar:
+- producto;
+- moneda;
 - capital;
 - interés;
 - tasa;
@@ -63,6 +67,7 @@ Separar:
 - fecha de contabilización.
 
 Preguntar:
+- "¿En qué moneda está cada componente y a qué producto corresponde?"
 - "¿Cuál es el importe total exacto para regularizar hoy?"
 - "¿Incluye intereses e impuestos ya devengados?"
 - "¿Puede quedar algún residual a liquidar después?"
