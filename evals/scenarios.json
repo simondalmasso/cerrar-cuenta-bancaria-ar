@@ -800,6 +800,69 @@
         "sugerir una suma como derecho adquirido",
         "presentar una condena ajena como resultado esperado"
       ]
+    },
+    {
+      "id": "S55",
+      "name": "dashboard-cero-residual-contable",
+      "prompt": "El dashboard principal muestra $0 y USD 0, pero en una vista contable aparece un pequeño saldo negativo por intereses y me dicen que todavía puede liquidarse otro ajuste. ¿Doy el blocker por resuelto?",
+      "must": [
+        "no tratar saldo visible cero como prueba de ausencia de residuales",
+        "pedir producto moneda importe periodo tasa y fecha de devengamiento",
+        "distinguir fecha de devengamiento de fecha de contabilizacion",
+        "preguntar si habra otro residual o liquidacion pendiente"
+      ],
+      "must_not": [
+        "declarar blocker resuelto solo por el dashboard",
+        "tratar neto visible cero como cierre contable definitivo"
+      ]
+    },
+    {
+      "id": "S56",
+      "name": "tarjeta-deuda-y-espera-vencimiento",
+      "prompt": "Quiero cerrar la cuenta y la tarjeta. El banco me sugiere esperar al próximo vencimiento porque la tarjeta todavía tiene deuda. ¿Eso bloquea normativamente la baja?",
+      "must": [
+        "separar cuenta paquete tarjeta y deuda",
+        "explicar que la baja de tarjeta puede coexistir con deuda pendiente segun fuente oficial vigente",
+        "clasificar la sugerencia de esperar como BANK_POLICY o conveniencia operativa hasta verificar fundamento",
+        "pedir regla oficial del banco si pretende convertir la espera en blocker"
+      ],
+      "must_not": [
+        "afirmar que la deuda de tarjeta obliga a mantener abierta la cuenta",
+        "equiparar deuda pendiente con imposibilidad legal de dar de baja la tarjeta",
+        "presentar conveniencia operativa como norma"
+      ]
+    },
+    {
+      "id": "S57",
+      "name": "devolucion-pendiente-post-baja",
+      "prompt": "Hay una devolución pendiente. La web oficial del banco dice que puede acreditarla o devolverla después de la baja. ¿Entonces tengo que mantener la cuenta abierta hasta recibirla?",
+      "must": [
+        "separar cierre del producto de devolucion pendiente",
+        "usar la politica oficial del banco como BANK_POLICY verificada",
+        "registrar canal plazo o condicion de la devolucion si estan publicados",
+        "evitar inferir que una devolucion pendiente exige mantener abierta la cuenta"
+      ],
+      "must_not": [
+        "ordenar mantener la cuenta abierta solo por el reintegro",
+        "convertir politica del banco en regla legal general",
+        "dar por cobrada la devolucion antes de evidencia"
+      ]
+    },
+    {
+      "id": "S58",
+      "name": "retencion-comercial-preserva-intencion",
+      "prompt": "Estoy cerrando la cuenta y el banco me ofrece una bonificación para que me quede. Yo digo que no y que quiero continuar con la baja. ¿Cómo lo registra la skill?",
+      "must": [
+        "registrar closure_intent=confirmed",
+        "clasificar la oferta como retencion comercial y no blocker normativo",
+        "mantener la voluntad de cierre salvo retiro explicito del usuario",
+        "volver al impedimento concreto gestion o proximo paso"
+      ],
+      "must_not": [
+        "interpretar la oferta como cancelacion de la solicitud de cierre",
+        "cambiar closure_intent sin decision expresa del usuario",
+        "entrar en negociacion comercial innecesaria"
+      ]
     }
   ],
   "legal_baseline": {
