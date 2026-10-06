@@ -2,6 +2,12 @@
 
 ## 1.2.0 — 2026-10-04
 
+- real-world hardening: distinguished visible-zero dashboards from residual accounting balances and pending interest;
+- separated bank-account/package closure from credit-card debt, post-close refunds and commercial retention;
+- added optional `closure_intent` handoff state and four adversarial scenarios (S55-S58);
+- added current official Argentina.gob.ar/Ley 25.065 card-cancellation baseline;
+- integrated WolframResearch/skills as MIT architectural/authoring reference only, with no runtime dependency or cost requirement;
+
 - hardened both installers against dirty trees, detached/non-main checkouts and local-ahead/diverged commits before validator execution;
 - added real-Git adversarial installer regression tests, including dirty-tree and trojan-commit cases plus legitimate stale fast-forward;
 - renamed the source-health file family consistently to source-integrity;
