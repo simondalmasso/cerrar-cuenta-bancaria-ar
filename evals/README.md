@@ -1,6 +1,6 @@
 # Adversarial eval specifications
 
-`scenarios.json` contiene **54 especificaciones adversariales** de comportamiento esperado. No son, por sí solas, ejecuciones de un modelo.
+`scenarios.json` contiene **58 especificaciones adversariales** de comportamiento esperado. No son, por sí solas, ejecuciones de un modelo.
 
 `scripts/validate_repo.py` valida estructura:
 - ID y nombre únicos;
