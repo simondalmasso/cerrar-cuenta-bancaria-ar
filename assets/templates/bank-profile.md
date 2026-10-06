@@ -13,6 +13,9 @@
 - Tipo de cuenta del caso:
 - Canales de cierre publicados:
 - Bloqueadores publicados:
+- ¿La tarjeta puede darse de baja con deuda pendiente? Fuente:
+- ¿Existe devolución/saldo a favor post-baja? Canal/plazo/fuente:
+- ¿Hay política de retención/bonificación publicada?:
 - ¿La política exige presencialidad?:
 - Fundamento publicado:
 - Diferencias con norma BCRA:
