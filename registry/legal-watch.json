@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "checked_at": "2026-10-03",
+  "checked_at": "2026-10-06",
   "trigger": "LEGAL_REAUDIT_REQUIRED",
   "policy": "Remote legal-source drift blocks source-integrity until reviewed. A trigger is not itself a legal conclusion; rebaseline only after verifying the official source and updating local claims if needed.",
   "sources": [
@@ -88,6 +88,16 @@
         "constancia del trámite"
       ],
       "expected_semantic_sha256": "ef7ae35d688f423fd5e1efab24214dd2aefbf09b9044a58323c810821a553f6b"
+    },
+    {
+      "source_id": "argentina-credit-card-cancel-debt",
+      "relevant_section": "Tarjeta de crédito — baja con deuda pendiente",
+      "local_claim": "Guía oficial Argentina.gob.ar: la tarjeta puede darse de baja aun con deuda pendiente; la deuda continúa y el emisor puede reclamarla, mientras los gastos de mantenimiento dejan de cobrarse tras la baja.",
+      "local_claim_sha256": "94b2990aedffe3bde9e885e7dae10299f64cfa28f14cb9a88d76d22a22efcd81",
+      "expected_remote_sha256": null,
+      "expected_etag": null,
+      "expected_last_modified": null,
+      "strategy": "availability_only"
     }
   ]
 }

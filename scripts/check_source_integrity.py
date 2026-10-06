@@ -28,7 +28,7 @@ REG = json.loads((ROOT / "registry/sources.json").read_text(encoding="utf-8"))
 WATCH = json.loads((ROOT / "registry/legal-watch.json").read_text(encoding="utf-8"))
 WATCH_BY_ID = {item["source_id"]: item for item in WATCH.get("sources", [])}
 CASE_LAW = json.loads((ROOT / "registry/case-law.json").read_text(encoding="utf-8"))
-UA = "cerrar-cuenta-bancaria-ar-source-integrity/1.2.0-dev (+https://github.com/simondalmasso/cerrar-cuenta-bancaria-ar)"
+UA = "cerrar-cuenta-bancaria-ar-source-integrity/1.2.0 (+https://github.com/simondalmasso/cerrar-cuenta-bancaria-ar)"
 
 FAILURES: list[str] = []
 WARNINGS: list[str] = []

@@ -283,6 +283,8 @@ try:
         fail("case-state schema must preserve A-G exactly")
     if props.get("response_mode",{}).get("enum") != ["FAST","LIVE","FORENSIC"]:
         fail("case-state schema response_mode must be FAST/LIVE/FORENSIC")
+    if props.get("closure_intent",{}).get("enum") != ["unknown","confirmed","withdrawn"]:
+        fail("case-state schema closure_intent enum drifted")
     evidence_enum=props.get("evidence_classes_present",{}).get("items",{}).get("enum")
     if evidence_enum != ["FACT","BANK_CLAIM","USER_CLAIM","INFERENCE","OPEN_GAP"]:
         fail("case-state schema evidence classes drifted")
@@ -382,8 +384,8 @@ except Exception as exc:
 try:
     ev=json.loads((ROOT/"evals/scenarios.json").read_text(encoding="utf-8"))
     families=ev.get("families",[])
-    if len(families)<54:
-        fail(f"expected >=54 adversarial eval specifications, got {len(families)}")
+    if len(families)<58:
+        fail(f"expected >=58 adversarial eval specifications, got {len(families)}")
     if ev.get("version") != manifest_version:
         fail(f"eval version {ev.get('version')!r} != manifest version {manifest_version!r}")
     legal_baseline=ev.get("legal_baseline") or {}

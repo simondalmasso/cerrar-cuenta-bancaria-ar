@@ -225,6 +225,14 @@
           }
         }
       }
+    },
+    "closure_intent": {
+      "enum": [
+        "unknown",
+        "confirmed",
+        "withdrawn"
+      ],
+      "description": "User's explicit closure intent. Commercial retention offers do not change confirmed; use withdrawn only after explicit user reversal."
     }
   },
   "x-state-labels": {

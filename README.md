@@ -15,7 +15,7 @@ Agent Skill abierta e independiente del proveedor para guiar a personas humanas 
 | Operaciones bancarias/autenticadas por IA | **Prohibidas** |
 | Fuentes principales | BCRA + Argentina.gob.ar + sitio oficial del banco |
 | Integraciones externas | Opcionales y degradables |
-| Evaluaciones | 54 escenarios adversariales + contrato/verificador; ejecución completa del candidato actual pendiente |
+| Evaluaciones | 58 escenarios adversariales + contrato/verificador; ejecución completa del candidato actual pendiente |
 | Versión | **1.2.0** — candidato final, sin tag/release estable todavía |
 
 ### Ruta de revisión
@@ -26,7 +26,7 @@ Agent Skill abierta e independiente del proveedor para guiar a personas humanas 
 
 ### Estado de publicación
 
-El estado canónico está en [registry/release-gate.json](registry/release-gate.json). El candidato final requiere un run conductual completo S1–S54 sobre su commit exacto; hasta entonces no corresponde crear el tag/release `v1.2.0`.
+El estado canónico está en [registry/release-gate.json](registry/release-gate.json). El candidato final requiere un run conductual completo S1–S58 sobre su commit exacto; hasta entonces no corresponde crear el tag/release `v1.2.0`.
 
 ### Documentos de auditoría
 
@@ -170,7 +170,7 @@ Además de la seguridad bancaria, el repo aplica controles de cadena de suminist
 
 ## Calidad
 
-`python scripts/validate_repo.py` valida estructura, referencias locales, JSON, registro de procedencia, handoff A–G, review playbook, legal-watch, ejemplos sintéticos, consistencia de versión, 54 escenarios adversariales y secretos accidentales. **No ejecuta un modelo ni certifica conducta.** El mismo chequeo corre en GitHub Actions. Un workflow separado verifica disponibilidad/integridad de fuentes y artefactos fijados; no certifica vigencia jurídica.
+`python scripts/validate_repo.py` valida estructura, referencias locales, JSON, registro de procedencia, handoff A–G, review playbook, legal-watch, ejemplos sintéticos, consistencia de versión, 58 escenarios adversariales y secretos accidentales. **No ejecuta un modelo ni certifica conducta.** El mismo chequeo corre en GitHub Actions. Un workflow separado verifica disponibilidad/integridad de fuentes y artefactos fijados; no certifica vigencia jurídica.
 
 ## Diseño de seguridad
 
