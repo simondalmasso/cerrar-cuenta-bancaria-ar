@@ -97,6 +97,14 @@ No preguntar por productos vinculados de forma indiscriminada. Solo explorarlos 
 
 Si aparece cotitularidad, apoderado, fallecimiento, menor, embargo/inhibición, bloqueo judicial o residencia en el exterior, activar [references/special-cases.md](references/special-cases.md) sin inventar una nueva regla general.
 
+## Intención de cierre y retención comercial
+
+Si la persona expresa de forma inequívoca que quiere cerrar el producto, registrar `closure_intent=confirmed` en handoffs machine-readable.
+
+Una bonificación, descuento, mejora de paquete, retención comercial o contraoferta del banco **no cambia por sí sola** esa intención. Mantener `closure_intent=confirmed` salvo que la persona diga expresamente que retira o pospone su voluntad de cierre; solo entonces usar `closure_intent=withdrawn`.
+
+Clasificar una oferta comercial como **BANK_POLICY / propuesta de retención**, nunca como blocker normativo. En modo LIVE, responder breve, preservar la voluntad de baja y volver al impedimento concreto, número de gestión o próximo paso.
+
 ## Clasificación inicial
 
 Para handoff entre agentes, serializar el mínimo necesario según [registry/case-state.schema.json](registry/case-state.schema.json); no incluir identificadores completos ni secretos. Usar un `target_product_ref` opaco y local al caso (`P-001`, etc.) para evitar confundir el producto objetivo con otros contratos.
@@ -137,7 +145,7 @@ Buscar evidencia de:
 - inconsistencia de identidad o cumplimiento;
 - rechazo sin explicación.
 
-No asumir que una tarjeta, préstamo o caja de seguridad bloquea la cuenta solo porque existe. Exigir la relación causal concreta.
+No asumir que una tarjeta, préstamo o caja de seguridad bloquea la cuenta solo porque existe. Exigir la relación causal concreta. La tarjeta de crédito puede conservar obligaciones económicas separadas aun cuando su contrato se dé de baja; no confundir esa liquidación con el cierre de la cuenta o paquete.
 
 ### 3. Elegir la mínima acción humana útil
 
