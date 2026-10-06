@@ -28,6 +28,21 @@ Puede pasar a **G** cuando existe evidencia suficiente de que el producto correc
 
 Antes de G, verificar que los vinculados relevantes fueron: **cerrados**, **confirmados como aún abiertos por decisión/contrato independiente**, o **separados como tema residual**. Para cada saldo residual, registrar al menos **producto, moneda, importe y disposición prevista**. En `related_products[]`, no dejar `status=unknown` al pasar a G. No exigir cerrar un producto distinto solo por estar vinculado.
 
+## Devoluciones y obligaciones que sobreviven al cierre
+
+Una devolución pendiente, saldo a favor o liquidación futura **no implica automáticamente** que el producto deba permanecer abierto.
+
+Separar:
+- producto cerrado;
+- obligación/deuda que continúa;
+- devolución o saldo a favor pendiente;
+- canal y política oficial de devolución;
+- fecha/estado esperado de la liquidación.
+
+Si el banco publica que una devolución puede cursarse después de la baja, documentarla como BANK_POLICY y mantener el cierre separado del reintegro. No usar una devolución pendiente para reabrir por inferencia un producto ya cerrado.
+
+En tarjetas, una deuda pendiente puede sobrevivir a la baja del contrato. No equiparar "tarjeta cerrada" con "deuda extinguida", ni "deuda pendiente" con "cuenta bancaria necesariamente abierta".
+
 ## Monitoreo posterior
 
 Registrar `post_close_status`:
