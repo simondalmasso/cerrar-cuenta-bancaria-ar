@@ -49,12 +49,15 @@ Un cambio produce `LEGAL_REAUDIT_REQUIRED` y bloquea `source-integrity` con exit
 
 ## Publicación
 
-Cuando todos los gates estén en PASS:
-1. ejecutar CI, CodeQL y source-integrity sobre el commit final exacto;
-2. registrar run behavioral S1–S58 aprobado para ese mismo commit;
-3. actualizar el gate/receipt sin cambiar la lógica de la skill;
-4. crear tag inmutable `v1.2.0`;
-5. crear GitHub Release vinculada a ese SHA.
+Secuencia no autorreferencial de publicación:
+1. fijar el commit candidato final y no modificarlo durante la certificación;
+2. ejecutar CI, CodeQL y source-integrity sobre ese SHA exacto;
+3. ejecutar y verificar S1–S58 sobre ese mismo SHA;
+4. si todo pasa, crear el tag inmutable `v1.2.0` **apuntando a ese SHA sin hacer un commit intermedio**;
+5. crear la GitHub Release y adjuntar/conservar el artefacto behavioral, su SHA-256 y la evidencia de los checks;
+6. cualquier actualización posterior de receipts/gate en `main` es bookkeeping post-release y **no mueve ni redefine el tag certificado**.
+
+No commitear un cambio de `release-gate.json` o un receipt entre el PASS behavioral y el tag: ese commit produciría otro SHA y dejaría el run fuera de alcance.
 
 
 ## Seguridad del repositorio
