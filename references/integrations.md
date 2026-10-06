@@ -84,6 +84,27 @@ Uso: **discovery regulatorio**. Indexa Boletín Oficial, InfoLEG, Congreso, BCRA
 
 Clasificación: `OPTIONAL_PUBLIC_DISCOVERY`. Un resumen o índice de Vigía nunca reemplaza el texto oficial: seguir el enlace y verificar la fuente primaria.
 
+### WolframResearch/skills — referencia de authoring y cómputo opcional
+https://github.com/WolframResearch/skills
+
+El repo oficial de WolframResearch declara licencia MIT y sigue el estándar abierto Agent Skills. Se integra aquí **solo como referencia arquitectónica/documental**, sin copiar código ni agregar dependencia runtime.
+
+Patrones adoptables:
+- skill autocontenida alrededor de `SKILL.md`;
+- compatibilidad multi-cliente;
+- progressive disclosure hacia `references/`;
+- instrucciones explícitas de cuándo usar herramientas;
+- verificación/test antes de declarar éxito.
+
+Si el host ya dispone de Wolfram, puede usarse opcionalmente para **aritmética exacta, fechas y sanity checks cuantitativos**. Nunca es autoridad jurídica ni reemplaza BCRA/ley/banco.
+
+Reglas:
+- cero credenciales bancarias;
+- no enviar identificadores completos;
+- no hard dependency;
+- no requisito para el camino USD 0;
+- si Wolfram no está disponible, usar cálculo local/determinista.
+
 ## No integrar como core
 
 - MetaJurídico: trial/pago y scope de expedientes.
