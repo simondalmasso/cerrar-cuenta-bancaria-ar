@@ -24,6 +24,12 @@ Un resultado de búsqueda nunca se convierte en autoridad por aparecer en varios
 
 Para derecho argentino: usar estos motores para **encontrar** el antecedente y terminar en CSJN, SAIJ, JUBA, JURISTECA, Poder Judicial provincial u otra publicación oficial.
 
+## Referencia de authoring y cálculo determinista
+
+**WolframResearch/skills** (MIT) se usa como referencia de diseño, no como dependencia. Su repo oficial sigue el estándar Agent Skills y refuerza el patrón `SKILL.md` + referencias + guidance explícita de herramientas.
+
+Si el host ya tiene Wolfram disponible, puede servir como calculador opcional para netos, fechas o sanity checks numéricos. No es fuente jurídica, no recibe credenciales y no forma parte del camino obligatorio USD 0.
+
 ## Adaptadores locales aceptados
 
 La decisión del tooling audit se mantiene:
