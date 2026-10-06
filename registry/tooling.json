@@ -112,6 +112,28 @@
         "requires_os_enforced_sandbox_for_target_execution",
         "maintainer_audit_method_not_bank_runtime"
       ]
+    },
+    {
+      "id": "wolframresearch-skills",
+      "url": "https://github.com/WolframResearch/skills",
+      "observed_head": "359f7770bdc49be4390669f9f96d0afd6822d88c",
+      "license": "MIT",
+      "role": "agent_skill_authoring_and_optional_computation_reference",
+      "decision": "concept_only_no_runtime_dependency",
+      "hard_dependency": false,
+      "code_imported": false,
+      "adopted_patterns": [
+        "open_agent_skills_standard",
+        "skill_md_first_portability",
+        "progressive_disclosure_references",
+        "explicit_tool_guidance",
+        "verify_before_success"
+      ],
+      "rejected_runtime_reasons": [
+        "bank_closure_core_does_not_require_wolfram_runtime",
+        "legal_authority_must_remain_official_argentine_sources",
+        "zero_cost_core_must_not_depend_on_external_service_availability"
+      ]
     }
   ]
 }
