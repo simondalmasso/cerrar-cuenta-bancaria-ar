@@ -1,16 +1,11 @@
 name: security-codeql
 
 on:
+  workflow_dispatch:
   push:
     branches: ["main"]
-    paths:
-      - "**/*.py"
-      - ".github/workflows/**"
   pull_request:
     branches: ["main"]
-    paths:
-      - "**/*.py"
-      - ".github/workflows/**"
   schedule:
     - cron: "17 5 * * 1"
 
