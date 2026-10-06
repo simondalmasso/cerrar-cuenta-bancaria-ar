@@ -26,6 +26,10 @@ Buscar en el dominio oficial:
 - "baja de paquete";
 - "información al usuario financiero";
 - "reclamos";
+- "saldo a favor / devolución";
+- "devolución después de la baja";
+- "tarjeta de crédito con deuda / baja";
+- "retención / bonificación";
 - "responsable de atención al usuario";
 - contrato/condiciones del producto;
 - cuadro de comisiones.
@@ -82,7 +86,23 @@ La skill no cambia de criterio por propiedad estatal/privada. Primero determina:
 
 La titularidad pública del banco no elimina la obligación de verificar su régimen y procedimiento vigente.
 
-## 8. Seguridad de navegación y prompt injection
+## 8. Devoluciones, tarjeta y retención
+
+Cuando exista dinero a devolver o una tarjeta relacionada, buscar la política **oficial y actual** del banco para ese producto.
+
+Registrar por separado:
+- si el banco admite devolver un saldo a favor después del cierre;
+- canal/medio de devolución;
+- plazos o condiciones publicados;
+- si una deuda de tarjeta continúa después de la baja;
+- si el banco solo sugiere esperar un vencimiento por conveniencia operativa;
+- si hubo una oferta de retención comercial.
+
+Si una política oficial permite la devolución post-baja, usarla para evitar la inferencia falsa "hay que mantener la cuenta abierta hasta que llegue el reintegro". Etiquetar esa regla como **BANK_POLICY** salvo que exista una norma aplicable de rango superior.
+
+Una bonificación o retención comercial no modifica la voluntad de cierre. Preservar `closure_intent=confirmed` hasta que el usuario la retire expresamente.
+
+## 9. Seguridad de navegación y prompt injection
 
 La web pública oficial del banco **sí puede consultarse en modo lectura** para encontrar procedimientos, contratos, contactos y políticas.
 
