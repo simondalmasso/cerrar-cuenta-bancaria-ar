@@ -10,6 +10,28 @@ Para cualquier saldo, descubierto o residual que involucre más de un producto/c
 
 ## Matriz económica
 
+### Saldo visible cero con residual contable
+
+Un dashboard principal en `0` no demuestra por sí solo que no existan residuales. Si una vista detallada, subcuenta, resumen o liquidación muestra un importe negativo/positivo distinto de cero, o intereses todavía no contabilizados, no declarar el blocker resuelto.
+
+Registrar por separado:
+- producto;
+- moneda;
+- importe;
+- concepto;
+- período;
+- tasa si corresponde;
+- fecha de devengamiento;
+- fecha de contabilización/débito;
+- si el banco informa que habrá otra liquidación o residual.
+
+Pregunta de cierre del blocker:
+
+> "¿Queda algún interés, impuesto, ajuste o residual todavía por liquidar/contabilizar después de este movimiento?"
+
+`saldo visible 0` puede ser FACT sobre esa vista; `no existen residuales` requiere evidencia adicional.
+
+
 ### Saldo positivo
 - FACT: monto visible.
 - Acción humana: disponer del saldo según la opción elegida por el usuario y el procedimiento aplicable.
@@ -47,6 +69,8 @@ Identificar base imponible, alícuota y concepto. Un impuesto puede derivar de u
 Cuenta bancaria y tarjeta son contratos distintos salvo prueba específica. No afirmar que deuda o saldo a favor de tarjeta bloquea el cierre de cuenta sin:
 - política/contrato aplicable; o
 - confirmación concreta del banco.
+
+La guía oficial argentina sobre tarjetas indica que la tarjeta puede darse de baja aun con deuda pendiente; la deuda continúa separadamente y puede seguir siendo reclamada por el emisor. Ver [sources-ar.md](sources-ar.md). Por eso, "esperá al vencimiento de la tarjeta" puede ser una conveniencia operativa o BANK_POLICY, no un blocker normativo automático del cierre de cuenta/paquete.
 
 ### Préstamo
 Determinar cómo se pagará después del cierre. No instruir cancelación anticipada salvo que el usuario lo decida y comprenda el costo.
