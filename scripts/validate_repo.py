@@ -519,6 +519,17 @@ if 'interval: "weekly"' not in dependabot_text:
     fail("Dependabot github-actions schedule must be weekly")
 
 codeql_text=read(".github/workflows/security-codeql.yml")
+source_integrity_workflow_text=read(".github/workflows/source-integrity.yml")
+if 'push:\n    branches: ["main"]' not in source_integrity_workflow_text:
+    fail("source-integrity workflow must run on every main push")
+if re.search(r"(?m)^\s+paths:\s*$", source_integrity_workflow_text):
+    fail("source-integrity workflow must not path-filter main pushes; exact-SHA release evidence requires every main commit")
+if 'pull_request:\n    branches: ["main"]' not in source_integrity_workflow_text:
+    fail("source-integrity workflow must run on pull requests targeting main")
+if 'push:\n    branches: ["main"]' not in codeql_text:
+    fail("CodeQL workflow must run on every main push")
+if re.search(r"(?m)^\s+paths:\s*$", codeql_text):
+    fail("CodeQL workflow must not path-filter main pushes")
 for marker in (
     "security-events: write",
     "languages: python",
