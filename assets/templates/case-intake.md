@@ -17,6 +17,7 @@
 - Reclamo formal:
 - Evidencia disponible:
 - Objetivo inmediato:
+- Closure intent: unknown / confirmed / withdrawn:
 - Modo: FAST / LIVE / FORENSIC:
 - Flags especiales: coholder / attorney_in_fact / deceased_holder / minor / embargo_or_inhibition / judicially_blocked / abroad / ninguno:
 
