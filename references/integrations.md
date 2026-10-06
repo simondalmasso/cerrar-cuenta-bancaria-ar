@@ -1,6 +1,6 @@
 # Integraciones de investigación
 
-Fecha de revisión: **2026-10-03**.
+Fecha de revisión: **2026-10-06**.
 
 ## Decisión arquitectónica
 
