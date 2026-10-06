@@ -1,6 +1,6 @@
 {
   "schema_version": "1.2",
-  "checked_at": "2026-10-03",
+  "checked_at": "2026-10-06",
   "core": [
     {
       "id": "bcra-pusf",
@@ -145,6 +145,27 @@
       "body_markers_any": [
         "cerrar una cuenta",
         "cuenta bancaria"
+      ]
+    },
+    {
+      "id": "argentina-credit-card-cancel-debt",
+      "type": "official",
+      "cost": "free",
+      "auth": "none",
+      "url": "https://www.argentina.gob.ar/tengo-tarjeta-de-credito",
+      "role": "credit_card_cancellation_debt_separation",
+      "stability": "high",
+      "allowed_final_hosts": [
+        "www.argentina.gob.ar",
+        "argentina.gob.ar"
+      ],
+      "expected_path_contains": "tengo-tarjeta-de-credito",
+      "content_type_prefixes": [
+        "text/html"
+      ],
+      "body_markers_any": [
+        "deuda pendiente",
+        "tarjeta de crédito"
       ]
     }
   ],
