@@ -2,6 +2,9 @@
 
 ## 1.2.0 — 2026-10-04
 
+- hardened release protocol so behavioral evidence remains bound to the exact tagged SHA; final attestation moves to tag/release metadata instead of a post-eval commit;
+- tightened behavioral artifact schema to require all 58 current scenarios;
+
 - real-world hardening: distinguished visible-zero dashboards from residual accounting balances and pending interest;
 - separated bank-account/package closure from credit-card debt, post-close refunds and commercial retention;
 - added optional `closure_intent` handoff state and four adversarial scenarios (S55-S58);

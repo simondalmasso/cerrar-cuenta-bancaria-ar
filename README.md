@@ -26,7 +26,7 @@ Agent Skill abierta e independiente del proveedor para guiar a personas humanas 
 
 ### Estado de publicación
 
-El estado canónico está en [registry/release-gate.json](registry/release-gate.json). El candidato final requiere un run conductual completo S1–S58 sobre su commit exacto; hasta entonces no corresponde crear el tag/release `v1.2.0`.
+El estado del candidato está en [registry/release-gate.json](registry/release-gate.json). El candidato final requiere un run conductual completo S1–S58 sobre su commit exacto; hasta entonces no corresponde crear el tag/release `v1.2.0`. Tras un PASS final no se hacen más commits: la atestación definitiva se publica en el tag anotado/GitHub Release para no cambiar el SHA evaluado.
 
 ### Documentos de auditoría
 

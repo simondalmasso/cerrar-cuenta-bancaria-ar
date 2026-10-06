@@ -346,6 +346,8 @@ try:
         fail("release gate immutable-release status invalid")
     if gates.get("behavioral-evals")!="PASS" and gate.get("status")!="BLOCKED":
         fail("release gate must remain BLOCKED until behavioral evals PASS")
+    if gate.get("final_attestation_mode")!="tag_release_no_post_eval_commit":
+        fail("release gate final_attestation_mode must be tag_release_no_post_eval_commit")
     if gate.get("status")=="READY" and any(gates.get(k)!="PASS" for k in ("repository-ci","repository-security","source-integrity","behavioral-evals","immutable-release")):
         fail("release gate cannot be READY before all release-critical gates PASS")
 except Exception as exc:
@@ -388,6 +390,10 @@ try:
         fail(f"expected >=58 adversarial eval specifications, got {len(families)}")
     if ev.get("version") != manifest_version:
         fail(f"eval version {ev.get('version')!r} != manifest version {manifest_version!r}")
+    behavioral_schema=json.loads((ROOT/"evals/behavioral-run.schema.json").read_text(encoding="utf-8"))
+    min_items=(behavioral_schema.get("properties",{}).get("cases",{}).get("minItems"))
+    if min_items != len(families):
+        fail(f"behavioral-run schema minItems must equal current eval count: {min_items!r} != {len(families)}")
     legal_baseline=ev.get("legal_baseline") or {}
     if legal_baseline.get("source") != "references/sources-ar.md" or legal_baseline.get("reverify_on_source_change") is not True:
         fail("eval legal_baseline must require re-verification from references/sources-ar.md")
@@ -513,6 +519,17 @@ if 'interval: "weekly"' not in dependabot_text:
     fail("Dependabot github-actions schedule must be weekly")
 
 codeql_text=read(".github/workflows/security-codeql.yml")
+source_integrity_workflow_text=read(".github/workflows/source-integrity.yml")
+if 'push:\n    branches: ["main"]' not in source_integrity_workflow_text:
+    fail("source-integrity workflow must run on every main push")
+if re.search(r"(?m)^\s+paths:\s*$", source_integrity_workflow_text):
+    fail("source-integrity workflow must not path-filter main pushes; exact-SHA release evidence requires every main commit")
+if 'pull_request:\n    branches: ["main"]' not in source_integrity_workflow_text:
+    fail("source-integrity workflow must run on pull requests targeting main")
+if 'push:\n    branches: ["main"]' not in codeql_text:
+    fail("CodeQL workflow must run on every main push")
+if re.search(r"(?m)^\s+paths:\s*$", codeql_text):
+    fail("CodeQL workflow must not path-filter main pushes")
 for marker in (
     "security-events: write",
     "languages: python",

@@ -49,12 +49,28 @@ Un cambio produce `LEGAL_REAUDIT_REQUIRED` y bloquea `source-integrity` con exit
 
 ## Publicación
 
-Cuando todos los gates estén en PASS:
-1. ejecutar CI, CodeQL y source-integrity sobre el commit final exacto;
-2. registrar run behavioral S1–S58 aprobado para ese mismo commit;
-3. actualizar el gate/receipt sin cambiar la lógica de la skill;
-4. crear tag inmutable `v1.2.0`;
-5. crear GitHub Release vinculada a ese SHA.
+### Regla de congelamiento
+
+El **SHA final se congela antes del run conductual**. Después de obtener un PASS conductual sobre ese SHA, no se hace ningún commit adicional antes del tag/release.
+
+Esto evita una circularidad: si se modificara un receipt o gate dentro del repo después del run, el SHA cambiaría y el resultado dejaría de corresponder al commit publicado.
+
+Por eso, la evidencia final del release se registra **fuera del árbol Git evaluado**:
+- mensaje del tag anotado `v1.2.0`;
+- cuerpo del GitHub Release;
+- artefacto conductual y su SHA-256 como asset/enlace durable cuando esté disponible;
+- IDs de CI/CodeQL/source-integrity del SHA exacto.
+
+`registry/release-gate.json` representa el estado del **candidato previo al release** y puede conservar `behavioral-evals=NOT_RUN` / `immutable-release=PENDING` dentro del commit publicado. La atestación final vive en el tag/release para no invalidar el SHA evaluado.
+
+Cuando el candidato esté listo:
+1. congelar el SHA final;
+2. ejecutar validate, CodeQL y source-integrity sobre ese SHA exacto;
+3. ejecutar y verificar S1–S58 sobre ese mismo SHA;
+4. si todo pasa, **no modificar archivos trackeados**;
+5. crear tag anotado inmutable `v1.2.0` apuntando a ese SHA;
+6. crear GitHub Release con la atestación y digests;
+7. cualquier cambio posterior inicia un nuevo candidato/versionado.
 
 
 ## Seguridad del repositorio
