@@ -9,7 +9,7 @@ Estado actual: **BLOCKED**. El contenido ya declara `1.2.0`, pero todavía no ex
 | CI del repositorio | PASS | mantener verde sobre el HEAD candidato |
 | Seguridad del repositorio | PASS | ruleset `Protect main`, secret scanning, push protection, private vulnerability reporting, Dependabot security updates y CodeQL verificados |
 | Integridad de fuentes / vigilancia legal | PASS cuando no haya `LEGAL_REAUDIT_REQUIRED` | revisar cualquier drift antes del tag |
-| Evaluaciones conductuales | **NOT RUN (candidato actual)** | ejecutar S1–S54 completos contra el commit candidato exacto y conservar el artefacto verificable |
+| Evaluaciones conductuales | **NOT RUN (candidato actual)** | ejecutar S1–S58 completos contra el commit candidato exacto y conservar el artefacto verificable |
 | Privacidad / ejemplos sintéticos | PASS | no incorporar datos reales |
 | Núcleo independiente del proveedor | PASS | perfiles bancarios solo opcionales |
 | Publicación inmutable | PENDING | crear tag `v1.2.0` y GitHub Release solo después de todos los gates |
@@ -51,7 +51,7 @@ Un cambio produce `LEGAL_REAUDIT_REQUIRED` y bloquea `source-integrity` con exit
 
 Cuando todos los gates estén en PASS:
 1. ejecutar CI, CodeQL y source-integrity sobre el commit final exacto;
-2. registrar run behavioral S1–S54 aprobado para ese mismo commit;
+2. registrar run behavioral S1–S58 aprobado para ese mismo commit;
 3. actualizar el gate/receipt sin cambiar la lógica de la skill;
 4. crear tag inmutable `v1.2.0`;
 5. crear GitHub Release vinculada a ese SHA.
