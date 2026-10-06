@@ -81,6 +81,22 @@ Baseline:
 
 Si esta guía simplificada entra en tensión con un texto ordenado BCRA más específico —por ejemplo, cuenta corriente con saldo deudor— prevalece el análisis de la norma específica.
 
+### Tarjeta de crédito — baja con deuda pendiente
+
+Guía oficial:
+https://www.argentina.gob.ar/tengo-tarjeta-de-credito
+
+Ley vigente:
+https://www.argentina.gob.ar/normativa/nacional/ley-25065-55556/actualizacion
+
+Baseline verificado:
+- la Ley 25.065, art. 11, contempla que la relación contractual concluya cuando el titular comunica su voluntad en cualquier momento por medio fehaciente;
+- la guía oficial de Argentina.gob.ar explica expresamente que la tarjeta puede darse de baja aun con deuda pendiente;
+- la deuda no desaparece por la baja y el emisor puede seguir reclamándola;
+- la misma guía indica que, tras la baja, no continúan los gastos de mantenimiento.
+
+Este baseline sirve para **separar tarjeta y deuda**. No trasladarlo automáticamente a una cuenta bancaria o paquete: cada producto conserva su régimen propio.
+
 ## Tier 3 — Sitio oficial del banco
 
 Buscar:
