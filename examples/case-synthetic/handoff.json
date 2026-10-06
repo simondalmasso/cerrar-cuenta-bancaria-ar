@@ -59,5 +59,6 @@
       "status": "retained_active",
       "note": "Contrato sintético independiente; no es el producto objetivo."
     }
-  ]
+  ],
+  "closure_intent": "confirmed"
 }
