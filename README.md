@@ -15,7 +15,7 @@ Agent Skill abierta e independiente del proveedor para guiar a personas humanas 
 | Operaciones bancarias/autenticadas por IA | **Prohibidas** |
 | Fuentes principales | BCRA + Argentina.gob.ar + sitio oficial del banco |
 | Integraciones externas | Opcionales y degradables |
-| Evaluaciones | 58 escenarios adversariales + contrato/verificador; ejecución completa del candidato actual pendiente |
+| Evaluaciones | Release v1.2.0: 58/58 PASS en SHA `9bc3e0d6302dd4ee2ee6a0eb43755f0bba584c96`; cualquier release posterior exige nueva ejecución S1–S58 sobre su SHA exacto |
 | Versión | **1.2.0** — candidato final, sin tag/release estable todavía |
 
 ### Ruta de revisión
@@ -26,7 +26,7 @@ Agent Skill abierta e independiente del proveedor para guiar a personas humanas 
 
 ### Estado de publicación
 
-El estado del candidato está en [registry/release-gate.json](registry/release-gate.json). El candidato final requiere un run conductual completo S1–S58 sobre su commit exacto; hasta entonces no corresponde crear el tag/release `v1.2.0`. Tras un PASS final no se hacen más commits: la atestación definitiva se publica en el tag anotado/GitHub Release para no cambiar el SHA evaluado.
+El estado del candidato está en [registry/release-gate.json](registry/release-gate.json). La release `v1.2.0` ya está publicada en [GitHub Releases](https://github.com/simondalmasso/cerrar-cuenta-bancaria-ar/releases/tag/v1.2.0), con evaluación histórica 58/58 PASS sobre SHA `9bc3e0d6302dd4ee2ee6a0eb43755f0bba584c96`. `main` avanzó después de ese tag; por eso esa evidencia no certifica el SHA actual ni una release futura. Cualquier nueva release requiere ejecutar y verificar S1–S58 sobre su SHA exacto. Tras el PASS no se hacen más commits antes del tag/release.
 
 ### Documentos de auditoría
 
@@ -182,6 +182,6 @@ Eso permite usar la skill incluso en escenarios financieros sensibles sin delega
 
 ## Estado
 
-**1.2.0** — candidato final en validación. No existe todavía un tag/release estable; `v1.2.0` solo se publica cuando todos los gates del candidato exacto estén en PASS.
+**1.2.0** — publicada: [tag y release](https://github.com/simondalmasso/cerrar-cuenta-bancaria-ar/releases/tag/v1.2.0). El estado de publicación de la siguiente versión debe evaluarse sobre el SHA candidato exacto; la evidencia de `v1.2.0` no se hereda automáticamente.
 
 Antes de usar una regla jurídica material, el agente debe volver a verificar la fuente oficial si dispone de acceso actualizado.
